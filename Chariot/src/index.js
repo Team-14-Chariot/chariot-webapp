@@ -11,7 +11,6 @@ import HomePageGeneric from './routes/home-page-generic';
 =======
 import Page from './routes/page1';
 import RegistrationPage from './routes/registration-page';
->>>>>>> origin/main
 import reportWebVitals from './reportWebVitals';
 import Login from './routes/signInPage';
 
@@ -21,17 +20,12 @@ const router = createBrowserRouter([
     element: <HomePageGeneric />,
   },
   {
-<<<<<<< HEAD
     path: "signInPage/",
     element: <Login />
-=======
-    path: "page/",
-    element: <Page />
   },
   {
     path: "register/",
     element: <RegistrationPage />
->>>>>>> origin/main
   }
 ]);
 
