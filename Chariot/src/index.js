@@ -8,6 +8,7 @@ import {
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
 import Page from './routes/page1';
+import RegistrationPage from './routes/registration-page';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "page/",
     element: <Page />
+  },
+  {
+    path: "register/",
+    element: <RegistrationPage />
   }
 ]);
 
