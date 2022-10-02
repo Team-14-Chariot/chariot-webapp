@@ -6,13 +6,10 @@ import {
 } from "react-router-dom";
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
-<<<<<<< HEAD
-//import Page from './routes/page1';
-=======
-import Page from './routes/page1';
+//import Page from './routes/page1'
+import Login from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import reportWebVitals from './reportWebVitals';
-import Login from './routes/signInPage';
 
 const router = createBrowserRouter([
   {
