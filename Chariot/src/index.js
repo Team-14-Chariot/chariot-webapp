@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
-import Page from './routes/page1';
+import Login from './routes/signInPage';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
     element: <HomePageGeneric />,
   },
   {
-    path: "page/",
-    element: <Page />
+    path: "login/",
+    element: <Login />
   }
 ]);
 

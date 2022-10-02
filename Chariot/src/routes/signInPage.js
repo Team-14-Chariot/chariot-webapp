@@ -1,10 +1,8 @@
 import React from "react";
-import { useHistory } from "react-rounter-dom";
 import SignInConfirmButton from "../components/buttons/SingInConfirmButton";
 import SignUpButton from "../components/buttons/SignUpButton";
 
 function Login() {
-    let history = useHistory();
 
     return (
         <div>
@@ -18,3 +16,4 @@ function Login() {
     )
 
 }
+export default Login;
