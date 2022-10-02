@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
-import Page from './routes/page1';
+//import Page from './routes/page1';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
