@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import './signInPage.css';
 
 function SingInForm({Login, error}){
     const [details, setDetails] = useState({email: "", password:""});

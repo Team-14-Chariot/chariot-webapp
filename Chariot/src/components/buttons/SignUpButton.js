@@ -1,9 +1,14 @@
 import './SignInButton.css';
+import { useNavigate } from 'react-router-dom';
 
-const registerNewUser = () => {
-    console.log("move to users homepage");
-}
-const SignUpButton = () => {
+
+function SignUpButton () {
+    const navigate = useNavigate();
+
+    const registerNewUser = () => {
+        navigate('../register/');
+    }
+
 return(
  <div className="button-container">
   <button className={`custom-button`} onClick={registerNewUser}>SIGN UP</button>
