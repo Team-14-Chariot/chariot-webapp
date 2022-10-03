@@ -1,18 +1,43 @@
-import React from "react";
-import SignInConfirmButton from "../components/buttons/SignInConfirmationButton";
+import React, { useState } from "react";
 import SignUpButton from "../components/buttons/SignUpButton";
 import { useNavigate } from "react-router-dom"
+import SignInForm from "./signInForm"
 
 function Login() {
-    let history = useNavigate();
 
+    const [user, setUser] = useState({email: "", password: ""});
+    const [error, setError] = useState("");
+
+    const Logs = details => {
+        console.log(details);
+
+        if (details.email == "Example@ex" && details.password == "password"){
+            console.log("logged In");
+            setUser({
+                email:details.email,
+                password: details.password
+            })
+        } else {
+            console.log("Invalid input");
+            setError("Invalid Login");
+        }
+
+    }
+
+    const Logout = () => {
+        console.log("Logout");
+    }
     return (
         <div>
-            <input type="text" placeholder="username" />
-            <input type="text" placeholder="password" />
-            <SignInConfirmButton onClick ={() => {
-                history.pushState("/home-page-generic");
-            }}/>
+            {(user.email != "") ? (
+                <div className="welcome">
+                    <h2> Welcome! </h2>
+                </div>
+            ) : (
+                <SignInForm Login={Logs} error={error} />
+            )}
+           
+
             <p>New User?</p>
             <SignUpButton/>
 
