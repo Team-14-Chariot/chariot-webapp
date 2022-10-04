@@ -9,6 +9,7 @@ import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
 import Page from './routes/page1';
 import RegistrationPage from './routes/registration-page';
+import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "register/",
     element: <RegistrationPage />
+  },
+  {
+    path: "forgot-password/",
+    element: <ForgotPasswordPage />
   }
 ]);
 
