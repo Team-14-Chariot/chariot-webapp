@@ -1,7 +1,8 @@
 import {useState} from 'react';
-import './page1.css';
+import './registration-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/views/Header';
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -30,17 +31,20 @@ function RegistrationPage() {
     }
 
     return (
+    <body>
+    <Header />
     <div className="container">
-    <h1>Registration</h1>
-    <form>
-        <label>Email</label><br></br>
-        <input onChange={handleEmailChange} type="text" name="email" value={info.email}></input><br></br>
-        <label>Password</label><br></br>
-        <input onChange={handlePasswordChange} type="text" name="password" value={info.password}></input><br></br><br></br>
-        <GenericSubmitButton onClickFunction={handleSubmitted} />
-        {submitted ? <div>Successfully Registered!</div> : null}
-    </form>
+        <h1>Registration</h1>
+        <form>
+            <label>Email</label><br></br>
+            <input onChange={handleEmailChange} type="text" name="email" value={info.email}></input><br></br>
+            <label>Password</label><br></br>
+            <input onChange={handlePasswordChange} type="text" name="password" value={info.password}></input><br></br><br></br>
+            <GenericSubmitButton onClickFunction={handleSubmitted} />
+            {submitted ? <div>Successfully Registered!</div> : null}
+        </form>
     </div>
+    </body>
     );
 }
 export default RegistrationPage;
