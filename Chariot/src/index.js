@@ -12,6 +12,8 @@ import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
 
+const signedIn = false;
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,3 +43,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+export {signedIn};
