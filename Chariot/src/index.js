@@ -3,11 +3,11 @@ import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
-import Page from './routes/page1';
+//import Page from './routes/page1'
+import SignInPage from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
     element: <HomePageGeneric />,
   },
   {
-    path: "page/",
-    element: <Page />
+    path: "signInPage/",
+    element: <SignInPage />
   },
   {
     path: "register/",
