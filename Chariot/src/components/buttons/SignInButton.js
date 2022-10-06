@@ -10,7 +10,7 @@ function SignInButton(){
         
     return(
     <div className="button-container">
-    <button className={`custom-button`} onClick={startRegistration}>SIGN IN</button>
+    <button className='custom-button' onClick={startRegistration}>SIGN IN</button>
     </div>
     )
 }

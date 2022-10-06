@@ -1,8 +1,8 @@
 .custom-button{
     border: none;
     border-radius: 5px;
-    color: white;
-    background: blue;
+    color: rgb(0, 127, 255);
+    background: white;
     width: fit-content;
     text-transform: uppercase;
     font-weight: bold;
