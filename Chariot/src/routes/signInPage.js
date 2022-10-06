@@ -25,7 +25,9 @@ function SignInPage() {
     const handleSubmitted = (event) => {
         event.preventDefault();
         setSubmitted(true);
+        //this is where we send information to the backend and check if email and password are correct.
         navigate('/');
+        
         /*if(info.email > 8 && info.password > 8){
             setSubmitted(true);
             navigate('/');
