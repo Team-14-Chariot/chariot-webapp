@@ -11,3 +11,16 @@
     justify-content: space-evenly;
     align-items: center;
     }
+
+    .logInButtonContainer{
+        text-align: center;
+        margin-bottom: 10em;
+    }
+    .newUserContainer{
+        text-align: center;
+        margin-bottom: 1em;
+    }
+    .signUpButtonContainer{
+        bottom: 0;
+        left: 0;
+    }

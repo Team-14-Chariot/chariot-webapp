@@ -1,48 +1,57 @@
-import React, { useState } from "react";
-import SignUpButton from "../components/buttons/SignUpButton";
-import { useNavigate } from "react-router-dom"
-import SignInForm from "./signInForm"
+import {useState} from 'react';
+import './signInPage.css';
+import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
+import { useNavigate } from 'react-router-dom';
+import SignUpButton from '../components/buttons/SignUpButton';
 
-function Login() {
+function SignInPage() {
+    const navigate = useNavigate();
 
-    const [user, setUser] = useState({email: "", password: ""});
-    const [error, setError] = useState("");
+    const [info, setInfo] = useState({
+        userEmail: "",
+        userPassword: "",
+    })
 
-    const Logs = details => {
-        console.log(details);
+    const [submitted, setSubmitted] = useState(false);
 
-        if (details.email == "Example@ex" && details.password == "password"){
-            console.log("logged In");
-            setUser({
-                email:details.email,
-                password: details.password
-            })
-        } else {
-            console.log("Invalid input");
-            setError("Invalid Login");
-        }
-
+    const handleEmailChange = (event) => {
+        setInfo({...info, userEmail: event.target.value})
     }
 
-    const Logout = () => {
-        console.log("Logout");
+    const handlePasswordChange = (event) => {
+        setInfo({...info, userPassword: event.target.value})
     }
+
+    const handleSubmitted = (event) => {
+        event.preventDefault();
+        setSubmitted(true);
+        navigate('/');
+        /*if(info.email > 8 && info.password > 8){
+            setSubmitted(true);
+            navigate('/');
+        }*/
+    }
+
     return (
-        <div>
-            {(user.email != "") ? (
-                <div className="welcome">
-                    <h2> Welcome! </h2>
-                </div>
-            ) : (
-                <SignInForm Login={Logs} error={error} />
-            )}
-           
-
-            <p>New User?</p>
-            <SignUpButton/>
-
+    <div className="container">
+    <h1>LOGIN</h1>
+    <form>
+        <label>Email</label><br></br>
+        <input onChange={handleEmailChange} type="text" name="email" value={info.userEmail}></input><br></br>
+        <label>Password</label><br></br>
+        <input onChange={handlePasswordChange} type="text" name="password" value={info.userPassword}></input><br></br><br></br>
+        <div className='logInButtonContainer'>
+        <SignInConfirmButton onClickFunction={handleSubmitted} />
         </div>
-    )
-
+        {submitted ? <div>Successfully Logged In!</div> : null}
+    </form>
+    <div className='newUserContainer'>
+        New User?
+    </div>
+    <div className='signInButtonContainer'>
+        <SignUpButton/>
+    </div>
+    </div>
+    );
 }
-export default Login;
+export default SignInPage;

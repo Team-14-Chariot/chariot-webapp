@@ -1,4 +1,4 @@
-import './SignInButton.css';
+import './SignUpButton.css';
 import { useNavigate } from 'react-router-dom';
 
 

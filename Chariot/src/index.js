@@ -7,7 +7,7 @@ import {
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
 //import Page from './routes/page1'
-import Login from './routes/signInPage';
+import SignInPage from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import reportWebVitals from './reportWebVitals';
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "signInPage/",
-    element: <Login />
+    element: <SignInPage />
   },
   {
     path: "register/",
