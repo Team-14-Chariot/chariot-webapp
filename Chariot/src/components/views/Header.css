@@ -1,0 +1,26 @@
+.headerContainer {
+    background: rgb(0, 127, 255);
+    height: 100px;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 8px 8px grey;
+}
+.appTitle {
+    flex: 11;
+    text-align: center;
+    font: 80px Kadwa;
+    height: 80%;
+}
+.chariotLogoContainer {
+    flex: 1;
+}
+.signInButtonContainer {
+    flex: 1;
+    padding-top: 25px;
+}
