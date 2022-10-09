@@ -3,7 +3,6 @@ import './signInPage.css';
 import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
-import MainPage from './main-page';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
 

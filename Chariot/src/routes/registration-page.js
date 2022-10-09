@@ -47,7 +47,7 @@ function RegistrationPage() {
             console.log("submitted");
             thisUser.setSignedIn(true);
             thisUser.setUserEmail(info.email);
-            navigate('/');
+            navigate('../main-page/');
         }
     }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email]);
 
