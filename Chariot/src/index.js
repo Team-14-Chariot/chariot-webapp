@@ -11,7 +11,10 @@ import SignInPage from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
+import MainPage from './routes/main-page';
+import CreateEventPage from './routes/create-event-page';
 import {userConstants} from './constants/userConstants';
+
 
 const thisUser = new userConstants();
 
@@ -31,6 +34,14 @@ const router = createBrowserRouter([
   {
     path: "forgot-password/",
     element: <ForgotPasswordPage />
+  },
+  {
+    path: "main-page/",
+    element: <MainPage />
+  },
+  {
+    path: "create-event-page/",
+    element: <CreateEventPage />
   }
 ]);
 
