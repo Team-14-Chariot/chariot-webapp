@@ -16,6 +16,7 @@ import CreateEventPage from './routes/create-event-page';
 import {userConstants} from './constants/userConstants';
 
 
+
 const thisUser = new userConstants();
 
 const router = createBrowserRouter([
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
     element: <CreateEventPage />
   }
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -3,7 +3,6 @@ import './signInPage.css';
 import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
-import MainPage from './main-page';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
 
@@ -39,6 +38,12 @@ function SignInPage() {
         }*/
     }
 
+    const Resetpassword = (event) => {
+
+        navigate('../forgot-password/');
+      
+      }
+
     return (
     <body>
     <HeaderBlank />
@@ -48,7 +53,8 @@ function SignInPage() {
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={info.userEmail}></input><br></br>
         <label>Password</label><br></br>
-        <input onChange={handlePasswordChange} type="text" name="password" value={info.userPassword}></input><br></br><br></br>
+        <input onChange={handlePasswordChange} type="text" name="password" value={info.userPassword}></input><br></br>
+        <label onClick={Resetpassword}><u>Forgot Password?</u></label><br></br>
         <div className='logInButtonContainer'>
         <SignInConfirmButton onClickFunction={handleSubmitted} />
         </div>
