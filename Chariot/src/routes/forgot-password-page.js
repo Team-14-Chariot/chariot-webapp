@@ -2,6 +2,7 @@ import {useState} from 'react';
 import './forgot-password-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
+import HeaderBlank from '../components/views/HeaderBlank';
 
 function ForgotPasswordPage() {
     const navigate = useNavigate();
@@ -30,6 +31,8 @@ function ForgotPasswordPage() {
     }
 
     return (
+    <body>
+    <HeaderBlank />
     <div className="container">
     <h1>Forgot Password</h1>
     <form>
@@ -39,6 +42,7 @@ function ForgotPasswordPage() {
         {submitted ? <div>Email Delivered</div> : null}
     </form>
     </div>
+    </body>
     );
 }
 export default ForgotPasswordPage;
