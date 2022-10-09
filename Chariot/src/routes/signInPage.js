@@ -3,6 +3,9 @@ import './signInPage.css';
 import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
+import Header from '../components/views/Header';
+import { signedIn } from '..';
+import MainPage from './main-page';
 
 function SignInPage() {
     const navigate = useNavigate();
@@ -26,7 +29,7 @@ function SignInPage() {
         event.preventDefault();
         setSubmitted(true);
         //this is where we send information to the backend and check if email and password are correct.
-        navigate('/');
+        navigate('../main-page/');
         
         /*if(info.email > 8 && info.password > 8){
             setSubmitted(true);
@@ -35,6 +38,8 @@ function SignInPage() {
     }
 
     return (
+    <body>
+    <Header />
     <div className="container">
     <h1>LOGIN</h1>
     <form>
@@ -54,6 +59,7 @@ function SignInPage() {
         <SignUpButton/>
     </div>
     </div>
+    </body>
     );
 }
 export default SignInPage;

@@ -1,4 +1,4 @@
-import './GenericSubmitButton.css';
+import './SignInConfirmButton.css';
 
 const SignInConfirmButton = ({onClickFunction}) => {
 return(
