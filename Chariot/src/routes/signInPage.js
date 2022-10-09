@@ -4,6 +4,7 @@ import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
 import HeaderBlank from '../components/views/HeaderBlank';
+import {thisUser} from '../index';
 
 function SignInPage() {
     const navigate = useNavigate();
@@ -26,6 +27,8 @@ function SignInPage() {
     const handleSubmitted = (event) => {
         event.preventDefault();
         setSubmitted(true);
+        thisUser.setSignedIn(true);
+        thisUser.setUserEmail(info.userEmail);
         //this is where we send information to the backend and check if email and password are correct.
         navigate('/');
         
