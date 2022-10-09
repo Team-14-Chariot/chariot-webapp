@@ -4,6 +4,7 @@ import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
+import {checkEventOrganizerExists, createEventOrganizer} from '../integration/eventOrganizerIntegration'; 
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -44,9 +45,10 @@ function RegistrationPage() {
     useEffect(() => {
         console.log(submitted + " " + correctEmailFormat + " " + correctPasswordFormat);
         if(submitted && correctEmailFormat && correctPasswordFormat){
-            console.log("submitted");
+            checkEventOrganizerExists(info.email);
             thisUser.setSignedIn(true);
             thisUser.setUserEmail(info.email);
+            createEventOrganizer(info.email, info.password);
             navigate('../main-page/');
         }
     }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email]);
