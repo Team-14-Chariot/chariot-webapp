@@ -3,9 +3,9 @@ import './signInPage.css';
 import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
-import Header from '../components/views/Header';
-import { signedIn } from '..';
 import MainPage from './main-page';
+import HeaderBlank from '../components/views/HeaderBlank';
+import {thisUser} from '../index';
 
 function SignInPage() {
     const navigate = useNavigate();
@@ -28,6 +28,8 @@ function SignInPage() {
     const handleSubmitted = (event) => {
         event.preventDefault();
         setSubmitted(true);
+        thisUser.setSignedIn(true);
+        thisUser.setUserEmail(info.userEmail);
         //this is where we send information to the backend and check if email and password are correct.
         navigate('../main-page/');
         
@@ -39,7 +41,7 @@ function SignInPage() {
 
     return (
     <body>
-    <Header />
+    <HeaderBlank />
     <div className="container">
     <h1>LOGIN</h1>
     <form>
