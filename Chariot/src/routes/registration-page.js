@@ -2,7 +2,8 @@ import {useEffect, useState} from 'react';
 import './registration-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/views/Header';
+import HeaderBlank from '../components/views/HeaderBlank';
+import {thisUser} from '../index';
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -37,20 +38,22 @@ function RegistrationPage() {
         } else {
             setCorrectPasswordFormat(true);
         }
+        setSubmitted(true);
     }
 
     useEffect(() => {
         console.log(submitted + " " + correctEmailFormat + " " + correctPasswordFormat);
         if(submitted && correctEmailFormat && correctPasswordFormat){
             console.log("submitted");
-            setSubmitted(true);
+            thisUser.setSignedIn(true);
+            thisUser.setUserEmail(info.email);
             navigate('/');
         }
-    }, [correctEmailFormat, correctPasswordFormat, submitted, navigate]);
+    }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email]);
 
     return (
     <body>
-    <Header />
+    <HeaderBlank />
     <div className="container">
         <h1>Registration</h1>
         <form>
@@ -62,7 +65,6 @@ function RegistrationPage() {
             {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 7 characters.</div> : null}
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
-            {submitted ? <div>Successfully Registered!</div> : null}
         </form>
     </div>
     </body>
