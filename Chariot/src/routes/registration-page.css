@@ -3,3 +3,9 @@
     height: 645px;
     align-content: center;
 }
+.errorMessage{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 12px Arial;
+    color: red;
+}
