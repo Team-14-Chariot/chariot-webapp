@@ -11,6 +11,8 @@ import Page from './routes/page1';
 import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
+import RiderLinkPage from './rider-link';
+import numRidersPage from './numRidersPage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "forgot-password/",
     element: <ForgotPasswordPage />
+  },
+  {
+    path: "rider-link/",
+    element: <RiderLinkPage />
+  },
+  {
+    path: "total-riders/",
+    element: <numRidersPage />
   }
 ]);
 

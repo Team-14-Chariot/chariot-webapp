@@ -25,7 +25,7 @@ function RegistrationPage() {
         event.preventDefault();
         if(info.email > 8 && info.password > 8){
             setSubmitted(true);
-            navigate('/');
+            navigate('/rider-link');
         }
     }
 
