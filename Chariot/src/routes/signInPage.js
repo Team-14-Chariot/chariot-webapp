@@ -49,7 +49,7 @@ function SignInPage() {
     <HeaderBlank />
     <div className="container">
     <h1>LOGIN</h1>
-    <form>
+    <form className='form'>
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={info.userEmail}></input><br></br>
         <label>Password</label><br></br>

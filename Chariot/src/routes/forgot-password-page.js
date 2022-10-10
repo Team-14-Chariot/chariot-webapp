@@ -35,7 +35,7 @@ function ForgotPasswordPage() {
     <HeaderBlank />
     <div className="container">
     <h1>Forgot Password</h1>
-    <form>
+    <form className='form'>
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={email.email}></input><br></br>
         <GenericSubmitButton onClickFunction={handleSubmitted} />

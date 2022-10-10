@@ -1,27 +1,20 @@
 .container{
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    align-content: 0em;
     }
-    .inner-container{
-    display: flex;
-    flex-direction: row;
-    width: 60%;
-    padding: 70px;
-    justify-content: space-evenly;
-    align-items: center;
-    }
+    
+
 
     .logInButtonContainer{
         text-align: center;
-        margin-bottom: 10em;
-        padding-top: 20px;
+        margin-top: 1.5em;
     }
-    .newUserContainer{
-        text-align: center;
-        margin-bottom: 1em;
-    }
-    .signUpButtonContainer{
-        bottom: 0;
-        left: 0;
+    
+    .form{
+    max-width: 200px;
+    margin: 2rem auto;
+    border-radius: 25px;
+    background: #c2c0c0;
+    padding:2rem;
+    font-family:  10px primus;
     }
