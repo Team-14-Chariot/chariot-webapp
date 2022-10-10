@@ -25,10 +25,12 @@ function SignInPage() {
         setInfo({...info, userPassword: event.target.value})
     }
 
-    const handleSubmitted = (event) => {
+    const handleSubmitted = async (event) => {
         event.preventDefault();
         //this is where we send information to the backend and check if email and password are correct.
-        if(checkEventOrganizerTupleExists(info.userEmail, info.userPassword).status !== "success"){
+        const ans = await checkEventOrganizerTupleExists(info.userEmail, info.userPassword);
+        console.log(ans);
+        if(ans.status !== "success"){
             return;
         }
         setSubmitted(true);

@@ -2,7 +2,7 @@ import {client} from '../index';
 
 async function createEventOrganizer(userEmail, userPassword){
     const recordId = generateRecordId(userEmail);
-    const response = await client.records.create('organizers', {id: recordId}, {email: userEmail, password: userPassword});
+    const response = await client.records.create('organizers', {id: recordId, email: userEmail, password: userPassword});
     if (response.code === 200 || response.code === null){
         return {status: "success", record: response};
     } else {
@@ -11,12 +11,12 @@ async function createEventOrganizer(userEmail, userPassword){
 }
 
 async function checkEventOrganizerTupleExists(userEmail, userPassword){
-    const recordId = generateRecordId(userEmail);
-    const response = await client.records.getOne('organizers', recordId, {email: userEmail, password: userPassword});
-    if (response.code === 200 || response.code === null){
+    try{
+        const recordId = generateRecordId(userEmail);
+        const response = await client.records.getOne('organizers', recordId, {email: userEmail, password: userPassword});
         return {status: "success", record: response};
-    } else {
-        return {status: "failed", record: response};
+    } catch (e){
+        return {status: "failed", record: e}
     }
 }
 
