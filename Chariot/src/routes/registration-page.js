@@ -45,13 +45,19 @@ function RegistrationPage() {
     useEffect(() => {
         console.log(submitted + " " + correctEmailFormat + " " + correctPasswordFormat);
         if(submitted && correctEmailFormat && correctPasswordFormat){
-            checkEventOrganizerExists(info.email);
+            if(checkEventOrganizerExists(info.email).status === "success") {
+                //this user already exists and cannot be registered;
+                return;
+            };
+            if(createEventOrganizer(info.email, info.password).status === "failed"){
+                //event organizer could not be created (some connection or backend error)
+                return;
+            };
             thisUser.setSignedIn(true);
             thisUser.setUserEmail(info.email);
-            createEventOrganizer(info.email, info.password);
             navigate('../main-page/');
         }
-    }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email]);
+    }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email, info.password]);
 
     return (
     <body>
