@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import SignUpButton from '../components/buttons/SignUpButton';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
+import {checkEventOrganizerTupleExists} from '../integration/eventOrganizerIntegration';
 
 function SignInPage() {
     const navigate = useNavigate();
@@ -24,18 +25,18 @@ function SignInPage() {
         setInfo({...info, userPassword: event.target.value})
     }
 
-    const handleSubmitted = (event) => {
+    const handleSubmitted = async (event) => {
         event.preventDefault();
+        //this is where we send information to the backend and check if email and password are correct.
+        const ans = await checkEventOrganizerTupleExists(info.userEmail, info.userPassword);
+        console.log(ans);
+        if(ans.status !== "success"){
+            return;
+        }
         setSubmitted(true);
         thisUser.setSignedIn(true);
         thisUser.setUserEmail(info.userEmail);
-        //this is where we send information to the backend and check if email and password are correct.
         navigate('../main-page/');
-        
-        /*if(info.email > 8 && info.password > 8){
-            setSubmitted(true);
-            navigate('/');
-        }*/
     }
 
     const Resetpassword = (event) => {
