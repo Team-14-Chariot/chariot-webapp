@@ -64,7 +64,7 @@ function RegistrationPage() {
     <HeaderBlank />
     <div className="container">
         <h1>Registration</h1>
-        <form>
+        <form className='form'>
             <label>Email</label><br></br>
             <input onChange={handleEmailChange} type="text" name="email" value={info.email}></input><br></br>
             {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}

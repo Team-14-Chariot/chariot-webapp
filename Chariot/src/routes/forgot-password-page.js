@@ -2,6 +2,7 @@ import {useState} from 'react';
 import './forgot-password-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
+import HeaderBlank from '../components/views/HeaderBlank';
 
 function ForgotPasswordPage() {
     const navigate = useNavigate();
@@ -30,15 +31,18 @@ function ForgotPasswordPage() {
     }
 
     return (
+    <body>
+    <HeaderBlank />
     <div className="container">
     <h1>Forgot Password</h1>
-    <form>
+    <form className='form'>
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={email.email}></input><br></br>
         <GenericSubmitButton onClickFunction={handleSubmitted} />
         {submitted ? <div>Email Delivered</div> : null}
     </form>
     </div>
+    </body>
     );
 }
 export default ForgotPasswordPage;
