@@ -5,12 +5,12 @@ function SignInButton(){
     const navigate = useNavigate();
 
     const startRegistration = () => {
-        navigate('page/');
+        navigate('signInPage/');
     }
         
     return(
     <div className="button-container">
-    <button className={`custom-button`} onClick={startRegistration}>SIGN IN</button>
+    <button className='custom-button' onClick={startRegistration}>SIGN IN</button>
     </div>
     )
 }

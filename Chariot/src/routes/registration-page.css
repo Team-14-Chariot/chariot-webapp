@@ -1,13 +1,21 @@
 .container{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    }
-    .inner-container{
-    display: flex;
-    flex-direction: row;
-    width: 60%;
-    padding: 70px;
-    justify-content: space-evenly;
-    align-items: center;
-    }
+    height: 645px;
+    align-content: center;
+}
+
+.form{
+    max-width: 400px;
+    margin: 2rem auto;
+    border-radius: 25px;
+    background: #c2c0c0;
+    padding:2rem;
+    font-family:  10px primus;
+}
+
+.errorMessage{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 12px Arial;
+    color: red;
+}
