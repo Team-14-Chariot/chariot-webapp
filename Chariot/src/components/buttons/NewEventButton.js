@@ -11,7 +11,7 @@ function NewEventButton () {
 
 return(
  <div className="button-container">
-  <button className={`custom-button`} onClick={createNewEvent}>+ Create New Event</button>
+  <button data-testid='newEvent' className={`custom-button`} onClick={createNewEvent}>+ Create New Event</button>
  </div>
 )
 }
