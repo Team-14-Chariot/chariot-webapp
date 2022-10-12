@@ -11,6 +11,8 @@ import SignInPage from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
 import reportWebVitals from './reportWebVitals';
+import RiderLinkPage from './rider-link';
+import numRidersPage from './numRidersPage';
 import MainPage from './routes/main-page';
 import CreateEventPage from './routes/create-event-page';
 import {userConstants} from './constants/userConstants';
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
   {
     path: "forgot-password/",
     element: <ForgotPasswordPage />
+  },
+  {
+    path: "rider-link/",
+    element: <RiderLinkPage />
+  },
+  {
+    path: "total-riders/",
+    element: <numRidersPage />
   },
   {
     path: "main-page/",
