@@ -15,6 +15,7 @@ import MainPage from './routes/main-page';
 import CreateEventPage from './routes/create-event-page';
 import {userConstants} from './constants/userConstants';
 import PocketBase from 'pocketbase';
+import StartUpdatePage from './routes/start-update-page';
 
 const client = new PocketBase('http://127.0.0.1:8090');
 const thisUser = new userConstants();
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "create-event-page/",
     element: <CreateEventPage />
+  },
+  {
+    path: "start-update-page/",
+    element: <StartUpdatePage/>
   }
 ]);
 

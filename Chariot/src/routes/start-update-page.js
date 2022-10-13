@@ -1,9 +1,10 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './start-update-page.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/views/Header';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { thisUser } from '..';
+import { thisUser } from '../index';
+import { checkEventOrganizerExists } from '../integration/eventOrganizerIntegration';
 
 function StartUpdatePage() {
     const navigate = useNavigate();
@@ -15,10 +16,10 @@ function StartUpdatePage() {
     const [submitted, setSubmitted] = useState(false);
     const [correctEmailFormat, setCorrectEmailFormat] = useState(true);
 
-    const isValidEmail = (emailToCheck) => {
+    //const isValidEmail = (emailToCheck) => {
         //backend call to check if email exists
-        return true;
-    }
+        //return true;
+    //}
 
     const handleEmailChange = (event) => {
         setEmail({...email, email: event.target.value})
@@ -36,11 +37,17 @@ function StartUpdatePage() {
 
     useEffect(() => {
         console.log(submitted + " " + correctEmailFormat);
+        console.log(email.email);
+        console.log(thisUser.getUserEmail());
         if(submitted && correctEmailFormat){
-            if(checkEventOrganizerExists(thisUser.getUserEmail).status === "success") {
+            if(checkEventOrganizerExists(thisUser.getUserEmail()).status !== "success") {
                 //this user already exists and we change the email
-                thisUser.setUserEmail(email.email);
+                console.log("yo");
+                return;
             };
+            thisUser.setUserEmail(email.email);
+            //console.log("yo");
+
         }
     }, [correctEmailFormat, submitted, navigate, email.email]);
 
