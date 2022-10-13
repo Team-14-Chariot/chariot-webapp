@@ -13,7 +13,10 @@ async function createEventOrganizer(userEmail, userPassword){
 async function checkEventOrganizerTupleExists(userEmail, userPassword){
     try{
         const recordId = generateRecordId(userEmail);
-        const response = await client.records.getOne('organizers', recordId, {email: userEmail, password: userPassword});
+        const response = await client.records.getOne('organizers', recordId);
+        if(response.password !== userPassword){
+            throw new Error('Email and Password combination does not exist');
+        }
         return {status: "success", record: response};
     } catch (e){
         return {status: "failed", record: e}
