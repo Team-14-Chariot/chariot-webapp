@@ -1,45 +1,51 @@
 import {client} from '../index';
 
 async function createEventOrganizer(userEmail, userPassword){
-    const recordId = generateRecordId(userEmail);
-    const response = await client.records.create('organizers', {id: recordId, email: userEmail, password: userPassword});
-    if (response.code === 200 || response.code === null){
-        return {status: "success", record: response};
-    } else {
-        return {status: "failed", record: response};
+    try {
+        const createdUser = await client.users.create({email: userEmail, password: userPassword, passwordConfirm: userPassword});
+        return {status: "success", record: createdUser};
+    } catch (e){
+        return {status: "failed", record: e};
     }
 }
 
 async function checkEventOrganizerTupleExists(userEmail, userPassword){
     try{
-        const recordId = generateRecordId(userEmail);
-        const response = await client.records.getOne('organizers', recordId);
-        if(response.password !== userPassword){
-            throw new Error('Email and Password combination does not exist');
-        }
-        return {status: "success", record: response};
+        const authData = await client.users.authViaEmail(userEmail, userPassword);
+        return {status: "success", record: authData};
     } catch (e){
         return {status: "failed", record: e}
     }
 }
 
 async function checkEventOrganizerExists(userEmail){
-    const recordId = generateRecordId(userEmail);
-    const response = await client.records.getOne('organizers', recordId, {email: userEmail});
-    if (response.code === 200 || response.code === null){
+
+    try {
+        const recordId = generateRecordId(userEmail);
+        const response = await client.users.getOne(recordId);
         return {status: "success", record: response};
-    } else {
-        return {status: "failed", record: response};
+    } catch (e) {
+        return {status: "failed", record: e};
     }
 }
 
-async function changeEventOrganizerPassword(userEmail, newPassword){
-    const recordId = generateRecordId(userEmail);
-    const response = await client.records.update('organizers', recordId, {password: newPassword});
-    if (response.code === 200 || response.code === null){
-        return {status: "success", record: response};
-    } else {
-        return {status: "failed", record: response};
+async function changeEventOrganizerPasswordRequest(userEmail){
+    try {
+        console.log("attempt reset request");
+        await client.users.requestPasswordReset(userEmail);
+        console.log("attempt reset request worked");
+        return{status: "success"};
+    } catch (e) {
+        return{status: "failed"};
+    }
+}
+
+async function changeEventOrganizerPasswordSubmit(userToken, userNewPassword){
+    try {
+        const authData = await client.users.confirmPasswordReset(userToken, userNewPassword, userNewPassword);
+        return{status: "success", data: authData};
+    } catch (e) {
+        return{status: "failed", data: e};
     }
 }
 
@@ -75,4 +81,4 @@ function generateRecordId(userEmail){
     return tempHash;
 }
 
-export {createEventOrganizer, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPassword};
+export {createEventOrganizer, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPasswordRequest, changeEventOrganizerPasswordSubmit};

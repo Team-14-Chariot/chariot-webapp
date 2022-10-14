@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
 import SelectUSState from 'react-select-us-states';
+import {createEvent} from '../integration/eventIntegration';
+import {thisUser} from '../index';
 
 
 function CreateEventPage() {
@@ -20,8 +22,6 @@ function CreateEventPage() {
 
     
 
-
-    const [submitted, setSubmitted] = useState(false);
 
     const handleNameChange = (event) => {
         setInfo({...info, name: event.target.value})
@@ -51,9 +51,13 @@ function CreateEventPage() {
         setInfo({...info, radius: event.target.value})
     }
 
-    const handleSubmitted = (event) => {
+    const handleSubmitted = async (event) => {
         event.preventDefault();
-        setSubmitted(true);
+        console.log(thisUser.getUserId());
+        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, thisUser.getUserId());
+        if(res.status !== "success"){
+            return;
+        }
         //go to the backend
         navigate('../main-page/')
     }
@@ -78,7 +82,6 @@ function CreateEventPage() {
             <input onChange={handleRadiusChange} type="text" name="radius" value={info.radius}></input>  MILES
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
-            {submitted ? <div>Successfully Created!</div> : null}
         </form>
     </div>
     </body>
