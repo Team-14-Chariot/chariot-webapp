@@ -17,7 +17,7 @@ import {userConstants} from './constants/userConstants';
 import PocketBase from 'pocketbase';
 import StartUpdatePage from './routes/start-update-page';
 
-const client = new PocketBase('http://127.0.0.1:8090');
+const client = new PocketBase('https://chariot.augustabt.com');
 const thisUser = new userConstants();
 
 const router = createBrowserRouter([
