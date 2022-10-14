@@ -1,7 +1,9 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './registration-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
+import HeaderBlank from '../components/views/HeaderBlank';
+import {thisUser} from '../index';
 
 function RiderLinkPage() {
     const navigate = useNavigate();
@@ -11,6 +13,7 @@ function RiderLinkPage() {
     })
 
     const [submitted, setSubmitted] = useState(false);
+    const [correctLinkFormat, setCorrectLinkFormat] = useState(true);
 
     const handleRiderLink = (event) => {
         setInfo({...info, riderLink: event.target.value})
@@ -18,15 +21,28 @@ function RiderLinkPage() {
 
     const handleSubmitted = (event) => {
         event.preventDefault();
-        if(info.riderLink > 8){
+        if(info.riderLink > 8 && info.link.includes('.')){
             setSubmitted(true);
-            sendJSON();
-            navigate('total-riders/');
-            
+        }
+        else {
+            setSubmitted(false);
         }
     }
+
+    useEffect(() => {
+        console.log(submitted + " " + correctLinkFormat);
+        if(submitted && correctLinkFormat){
+            console.log("submitted");
+            thisUser.setSignedIn(true);
+            thisUser.setUserLink(info.link);
+            sendJSON();
+            navigate('../numRiders/');
+        }
+    }, [correctLinkFormat, submitted, navigate, info.link]);
     
     return (
+        <body>
+        <HeaderBlank />
         <div className="container">
         <h1>Rider-link</h1>
         <form>
@@ -36,6 +52,7 @@ function RiderLinkPage() {
             {submitted ? <div>Rider Link Approved!</div> : null}
         </form>
         </div>
+        </body>
         );
 
         function sendJSON(){
