@@ -83,7 +83,7 @@ function RegistrationPage() {
             {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}
             <label>Password</label><br></br>
             <input onChange={handlePasswordChange} type="text" name="password" value={info.password}></input>
-            {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 7 characters.</div> : null}
+            {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 10 characters.</div> : null}
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>
