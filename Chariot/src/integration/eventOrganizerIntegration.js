@@ -49,6 +49,16 @@ async function changeEventOrganizerPasswordSubmit(userToken, userNewPassword){
     }
 }
 
+async function changeEventOrganizerEmail(newEmail){
+    try{
+        await client.users.requestEmailChange(newEmail);
+        return {status: "success" };
+    } catch (e) {
+        return {status: "failed"};
+
+    }
+}
+
 function hashCode(s) {
     let h = 0, l = s.length, i = 0;
     if ( l > 0 )
@@ -81,4 +91,4 @@ function generateRecordId(userEmail){
     return tempHash;
 }
 
-export {createEventOrganizer, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPasswordRequest, changeEventOrganizerPasswordSubmit};
+export {createEventOrganizer, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPasswordRequest, changeEventOrganizerPasswordSubmit, changeEventOrganizerEmail};
