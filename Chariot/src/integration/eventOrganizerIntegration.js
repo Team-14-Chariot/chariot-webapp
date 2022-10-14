@@ -9,6 +9,15 @@ async function createEventOrganizer(userEmail, userPassword){
     }
 }
 
+async function sendVerificationEmail(userEmail){
+    try{
+        await client.users.requestVerification(userEmail);
+        return{status: "success"}
+    } catch (e){
+        return {status: "failed"}
+    }
+}
+
 async function checkEventOrganizerTupleExists(userEmail, userPassword){
     try{
         const authData = await client.users.authViaEmail(userEmail, userPassword);
@@ -81,4 +90,4 @@ function generateRecordId(userEmail){
     return tempHash;
 }
 
-export {createEventOrganizer, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPasswordRequest, changeEventOrganizerPasswordSubmit};
+export {createEventOrganizer, sendVerificationEmail, checkEventOrganizerTupleExists, checkEventOrganizerExists, changeEventOrganizerPasswordRequest, changeEventOrganizerPasswordSubmit};
