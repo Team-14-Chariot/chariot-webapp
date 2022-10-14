@@ -21,7 +21,7 @@ return (
         <NewEventButton />
         <br></br>
         <br></br>
-        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(thisUser.getUserEmail(), element.event_name, element.address, element.ride_max_radius, element.event_id)})}</div> : null}
+        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides)})}</div> : null}
     </div>
   </body>
 );
