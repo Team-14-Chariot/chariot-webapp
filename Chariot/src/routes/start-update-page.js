@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/views/Header';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { thisUser } from '../index';
-import { checkEventOrganizerExists } from '../integration/eventOrganizerIntegration';
+import { changeEventOrganizerEmail } from '../integration/eventOrganizerIntegration';
 
 function StartUpdatePage() {
     const navigate = useNavigate();
@@ -36,19 +36,24 @@ function StartUpdatePage() {
     }
 
     useEffect(() => {
-        console.log(submitted + " " + correctEmailFormat);
-        console.log(email.email);
-        console.log(thisUser.getUserEmail());
-        if(submitted && correctEmailFormat){
-            if(checkEventOrganizerExists(thisUser.getUserEmail()).status !== "success") {
-                //this user already exists and we change the email
-                console.log("yo");
-                return;
-            };
-            thisUser.setUserEmail(email.email);
-            //console.log("yo");
+        async function attemptEmailChange(){
+            console.log(submitted + " " + correctEmailFormat);
+            console.log(email.email);
+            console.log(thisUser.getUserEmail());
+            if(submitted && correctEmailFormat){
+                //if(checkEventOrganizerExists(thisUser.getUserEmail()).status !== "success") {
+                    //this user already exists and we change the email
+                    //return;
+                //};
+                const res = await changeEventOrganizerEmail(email.email);
+                if(res.status === "success"){
 
-        }
+                }
+                thisUser.setUserEmail(email.email);
+
+            }
+        } 
+    attemptEmailChange();
     }, [correctEmailFormat, submitted, navigate, email.email]);
 
 
@@ -62,6 +67,7 @@ function StartUpdatePage() {
         <input onChange={handleEmailChange} type="text" name="email" value={email.email}></input><br></br>
         {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}
         <GenericSubmitButton onClickFunction={handleSubmitted} />
+        {submitted ? <div>Email Sent!</div> : null}
     </form>
     </div>
     </body>

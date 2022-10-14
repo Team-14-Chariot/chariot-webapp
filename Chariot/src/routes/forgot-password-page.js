@@ -1,33 +1,37 @@
 import {useState} from 'react';
 import './forgot-password-page.css';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { useNavigate } from 'react-router-dom';
 import HeaderBlank from '../components/views/HeaderBlank';
+import { changeEventOrganizerPasswordRequest, checkEventOrganizerExists } from '../integration/eventOrganizerIntegration';
 
 function ForgotPasswordPage() {
-    const navigate = useNavigate();
 
-    const [email, setEmail] = useState({
+    const [info, setInfo] = useState({
         email: "",
     })
 
     const [submitted, setSubmitted] = useState(false);
 
-    const isValidEmail = (emailToCheck) => {
-        //backend call to check if email exists
-        return true;
+    const isValidEmail = async (emailToCheck) => {
+        const res = await checkEventOrganizerExists(emailToCheck);
+        if(res.status === "success"){
+            return true;
+        }
+        return false;
     }
 
     const handleEmailChange = (event) => {
-        setEmail({...email, email: event.target.value})
+        setInfo({...info, email: event.target.value})
     }
 
-    const handleSubmitted = (event) => {
+    const handleSubmitted = async (event) => {
         event.preventDefault();
-        if(isValidEmail(email.email)){
-            setSubmitted(true);
-            navigate('/');
-        }
+            if(isValidEmail(info.email)){
+                const res = await changeEventOrganizerPasswordRequest(info.email);
+                if(res.status === "success"){
+                    setSubmitted(true);
+                }
+            }
     }
 
     return (
@@ -37,9 +41,9 @@ function ForgotPasswordPage() {
     <h1>Forgot Password</h1>
     <form className='form'>
         <label>Email</label><br></br>
-        <input onChange={handleEmailChange} type="text" name="email" value={email.email}></input><br></br>
+        <input onChange={handleEmailChange} type="text" name="email" value={info.email}></input><br></br>
         <GenericSubmitButton onClickFunction={handleSubmitted} />
-        {submitted ? <div>Email Delivered</div> : null}
+        {submitted ? <div>Email Delivered <br></br> </div> : null}
     </form>
     </div>
     </body>

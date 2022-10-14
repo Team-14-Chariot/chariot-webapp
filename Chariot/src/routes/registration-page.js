@@ -4,7 +4,7 @@ import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
-import {checkEventOrganizerExists, createEventOrganizer} from '../integration/eventOrganizerIntegration'; 
+import {checkEventOrganizerExists, checkEventOrganizerTupleExists, createEventOrganizer, sendVerificationEmail} from '../integration/eventOrganizerIntegration'; 
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ function RegistrationPage() {
         } else {
             setCorrectEmailFormat(true);
         }
-        if(info.password.length < 7){
+        if(info.password.length < 10){
             setCorrectPasswordFormat(false);
         } else {
             setCorrectPasswordFormat(true);
@@ -43,20 +43,33 @@ function RegistrationPage() {
     }
 
     useEffect(() => {
-        console.log(submitted + " " + correctEmailFormat + " " + correctPasswordFormat);
-        if(submitted && correctEmailFormat && correctPasswordFormat){
-            if(checkEventOrganizerExists(info.email).status === "success") {
-                //this user already exists and cannot be registered;
-                return;
-            };
-            if(createEventOrganizer(info.email, info.password).status === "failed"){
-                //event organizer could not be created (some connection or backend error)
-                return;
-            };
-            thisUser.setSignedIn(true);
-            thisUser.setUserEmail(info.email);
-            navigate('../main-page/');
+        async function attemptRegister() {
+            if(submitted && correctEmailFormat && correctPasswordFormat){
+                if(checkEventOrganizerExists(info.email).status === "success") {
+                    //this user already exists and cannot be registered;
+                    return;
+                };
+                const res = await createEventOrganizer(info.email, info.password);
+                if(res.status === "failed"){
+                    //event organizer could not be created (some connection or backend error)
+                    return;
+                };
+                const res2 = await checkEventOrganizerTupleExists(info.email, info.password);
+                if(res2.status === "failed"){
+                    return;
+                };
+                const res3 = await sendVerificationEmail(info.email);
+                if(res3.status === "failed"){
+                    return;
+                }
+                thisUser.setSignedIn(true);
+                thisUser.setUserEmail(info.email);
+                thisUser.setUserToken(res2.record.token);
+                thisUser.setUserId(res.record.id);
+                navigate('../main-page/');
+            }
         }
+        attemptRegister();
     }, [correctEmailFormat, correctPasswordFormat, submitted, navigate, info.email, info.password]);
 
     return (
@@ -70,7 +83,7 @@ function RegistrationPage() {
             {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}
             <label>Password</label><br></br>
             <input onChange={handlePasswordChange} type="text" name="password" value={info.password}></input>
-            {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 7 characters.</div> : null}
+            {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 10 characters.</div> : null}
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>
