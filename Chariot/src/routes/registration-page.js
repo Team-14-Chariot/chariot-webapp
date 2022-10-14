@@ -4,7 +4,7 @@ import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { useNavigate } from 'react-router-dom';
 import HeaderBlank from '../components/views/HeaderBlank';
 import {thisUser} from '../index';
-import {checkEventOrganizerExists, checkEventOrganizerTupleExists, createEventOrganizer} from '../integration/eventOrganizerIntegration'; 
+import {checkEventOrganizerExists, checkEventOrganizerTupleExists, createEventOrganizer, sendVerificationEmail} from '../integration/eventOrganizerIntegration'; 
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -56,9 +56,12 @@ function RegistrationPage() {
                 };
                 const res2 = await checkEventOrganizerTupleExists(info.email, info.password);
                 if(res2.status === "failed"){
-                    navigate('../');
                     return;
                 };
+                const res3 = await sendVerificationEmail(info.email);
+                if(res3.status === "failed"){
+                    return;
+                }
                 thisUser.setSignedIn(true);
                 thisUser.setUserEmail(info.email);
                 thisUser.setUserToken(res2.record.token);
