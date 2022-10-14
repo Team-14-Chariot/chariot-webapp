@@ -32,11 +32,12 @@ function SignInPage() {
         if(ans.status !== "success"){
             return;
         }
+        console.log(ans);
         setSubmitted(true);
         thisUser.setSignedIn(true);
         thisUser.setUserEmail(info.userEmail);
         thisUser.setUserToken(ans.record.token);
-        thisUser.setUserId(ans.record.id);
+        thisUser.setUserId(ans.record.user.id);
         navigate('../main-page/');
     }
 

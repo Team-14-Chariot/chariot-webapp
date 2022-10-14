@@ -1,12 +1,29 @@
 import './Event.css';
+import EndButton from '../buttons/EndButton';
+import {endEvent} from '../../integration/eventIntegration';
 
-const Event = (eventName, eventAddr, eventCity, eventState, eventZip, eventRadius, eventCode) => {
-    const fullAddress = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZip;
+function Event(userEmail, eventName, eventAddr, eventRadius, eventCode){
+
+
+    const handleEnded = async (event) => {
+        event.preventDefault();
+        const res = await endEvent(eventCode);
+        if(res.status === "success"){
+            console.log("success");
+        } else {
+            console.log("failed");
+        }
+    }
+
     return(
-    <div className="eventContainer">
-        EVENT NAME: {eventName}         EVENT CODE: {eventCode} <br></br>
-        EVENT ADDRESS: {fullAddress}<br></br>
-        MAX RADIUS: {eventRadius} miles
+    <div>
+        <div className="eventContainer">
+            EVENT NAME: {eventName}         EVENT CODE: {eventCode} <br></br>
+            EVENT ADDRESS: {eventAddr}<br></br>
+            MAX RADIUS: {eventRadius} miles
+            <EndButton onClickFunction={handleEnded}/>
+        </div>
+        <br></br>
     </div>
     )
 }

@@ -4,13 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
 import SelectUSState from 'react-select-us-states';
-import {createEvent, getEventCode} from '../integration/eventIntegration';
+import {createEvent} from '../integration/eventIntegration';
 import {thisUser} from '../index';
 
 
 function CreateEventPage() {
     const navigate = useNavigate();
-    let eventCodeGenerated;
 
     const [info, setInfo] = useState({
         name: "",
@@ -23,8 +22,6 @@ function CreateEventPage() {
 
     
 
-
-    const [submitted, setSubmitted] = useState(false);
 
     const handleNameChange = (event) => {
         setInfo({...info, name: event.target.value})
@@ -56,17 +53,11 @@ function CreateEventPage() {
 
     const handleSubmitted = async (event) => {
         event.preventDefault();
-        const res = await createEvent(thisUser.getUserEmail, info.name, info.zip, info.radius, thisUser.getUserId());
+        console.log(thisUser.getUserId());
+        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, thisUser.getUserId());
         if(res.status !== "success"){
             return;
-        } else {
-            const eventCodeResponse = await getEventCode(thisUser.getUserEmail, info.name, info.zip);
-            if(eventCodeResponse.status !== "success"){
-                return;
-            }
-            eventCodeGenerated = eventCodeResponse.eventCode;
         }
-        setSubmitted(true);
         //go to the backend
         navigate('../main-page/')
     }
@@ -91,7 +82,6 @@ function CreateEventPage() {
             <input onChange={handleRadiusChange} type="text" name="radius" value={info.radius}></input>  MILES
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
-            {submitted ? <div>EVENT CODE: {eventCodeGenerated} <br></br>Send this code to your drivers!</div> : null}
         </form>
     </div>
     </body>

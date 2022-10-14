@@ -2,7 +2,7 @@
     background: rgb(0, 127, 255);
     height: 150px;
     box-sizing: border-box;
-    width: 50%;
+    width: 1000px;
     display: flex;
     flex-direction: row;
     border-radius: 10px;

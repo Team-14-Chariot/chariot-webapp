@@ -1,36 +1,31 @@
 import {client} from '../index';
 
-async function createEvent(userEmail, eventName, eventZipCode, eventMaxRadius, ownerId){
+async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, ownerId){
     try {
-        const recordId = generateRecordId(userEmail, eventName, eventZipCode);
-        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, latitude: 80, longitude: 80, owner: ownerId});
+        const fullAddr = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZipCode;
+        const recordId = generateRecordId(userEmail, eventName);
+        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId});
         return {status: "success", record: response};
     } catch (e) {
         return {status: "failed", record: e};
     }
 }
 
-async function getEventCode(userEmail, eventName, eventZipCode){
+
+async function listEvents(){
     try{
-        const recordId = generateRecordId(userEmail, eventName, eventZipCode);
-        const response = await client.records.getOne('events', recordId);
-        if(response.eventCode === null){
-            throw new Error('Event Creation Error');
-        }
-        return {status: "success", eventCode: response.eventCode};
-    } catch (e){
-        return {status: "failed", eventCode: e.message}
+        const pageResult = await client.records.getList('events', 1, 10);
+        return {status: "success", events: pageResult.items};
+    } catch(e){
+        return {status: "failed", events: null};
     }
 }
 
-async function endEvent(userEmail, eventName, eventZipCode){
+async function endEvent(eventCode){
     try {
-        const recordId = generateRecordId(userEmail, eventName, eventZipCode);
-        const response = await client.records.update('events', recordId, {accept_rides: false});
-        if(response.accept_rides === true){
-            throw new Error('Not able to end event');
-        }
-        return {status: "success", record: response};
+        console.log(eventCode);
+        await fetch('https://chariot.augustabt.com/api/endEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
+        return {status: "success"};
     } catch (e) {
         return {status: "failed", record: e}
     }
@@ -44,8 +39,8 @@ function hashCode(s) {
     return h;
 }
 
-function generateRecordId(userEmail, eventName, eventZipCode){
-    const inputConcat = "" + userEmail + eventName + eventZipCode;
+function generateRecordId(userEmail, eventName){
+    const inputConcat = "" + userEmail + eventName;
     let hashNum = hashCode(inputConcat);
     if(hashNum < 0){
         hashNum *= -1;
@@ -69,4 +64,4 @@ function generateRecordId(userEmail, eventName, eventZipCode){
     return tempHash;
 }
 
-export {createEvent, getEventCode};
+export {createEvent, listEvents, endEvent};
