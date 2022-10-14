@@ -1,24 +1,28 @@
-import './start-update-page.css';
+import { useState } from 'react';
+import './rider-eta-page.css';
 
 
 
 function RiderEtaPage() {
 
-    setInterval(function() {
+
+    const[ETA, setETA] = useState("calculating...");
+
+    setInterval(async function() {
         var time = 10;
         if (time !== null){
-            return time;
+            setETA(time + " seconds");
         } else {
-            return "calculating...";
+            setETA("calculating...")
         }
-    }, 60 * 1000);
+    }, 3 * 1000);
 
 
     return (
     <body>
     <div className="container">
     <h1>Your location has been sent!</h1>
-    <h2>Your driver will be here in: {setInterval}</h2>
+    <h2>Your driver will be here in: {ETA}</h2>
     </div>
     </body>
     );
