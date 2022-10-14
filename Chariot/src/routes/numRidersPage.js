@@ -21,7 +21,7 @@ function NumRidersPage() {
         event.preventDefault();
         if(info.intNumRiders >= 1){
             setSubmitted(true);
-            navigate('/');
+            navigate('main-page/');
             sendJSON();
         }
     }
