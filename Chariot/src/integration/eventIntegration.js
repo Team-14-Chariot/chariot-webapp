@@ -21,6 +21,19 @@ async function listEvents(){
     }
 }
 
+async function checkEventCode(eventCode){
+    try{
+        const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
+        if(res.status === 200){
+            return {status: "success"};
+        } else {
+            throw new Error("Not a valid event code");
+        }
+    } catch (e){
+        return {status: "failed"};
+    }
+}
+
 async function endEvent(eventCode){
     try {
         console.log(eventCode);
@@ -64,4 +77,4 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-export {createEvent, listEvents, endEvent};
+export {createEvent, listEvents, endEvent, checkEventCode};
