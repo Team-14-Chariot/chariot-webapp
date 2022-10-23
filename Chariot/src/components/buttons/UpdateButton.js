@@ -10,7 +10,7 @@ function UpdateButton(){
         
     return(
     <div className="button-container">
-    <button className='custom-button' onClick={startUpdate}>Update Email</button>
+    <button className='update-button' onClick={startUpdate}>Update Email</button>
     </div>
     )
 }

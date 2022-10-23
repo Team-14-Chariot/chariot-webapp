@@ -1,13 +1,45 @@
-.container{
+.backgroundEventDetailsContainer{
     display: flex;
-    height: 645px;
-    align-content: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    padding-top: 70px;
 }
-.eventForm{
-    max-width: 400px;
-    margin: 2rem auto;
-    border-radius: 25px;
-    background: #c2c0c0;
-    padding:2rem;
-    font-family:  10px primus;
+.eventDetailsBubble{
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 1000px;
+    background-color: rgb(0, 127, 255);
+    border-radius: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
+.eventDetailsTitle{
+    width: 100%;
+    height: 65px;
+}
+.eventDetailsTitleText{
+    font-size: 48px;
+    font-family: Kadwa;
+    color: black;
+    width: 100%;
+}
+.eventDetailsEditButton{
+    border: none;
+    border-radius: 5px;
+    background: white;
+    color: rgb(0, 127, 255);
+    width: fit-content;
+    height: fit-content;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 2px 2px 6px grey;
+    transition: .25s;
+    overflow: hidden;
+    position: relative;
+    }

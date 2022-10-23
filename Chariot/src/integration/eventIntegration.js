@@ -51,6 +51,10 @@ async function checkEventCode(eventCode){
     }
 }
 
+async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius){
+    return{status: "success"};
+}
+
 async function endEvent(eventCode){
     try {
         console.log(eventCode);
@@ -94,4 +98,4 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-export {createEvent, listEvents, endEvent, checkEventCode};
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode};
