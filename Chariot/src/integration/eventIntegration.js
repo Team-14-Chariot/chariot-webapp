@@ -11,6 +11,23 @@ async function createEvent(userEmail, eventName, eventAddr, eventCity, eventStat
     }
 }
 
+async function retrieveEventInfo(eventCode){
+    try {
+        //const res = await fetch('https://chariot.augustabt.com/api/retrieveEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
+        const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
+        const addressArray = demoRes.address.split(', ');
+        const stateZipArray = addressArray[2].split(' ');
+        const address = addressArray[0];
+        const city = addressArray[1];
+        const state = stateZipArray[0];
+        const zip = stateZipArray[1];
+        const retInfo = {...demoRes, address: address, city: city, state: state, zip: zip};
+        return {status: "success", info: retInfo};
+    } catch (e) {
+        return {status: "failed", info: null};
+    }
+}
+
 
 async function listEvents(){
     try{
