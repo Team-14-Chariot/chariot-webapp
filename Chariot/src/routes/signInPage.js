@@ -29,13 +29,15 @@ function SignInPage() {
         event.preventDefault();
         //this is where we send information to the backend and check if email and password are correct.
         const ans = await checkEventOrganizerTupleExists(info.userEmail, info.userPassword);
-        console.log(ans);
         if(ans.status !== "success"){
             return;
         }
+        console.log(ans);
         setSubmitted(true);
         thisUser.setSignedIn(true);
         thisUser.setUserEmail(info.userEmail);
+        thisUser.setUserToken(ans.record.token);
+        thisUser.setUserId(ans.record.user.id);
         navigate('../main-page/');
     }
 
