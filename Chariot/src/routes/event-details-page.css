@@ -24,8 +24,48 @@
 .eventDetailsTitleText{
     font-size: 48px;
     font-family: Kadwa;
+    font-weight: bold;
     color: black;
     width: 100%;
+}
+.eventDetailsContent{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+.eventDetailsContentText{
+    flex: 1;
+    padding-left: 20px;
+}
+.eventDetailsContentMap{
+    flex: 2;
+    background-color: #ebede1;
+    border-radius: 5px;
+    text-align: center;
+}
+.eventDetailsEventCode{
+    padding-right: 30px;
+    font-family: Kadwa;
+    font-size: 28px;
+    color: black;
+}
+.eventDetailsRiderLink{
+    font-family: Kadwa;
+    font-size: 28px;
+    color: black;
+}
+.eventDetailsAddress{
+    font-family: Kadwa;
+    font-size: 20px;
+    color: black;
+}
+.eventDetailsAddressInfo{
+    font-family: Kadwa;
+    font-size: 20px;
+    color: #2e2e2e;
 }
 .eventDetailsEditButton{
     border: none;
