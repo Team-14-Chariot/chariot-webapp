@@ -1,7 +1,9 @@
 .create_event_page_container{
     display: flex;
+    flex-direction: column;
     height: 645px;
     align-content: center;
+    text-align: center;
 }
 .eventForm{
     max-width: 400px;
