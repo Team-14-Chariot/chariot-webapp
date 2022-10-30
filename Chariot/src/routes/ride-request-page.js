@@ -23,7 +23,7 @@ function RideRequestPage() {
     return (
     <body>
     <HeaderBlank />
-    <div className="container">
+    <div className="ride_request_page_container">
     {verifiedCode ? <h1>RIDE REQUEST FOR {eventCode}</h1> : null}
     </div>
     </body>

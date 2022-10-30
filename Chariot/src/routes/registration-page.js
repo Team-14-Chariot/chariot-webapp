@@ -75,15 +75,15 @@ function RegistrationPage() {
     return (
     <body>
     <HeaderBlank />
-    <div className="container">
+    <div className="registration_page_container">
         <h1>Registration</h1>
-        <form className='form'>
+        <form className='registration_page_form'>
             <label>Email</label><br></br>
             <input onChange={handleEmailChange} type="text" name="email" value={info.email}></input><br></br>
-            {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}
+            {!correctEmailFormat ? <div className='registration_page_errorMessage'>Make sure you input a real email.</div> : null}
             <label>Password</label><br></br>
             <input onChange={handlePasswordChange} type="text" name="password" value={info.password}></input>
-            {!correctPasswordFormat ? <div className='errorMessage'>Make sure your password is at<br></br> least 10 characters.</div> : null}
+            {!correctPasswordFormat ? <div className='registration_page_errorMessage'>Make sure your password is at<br></br> least 10 characters.</div> : null}
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>

@@ -37,7 +37,7 @@ function ForgotPasswordPage() {
     return (
     <body>
     <HeaderBlank />
-    <div className="container">
+    <div className="forgot_password_page_container">
     <h1>Forgot Password</h1>
     <form className='form'>
         <label>Email</label><br></br>
