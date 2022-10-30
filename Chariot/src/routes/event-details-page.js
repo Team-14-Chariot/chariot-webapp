@@ -3,7 +3,6 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import SelectUSState from 'react-select-us-states';
 import {retrieveEventInfo, updateEvent} from '../integration/eventIntegration';
 import {thisUser} from '../index';
 

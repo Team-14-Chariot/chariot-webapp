@@ -17,7 +17,7 @@ function MainPage() {
 return (
   <body>
       <Header/>
-    <div className='container'>
+    <div className='main_page_container'>
         <NewEventButton />
         <br></br>
         <br></br>
