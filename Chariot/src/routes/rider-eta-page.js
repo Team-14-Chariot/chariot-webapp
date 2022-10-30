@@ -20,7 +20,7 @@ function RiderEtaPage() {
 
     return (
     <body>
-    <div className="container">
+    <div className="rider_eta_page_container">
     <h1>Your location has been sent!</h1>
     <h2>Your driver will be here in: {ETA}</h2>
     </div>

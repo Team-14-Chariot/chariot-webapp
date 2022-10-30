@@ -50,9 +50,9 @@ function SignInPage() {
     return (
     <body>
     <HeaderBlank />
-    <div className="container">
+    <div className="sign_in_page_container">
     <h1>LOGIN</h1>
-    <form className='form'>
+    <form className='sign_in_page_form'>
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={info.userEmail}></input><br></br>
         <label>Password</label><br></br>

@@ -60,9 +60,9 @@ function StartUpdatePage() {
     return (
     <body>
     <Header />
-    <div className="container">
+    <div className="start_update_page_container">
     <h1>Update Email</h1>
-    <form className='form'>
+    <form className='start_update_page_form'>
         <label>New Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={email.email}></input><br></br>
         {!correctEmailFormat ? <div className='errorMessage'>Make sure you input a real email.</div> : null}

@@ -17,6 +17,7 @@ import PocketBase from 'pocketbase';
 import StartUpdatePage from './routes/start-update-page';
 import RiderEtaPage from './routes/rider-eta-page';
 import RideRequestPage from './routes/ride-request-page';
+import EventDetailsPage from './routes/event-details-page';
 
 const client = new PocketBase('https://chariot.augustabt.com');
 const thisUser = new userConstants();
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "ride-request/:eventCode",
     element: <RideRequestPage/>
+  },
+  {
+    path: "event-details/:eventCode",
+    element: <EventDetailsPage/>
   }
 ]);
 
