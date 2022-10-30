@@ -38,6 +38,7 @@ function DeleteAccountPage() {
     useEffect(() => {
         if(submitted && correctPassword){
             //delete account from backend
+            thisUser.setSignedIn(false);
             navigate("/");
         }
     }, [correctPassword, submitted, navigate]);
