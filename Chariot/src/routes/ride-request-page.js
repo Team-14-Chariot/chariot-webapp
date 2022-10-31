@@ -96,8 +96,8 @@ function RideRequestPage() {
 
             <center>
                 <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>
-                <p>The left marker is your start location. Click on it and follow the directions to set your start location.</p>
-                <p>The right marker will be your dropoff location. Click on it and follow the directions to set your dropoff location.</p>
+                <p>The <strong>LEFT MARKER</strong> is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to set your start location.</p>
+                <p>The <strong>RIGHT MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
                 <br></br>
 
 
@@ -112,12 +112,12 @@ function RideRequestPage() {
                         eventHandlers={eventHandlers}
                         position={startPosition}
                         ref={startRef}
-                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
                         <Popup minWidth={90}>
                             <span onClick={toggleDraggable}>
                                 {draggable
-                                    ? 'Drag the marker to the start location'
-                                    : 'Click here to make the marker draggable'}
+                                    ? 'Drag the marker to the pickup location'
+                                    : 'Click here to make the pickup draggable'}
                             </span>
                         </Popup>
                     </Marker>
@@ -127,9 +127,13 @@ function RideRequestPage() {
                         eventHandlers={eventHandlers2}
                         position={endPosition}
                         ref={endRef}
-                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
                         <Popup minWidth={45}>
-
+                            <span onClick={toggleDraggable}>
+                                {draggable
+                                    ? 'Drag the marker to the dropoff location'
+                                    : 'Click here to make the dropoff marker draggable'}
+                            </span>
                         </Popup>
                     </Marker>
                 </MapContainer>
@@ -138,18 +142,22 @@ function RideRequestPage() {
 
                 <br></br>
 
-                <h3>Please enter your name and the number of people (including yourself) in your party. Press "Request Ride" once all fields have been entered.</h3>
+                <h3>Please enter your name and the number of people <strong>INCLUDING YOURSELF</strong> in your group. Press "Request Ride" once all fields have been entered.</h3>
 
                 <div>
+                    <label>Name: </label>
                     <input onChange={handleRiderNameChange} type="text" placeholder="e.g. John Doe"></input>
                 </div>
                 <br></br>
                 <div>
-                    <input onChange={handleGroupSizeChange} type="number" placeholder="eg. 3"></input>
+                    <label>Group Size: </label>
+                    <input onChange={handleGroupSizeChange} type="number" placeholder="e.g. 3"></input>
                 </div>
                 <br></br>
 
                 <GenericSubmitButton onClickFunction={sendRide} />
+
+                <br></br>
 
             </center>
         </div>
