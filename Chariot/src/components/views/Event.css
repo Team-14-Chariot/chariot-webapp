@@ -1,10 +1,68 @@
 .eventContainer {
-    align-self: center;
-    background: rgb(0, 127, 255);
+    margin: 10px;
+    background: rgba(48, 134, 221, 1);
     height: 150px;
+    padding-top: 12px;
     box-sizing: border-box;
-    width: 1000px;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+.event_header_container{
+    width: 95%;
+    flex: 1;
     display: flex;
     flex-direction: row;
-    border-radius: 10px;
+    align-items: center;
+}
+.event_body_container{
+    width: 95%;
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.event_name{
+    width: 70%;
+    font-family: "Kadwa";
+    font-weight:700;
+    font-size: 35px;
+    color: white;
+    text-align: left;
+}
+.event_code{
+    margin-left: auto;
+    font-family: "Kadwa";
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+    text-align: right;
+}
+.event_address{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+.event_address_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
+}
+.event_end_button{
+    width: fit-content;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.event_click_to_view{
+    margin-left: auto;
+    font-family: "Kadwa";
+    font-size: 20px;
+    color: rgba(205, 205, 205, 1);
 }

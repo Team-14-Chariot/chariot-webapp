@@ -26,8 +26,6 @@ return (
       <Header/>
     <div className='main_page_container'>
         <NewEventButton />
-        <br></br>
-        <br></br>
         {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides, handleClicked)})}</div> : null}
     </div>
   </body>
