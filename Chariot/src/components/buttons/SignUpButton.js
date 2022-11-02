@@ -11,7 +11,7 @@ function SignUpButton () {
 
 return(
  <div className="button-container">
-  <button className={`custom-button`} onClick={registerNewUser}>SIGN UP</button>
+  <button className={`signup-button`} onClick={registerNewUser}>SIGN UP</button>
  </div>
 )
 }

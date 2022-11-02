@@ -1,6 +1,7 @@
-.container{
+.sign_in_page_container{
     align-items: center;
-    align-content: 0em;
+    align-content: center;
+    text-align: center;
     }
     
 
@@ -9,8 +10,8 @@
         text-align: center;
         margin-top: 1.5em;
     }
-    
-    .form{
+
+    .sign_in_page_form{
     max-width: 200px;
     margin: 2rem auto;
     border-radius: 25px;
