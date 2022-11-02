@@ -98,4 +98,13 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode};
+async function requestRide(eventCode, originLat, originLng, destLat, destLng, riderName, groupSize){
+    const newOriginLat = "" + originLat;
+    const newOriginLng = "" + originLng;
+    const newDestLat = "" + destLat;
+    const newDestLng = "" + destLng;
+    const newGroupSize = parseInt(groupSize);
+    await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})});
+}
+
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide};
