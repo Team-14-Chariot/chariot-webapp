@@ -31,7 +31,7 @@ async function retrieveEventInfo(eventCode){
 
 async function listEvents(){
     try{
-        const pageResult = await client.records.getList('events', 1, 10);
+        const pageResult = await client.records.getList('events', 1, 10, {sort: '-created', });
         return {status: "success", events: pageResult.items};
     } catch(e){
         return {status: "failed", events: null};

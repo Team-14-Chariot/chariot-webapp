@@ -13,7 +13,7 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
 
 
     return(
-    <div className="eventContainer" onClick={() => handleClicked(eventCode)}>
+    <div className={eventAcceptingRides ? 'eventContainer' : 'endEventContainer'} onClick={() => handleClicked(eventCode)}>
         <div>
             EVENT NAME: {eventName}         EVENT CODE: {eventCode} <br></br>
             EVENT ADDRESS: {eventAddr}<br></br>
