@@ -5,23 +5,30 @@ import NewEventButton from '../components/buttons/NewEventButton';
 import Event from '../components/views/Event';
 import {listEvents} from '../integration/eventIntegration';
 import {thisUser} from '../index';
+import {useNavigate} from 'react-router-dom';
+
 
 
 function MainPage() {
+  const navigate = useNavigate();
   const [eventList, setEventList] = useState([]);  
 
   useEffect(() => {
     listEvents(thisUser.getUserEmail()).then(d => {setEventList(d.events)});
   }, [])
 
+  const handleClicked = (eventCode) => {
+    navigate(`../event-details/${eventCode}`);
+}
+
 return (
   <body>
       <Header/>
-    <div className='container'>
+    <div className='main_page_container'>
         <NewEventButton />
         <br></br>
         <br></br>
-        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides)})}</div> : null}
+        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides, handleClicked)})}</div> : null}
     </div>
   </body>
 );

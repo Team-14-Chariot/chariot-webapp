@@ -1,19 +1,20 @@
-.container{
-    display: flex;
-    height: 645px;
+.registration_page_container{
     align-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.form{
-    max-width: 400px;
+.registration_page_form{
+    max-width: 200px;
     margin: 2rem auto;
     border-radius: 25px;
     background: #c2c0c0;
     padding:2rem;
     font-family:  10px primus;
+    height:min-content;
 }
 
-.errorMessage{
+.registration_page_errorMessage{
     padding-top: 5px;
     padding-bottom: 5px;
     font: 12px Arial;

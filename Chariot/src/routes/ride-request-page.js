@@ -30,11 +30,11 @@ function RideRequestPage() {
     const eventCode = params.eventCode;
     const [verifiedCode, setVerifiedCode] = useState(false);
     useEffect(() => {
-        async function check() {
-            if (!verifiedCode) {
+        async function check(){
+            if(!verifiedCode){
                 const res = await checkEventCode(eventCode);
                 console.log(res);
-                if (res.status === "success") {
+                if(res.status === "success"){
                     setVerifiedCode(true);
                 }
             }

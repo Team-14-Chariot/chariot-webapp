@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import './index.css';
 import HomePageGeneric from './routes/home-page-generic';
-//import Page from './routes/page1'
 import SignInPage from './routes/signInPage';
 import RegistrationPage from './routes/registration-page';
 import ForgotPasswordPage from './routes/forgot-password-page';
@@ -16,8 +15,9 @@ import CreateEventPage from './routes/create-event-page';
 import {userConstants} from './constants/userConstants';
 import PocketBase from 'pocketbase';
 import StartUpdatePage from './routes/start-update-page';
+import RiderEtaPage from './routes/rider-eta-page';
 import RideRequestPage from './routes/ride-request-page';
-
+import EventDetailsPage from './routes/event-details-page';
 
 const client = new PocketBase('https://chariot.augustabt.com');
 const thisUser = new userConstants();
@@ -48,14 +48,20 @@ const router = createBrowserRouter([
     element: <CreateEventPage />
   },
   {
-
-
     path: "start-update-page/",
     element: <StartUpdatePage/>
   },
   {
+    path: 'rider-eta-page/',
+    element: <RiderEtaPage />
+  },
+  {
     path: "ride-request/:eventCode",
     element: <RideRequestPage/>
+  },
+  {
+    path: "event-details/:eventCode",
+    element: <EventDetailsPage/>
   }
 ]);
 

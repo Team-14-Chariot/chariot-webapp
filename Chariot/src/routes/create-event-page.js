@@ -65,7 +65,7 @@ function CreateEventPage() {
     return (
     <body>
     <Header />
-    <div className="container">
+    <div className="create_event_page_container">
         <h1>Register Your Event</h1>
         <form className='eventForm'>
             <label>EVENT NAME: </label>

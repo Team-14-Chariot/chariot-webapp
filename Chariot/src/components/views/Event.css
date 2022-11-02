@@ -1,4 +1,5 @@
 .eventContainer {
+    align-self: center;
     background: rgb(0, 127, 255);
     height: 150px;
     box-sizing: border-box;
