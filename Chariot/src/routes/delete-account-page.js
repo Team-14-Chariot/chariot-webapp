@@ -41,7 +41,8 @@ function DeleteAccountPage() {
     useEffect(() => {
         async function deleteAccount(){
             if(submitted && correctPassword){
-                const res = await client.users.delete(thisUser.getUserId);
+                //have to do it in the backend
+                //const res = await client.users.delete(thisUser.getUserId);
                 if (res.status === 'success') {
                     thisUser.setSignedIn(false);
                     thisUser.setUserEmail(null);
