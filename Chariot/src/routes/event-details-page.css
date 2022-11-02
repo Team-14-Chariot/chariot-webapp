@@ -83,3 +83,9 @@
     overflow: hidden;
     position: relative;
     }
+
+    .rideList{
+        margin-top: 30px;
+        width: 1000px;
+        align-self: center;
+    }

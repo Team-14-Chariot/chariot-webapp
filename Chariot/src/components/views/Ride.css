@@ -1,0 +1,21 @@
+.rideContainer {
+    align-self: center;
+    background: rgb(0, 127, 255);
+    height: 150px;
+    box-sizing: border-box;
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+}
+
+.noRideContainer {
+    align-self: center;
+    background: rgb(135, 187, 240);
+    height: 150px;
+    box-sizing: border-box;
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+}

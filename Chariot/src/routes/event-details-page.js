@@ -5,6 +5,8 @@ import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
 import {retrieveEventInfo, updateEvent} from '../integration/eventIntegration';
 import {thisUser} from '../index';
+import {listRides} from '../integration/eventIntegration';
+import Ride from '../components/views/Ride'
 
 
 function EventDetailsPage() {
@@ -12,6 +14,9 @@ function EventDetailsPage() {
     const eventCode = params.eventCode;
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
+    const [rideList, setrideList] = useState([]);  
+
+
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -43,8 +48,11 @@ function EventDetailsPage() {
         check();
     }, [eventCode, canAccess])
 
+    useEffect(() => {
+        listRides(thisUser.getUserEmail()).then(d => {setrideList(d.rides)});
+      }, [])
 
-    
+
 
     const handleNameChange = (event) => {
         setEditableInfo({...editableInfo, name: event.target.value})
@@ -120,6 +128,10 @@ function EventDetailsPage() {
             {canEdit ? <GenericSubmitButton onClickFunction={handleSubmitted}/> : <button className='eventDetailsEditButton' onClick={handleEditPressed}>EDIT</button>}
         </div>
         </div>
+    </div>
+    <br></br>
+    <div>
+    {rideList ? <div className='rideList'>{rideList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
     </div>
     </div>
 );

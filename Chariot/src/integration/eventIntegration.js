@@ -38,6 +38,15 @@ async function listEvents(){
     }
 }
 
+async function listRides(){
+    try{
+        const rideResult = await client.records.getList('rides', 1, 30, {sort: 'in_ride', });
+        return {status: "success", rides: rideResult.items};
+    } catch(e){
+        return {status: "failed", rides: null};
+    }
+}
+
 async function checkEventCode(eventCode){
     try{
         const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
@@ -98,4 +107,4 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode};
+export {createEvent, retrieveEventInfo, listEvents, listRides, updateEvent, endEvent, checkEventCode};
