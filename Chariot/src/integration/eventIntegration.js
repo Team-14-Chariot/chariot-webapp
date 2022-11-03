@@ -38,14 +38,6 @@ async function listEvents(){
     }
 }
 
-async function listRides(){
-    try{
-        const rideResult = await client.records.getList('rides', 1, 30, {sort: 'in_ride', });
-        return {status: "success", rides: rideResult.items};
-    } catch(e){
-        return {status: "failed", rides: null};
-    }
-}
 
 async function checkEventCode(eventCode){
     try{
@@ -107,4 +99,4 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-export {createEvent, retrieveEventInfo, listEvents, listRides, updateEvent, endEvent, checkEventCode};
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode};

@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
 import {retrieveEventInfo, updateEvent} from '../integration/eventIntegration';
-import {thisUser} from '../index';
-import {listRides} from '../integration/eventIntegration';
+import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
 
 
@@ -14,9 +13,7 @@ function EventDetailsPage() {
     const eventCode = params.eventCode;
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
-    const [rideList, setrideList] = useState([]);  
-
-
+    const [ridesList, setRidesList] = useState([]); 
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -48,11 +45,22 @@ function EventDetailsPage() {
         check();
     }, [eventCode, canAccess])
 
+    async function listRides(){
+        try{
+            const pageResult = await client.records.getList('rides', 1, 30, {filter: `event_id = ${eventCode}`, });
+            return {status: "success", events: pageResult.items};
+        } catch(e){
+            return {status: "failed", events: null};
+        }
+    }
+
+
     useEffect(() => {
-        listRides(thisUser.getUserEmail()).then(d => {setrideList(d.rides)});
-      }, [])
+        listRides(thisUser.getUserEmail()).then(d => {setRidesList(d.rides)});
+      }, )
 
 
+    
 
     const handleNameChange = (event) => {
         setEditableInfo({...editableInfo, name: event.target.value})
@@ -129,10 +137,9 @@ function EventDetailsPage() {
         </div>
         </div>
     </div>
-    <br></br>
-    <div>
-    {rideList ? <div className='rideList'>{rideList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
-    </div>
+
+    {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     </div>
 );
 }
