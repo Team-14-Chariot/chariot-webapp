@@ -35,18 +35,18 @@ function DeleteAccountPage() {
                 console.log(thisUser.getUserEmail());
                 console.log(password.password);
             }
-            console.log("before if statement");
             if(submitted && correctPassword){
                 //have to delete all events
-                //const userId = thisUser.getUserId();
+                //filter the events by owner 
                 const eventsToDelete = await client.records.getList('events', 1, 100, {filter: `owner = ${thisUser.getUserId()}`});
+                //go through list and delete every event
                 for(var items in eventsToDelete){
                     if (items.owner === thisUser.getUserId()){
 
                     await client.records.delete('events', items.id);
                     }
                 }
-                console.log(thisUser.getUserId());
+                // finally delete the actual user
                 const del = await client.users.delete(thisUser.getUserId());
                 console.log(del);
                 if (del.status === 'success') {
