@@ -1,10 +1,10 @@
 import {client} from '../index';
 
-async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, ownerId){
+async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, ownerId){
     try {
         const fullAddr = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZipCode;
         const recordId = generateRecordId(userEmail, eventName);
-        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId});
+        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword});
         return {status: "success", record: response};
     } catch (e) {
         return {status: "failed", record: e};
@@ -13,15 +13,17 @@ async function createEvent(userEmail, eventName, eventAddr, eventCity, eventStat
 
 async function retrieveEventInfo(eventCode){
     try {
-        //const res = await fetch('https://chariot.augustabt.com/api/retrieveEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
-        const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
-        const addressArray = demoRes.address.split(', ');
+        let eventDetails;
+        await fetch('https://chariot.augustabt.com/api/getEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDetails = data);
+        console.log(eventDetails);
+        //const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
+        const addressArray = eventDetails.address.split(', ');
         const stateZipArray = addressArray[2].split(' ');
         const address = addressArray[0];
         const city = addressArray[1];
         const state = stateZipArray[0];
         const zip = stateZipArray[1];
-        const retInfo = {...demoRes, address: address, city: city, state: state, zip: zip};
+        const retInfo = {...eventDetails, address: address, city: city, state: state, zip: zip};
         return {status: "success", info: retInfo};
     } catch (e) {
         return {status: "failed", info: null};
@@ -32,6 +34,7 @@ async function retrieveEventInfo(eventCode){
 async function listEvents(){
     try{
         const pageResult = await client.records.getList('events', 1, 10);
+        console.log("iter");
         return {status: "success", events: pageResult.items};
     } catch(e){
         return {status: "failed", events: null};
@@ -51,8 +54,18 @@ async function checkEventCode(eventCode){
     }
 }
 
-async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius){
-    return{status: "success"};
+async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword){
+    try{
+        const newFullAddr = "" + newAddressLine + ", " + newCity + ", " + newState + " " + newZip;
+        const newNewRadius = parseInt(newRadius);
+        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword})});
+        if(res.status === 200){
+            return{status: "success"};
+        }
+        throw new Error("Update Event Failed");
+    } catch (e){
+        return{status: "failed"}
+    }
 }
 
 async function endEvent(eventCode){
