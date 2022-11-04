@@ -98,14 +98,35 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-async function requestRide(eventCode, originLat, originLng, destLat, destLng, riderName, groupSize, riderImage){
+async function requestRide(eventCode, originLat, originLng, destLat, destLng, riderName, groupSize){
     const newOriginLat = "" + originLat;
     const newOriginLng = "" + originLng;
     const newDestLat = "" + destLat;
     const newDestLng = "" + destLng;
     const newGroupSize = parseInt(groupSize);
-    const rideID = await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})});
-    console.log(rideID);
+    let rideId;
+    await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})}).then(res => {return res.json()}).then(data => rideId = data.ride_id);
+    return rideId;
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide};
+async function updatePickup(rideId, originLat, originLng) {
+    console.log("update ride " + rideId + " " + originLat + " " + originLng);
+    const newOriginLat = "" + originLat;
+    const newOriginLng = "" + originLng;
+    const record = await client.records.update('rides', rideId, {
+        origin_latitude: newOriginLat,
+        origin_longitude: newOriginLng
+    });
+}
+
+async function updateDropoff(rideId, destLat, destLng) {
+    const newDestLat = "" + destLat;
+    const newDestLng = "" + destLng;
+    const record = await client.records.update('rides', rideId, {
+        dest_latitude: newDestLat,
+        dest_longitude: newDestLng
+    });
+}
+
+
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff};
