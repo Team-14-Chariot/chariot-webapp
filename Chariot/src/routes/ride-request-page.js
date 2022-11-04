@@ -5,12 +5,14 @@ import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { checkEventCode } from '../integration/eventIntegration';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import red_map_marker from '../components/images/red_map_marker.png'
 import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { requestRide } from '../integration/eventIntegration';
 
 function RideRequestPage() {
+    //const navigate = useNavigate();
 
     const [info, setInfo] = useState({
         riderName: "",
@@ -26,15 +28,16 @@ function RideRequestPage() {
     }
 
 
+
     const params = useParams();
     const eventCode = params.eventCode;
     const [verifiedCode, setVerifiedCode] = useState(false);
     useEffect(() => {
-        async function check(){
-            if(!verifiedCode){
+        async function check() {
+            if (!verifiedCode) {
                 const res = await checkEventCode(eventCode);
                 console.log(res);
-                if(res.status === "success"){
+                if (res.status === "success") {
                     setVerifiedCode(true);
                 }
             }
@@ -43,7 +46,8 @@ function RideRequestPage() {
     }, [eventCode, verifiedCode])
 
     const sendRide = async () => {
-        await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
+        await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize, info.riderImage);
+        //navigate('../rider-eta-page');
     }
 
     const start_center = { lat: 40.423730, lng: -86.910890 }
@@ -89,78 +93,102 @@ function RideRequestPage() {
 
 
 
-    return (
-        <div>
-            <HeaderBlank></HeaderBlank>
-            {verifiedCode ? <h1>RIDE REQUEST FOR {eventCode}</h1> : null}
+    if (verifiedCode) {
+        return (
+            <div>
+                <HeaderBlank></HeaderBlank>
 
-            <center>
-                <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>
-                <p>The <strong>LEFT MARKER</strong> is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to set your start location.</p>
-                <p>The <strong>RIGHT MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
-                <br></br>
+                <div className='event_code'><strong>Event Code:</strong> {eventCode}</div>
 
-
-                <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <Marker
-                        id="start_marker"
-                        draggable={draggable}
-                        eventHandlers={eventHandlers}
-                        position={startPosition}
-                        ref={startRef}
-                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
-                        <Popup minWidth={90}>
-                            <span onClick={toggleDraggable}>
-                                {draggable
-                                    ? 'Drag the marker to the pickup location'
-                                    : 'Click here to make the pickup draggable'}
-                            </span>
-                        </Popup>
-                    </Marker>
-                    <Marker
-                        id="end_marker"
-                        draggable={draggable}
-                        eventHandlers={eventHandlers2}
-                        position={endPosition}
-                        ref={endRef}
-                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
-                        <Popup minWidth={45}>
-                            <span onClick={toggleDraggable}>
-                                {draggable
-                                    ? 'Drag the marker to the dropoff location'
-                                    : 'Click here to make the dropoff marker draggable'}
-                            </span>
-                        </Popup>
-                    </Marker>
-                </MapContainer>
+                <center>
+                    <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>
+                    <p>The <strong>BLUE MARKER</strong> is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to set your start location.</p>
+                    <p>The <strong>RED MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
+                    <br></br>
 
 
+                    <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker
+                            id="start_marker"
+                            draggable={draggable}
+                            eventHandlers={eventHandlers}
+                            position={startPosition}
+                            ref={startRef}
+                            icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
+                            <Popup minWidth={90}>
+                                <span onClick={toggleDraggable}>
+                                    {draggable
+                                        ? 'Drag the marker to the pickup location'
+                                        : 'Click here to make the pickup marker draggable'}
+                                </span>
+                            </Popup>
+                        </Marker>
+                        <Marker
+                            id="end_marker"
+                            draggable={draggable}
+                            eventHandlers={eventHandlers2}
+                            position={endPosition}
+                            ref={endRef}
+                            icon={new Icon({ iconUrl: red_map_marker, iconSize: [25, 41], iconAnchor: [12, 12] })}>
+                            <Popup minWidth={45}>
+                                <span onClick={toggleDraggable}>
+                                    {draggable
+                                        ? 'Drag the marker to the dropoff location'
+                                        : 'Click here to make the dropoff marker draggable'}
+                                </span>
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
 
-                <br></br>
 
-                <h3>Please enter your name and the number of people <strong>INCLUDING YOURSELF</strong> in your group. Press "Request Ride" once all fields have been entered.</h3>
 
-                <div>
-                    <label>Name: </label>
-                    <input onChange={handleRiderNameChange} type="text" placeholder="e.g. John Doe"></input>
-                </div>
-                <br></br>
-                <div>
-                    <label>Group Size: </label>
-                    <input onChange={handleGroupSizeChange} type="number" placeholder="e.g. 3"></input>
-                </div>
-                <br></br>
+                    <br></br>
 
-                <GenericSubmitButton onClickFunction={sendRide} />
+                    <h3>Please enter your name and the number of people <strong>INCLUDING YOURSELF</strong> in your group. Press "Request Ride" once all fields have been entered.</h3>
 
-                <br></br>
+                    <div>
+                        <label>Name: </label>
+                        <input onChange={handleRiderNameChange} type="text" placeholder="e.g. John Doe"></input>
+                    </div>
 
-            </center>
-        </div>
-    );
+                    <br></br>
+
+                    <div>
+                        <label>Group Size: </label>
+                        <input onChange={handleGroupSizeChange} type="number" placeholder="e.g. 3"></input>
+                    </div>
+                    <br></br>
+
+
+                    <div>
+                        <p><strong>OPTIONAL: </strong>You may upload a photo of yourself/group to allow your driver to better recognize you and speed up the pickup process</p>
+                        <label>Upload Photo: </label><input type="file" accept="image/*"></input>
+                    </div>
+
+                    <br></br>
+
+                    <GenericSubmitButton onClickFunction={sendRide} />
+
+                    <br></br>
+
+                </center>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div>
+                <HeaderBlank></HeaderBlank>
+                <center>
+                    <h1>Invalid Event Code!</h1>
+                    <h2>Please enter the correct URL</h2>
+                </center>
+            </div>
+        )
+    }
 }
 export default RideRequestPage;
