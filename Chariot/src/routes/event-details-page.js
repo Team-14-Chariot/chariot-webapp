@@ -3,8 +3,8 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent} from '../integration/eventIntegration';
-import {thisUser, client} from '../index';
+import {retrieveEventInfo, updateEvent, listRides} from '../integration/eventIntegration';
+import {thisUser} from '../index';
 import Ride from '../components/views/Ride'
 
 
@@ -45,19 +45,11 @@ function EventDetailsPage() {
         check();
     }, [eventCode, canAccess])
 
-    async function listRides(){
-        try{
-            const pageResult = await client.records.getList('rides', 1, 30, {filter: `event_id = "${eventCode}"`, });
-            return {status: "success", events: pageResult.items};
-        } catch(e){
-            return {status: "failed", events: null};
-        }
-    }
 
 
     useEffect(() => {
-        listRides(thisUser.getUserEmail()).then(d => {setRidesList(d.rides)});
-      }, )
+        listRides(eventCode).then(d => {setRidesList(d.rides[0].rides)});
+      }, [eventCode])
 
 
     
@@ -100,6 +92,8 @@ function EventDetailsPage() {
         setCanEdit(false);
     }
 
+    //{ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     return (
     <div>
     <Header />
@@ -137,9 +131,7 @@ function EventDetailsPage() {
         </div>
         </div>
     </div>
-
     {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
-
     </div>
 );
 }

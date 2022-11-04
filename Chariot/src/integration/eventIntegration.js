@@ -28,6 +28,17 @@ async function retrieveEventInfo(eventCode){
     }
 }
 
+async function listRides(eventCode){
+    try{
+        console.log(`try to display rides ${eventCode}`);
+        let queues;
+        await fetch('https://chariot.augustabt.com/api/getRideQueues', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => queues = d.queues);
+        console.log(queues);
+        return {status: "success", rides: queues};
+    } catch(e){
+        return {status: "failed", rides: null};
+    }
+}
 
 async function listEvents(){
     try{
@@ -108,4 +119,4 @@ async function requestRide(eventCode, originLat, originLng, destLat, destLng, ri
     await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})});
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide};
+export {createEvent, retrieveEventInfo, listEvents, listRides, updateEvent, endEvent, checkEventCode, requestRide};
