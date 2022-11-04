@@ -47,7 +47,7 @@ function EventDetailsPage() {
 
     async function listRides(){
         try{
-            const pageResult = await client.records.getList('rides', 1, 30, {filter: `event_id = ${eventCode}`, });
+            const pageResult = await client.records.getList('rides', 1, 30, {filter: `event_id = "${eventCode}"`, });
             return {status: "success", events: pageResult.items};
         } catch(e){
             return {status: "failed", events: null};
