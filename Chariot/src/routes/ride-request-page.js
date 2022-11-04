@@ -10,6 +10,7 @@ import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { requestRide } from '../integration/eventIntegration';
+import { sendImage } from '../integration/eventIntegration';
 
 function RideRequestPage() {
     const navigate = useNavigate();
@@ -28,6 +29,10 @@ function RideRequestPage() {
     }
 
 
+    const [image, setImage]= useState();
+    const handleImageChange = (event) => {
+        setImage(event.target.files[0]);
+    }
 
     const params = useParams();
     const eventCode = params.eventCode;
@@ -48,7 +53,7 @@ function RideRequestPage() {
     let rideId;
     const sendRide = async () => {
         rideId = await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
-        //navigate('../rider-eta-page');
+        sendImage(rideId, image);
     }
 
     const editPickup = () => {
@@ -100,7 +105,6 @@ function RideRequestPage() {
     const toggleDraggable = useCallback(() => {
         setDraggable((d) => !d)
     }, []);
-
 
 
     if (verifiedCode) {
@@ -176,7 +180,7 @@ function RideRequestPage() {
 
                     <div>
                         <p><strong>OPTIONAL: </strong>You may upload a photo of yourself/group to allow your driver to better recognize you and speed up the pickup process</p>
-                        <label>Upload Photo: </label><input type="file" accept="image/*"></input>
+                        <label>Upload Photo: </label><input type="file" accept="image/*" onChange={handleImageChange}></input>
                     </div>
 
                     <br></br>

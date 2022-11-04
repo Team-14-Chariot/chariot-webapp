@@ -128,5 +128,14 @@ async function updateDropoff(rideId, destLat, destLng) {
     });
 }
 
+async function sendImage(rideId, image) {
+    const formData = new FormData();
+    console.log(image);
+    formData.append('ride_id', rideId);
+    formData.append('picture', image);
+    
+    const record = await client.records.create('pictures', formData);
+}
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff};
+
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage};
