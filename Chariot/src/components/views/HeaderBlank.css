@@ -15,7 +15,11 @@
     flex: 11;
     text-align: center;
     font: 80px Kadwa;
-    height: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .chariotLogoContainer {
     flex: 1;

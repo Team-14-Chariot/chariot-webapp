@@ -12,7 +12,7 @@
     width: 1000px;
     background-color: rgb(0, 127, 255);
     border-radius: 20px;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-bottom: 30px;
     padding-left: 25px;
     padding-right: 25px;
@@ -54,7 +54,7 @@
 }
 .eventDetailsRiderLink{
     font-family: Kadwa;
-    font-size: 28px;
+    font-size: 22px;
     color: black;
 }
 .eventDetailsAddress{

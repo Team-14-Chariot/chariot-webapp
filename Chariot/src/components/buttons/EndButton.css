@@ -1,8 +1,8 @@
 .end-button{
     border: none;
     border-radius: 5px;
-    color: white;
-    background: rgb(0, 127, 255);
+    background-color: white;
+    color: rgb(0, 127, 255);
     width: fit-content;
     text-transform: uppercase;
     font-weight: bold;
