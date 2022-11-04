@@ -1,6 +1,6 @@
 import './ride-request-page.css';
 import HeaderBlank from '../components/views/HeaderBlank';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { checkEventCode } from '../integration/eventIntegration';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -12,7 +12,7 @@ import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
 import { requestRide, retrieveEventInfo } from '../integration/eventIntegration';
 
 function RideRequestPage() {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [info, setInfo] = useState({
         riderName: "",
@@ -54,10 +54,20 @@ function RideRequestPage() {
         check();
     }, [eventCode, verifiedCode])
 
+    let rideId;
     const sendRide = async () => {
-        await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize, info.riderImage);
+        rideId = await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
         //navigate('../rider-eta-page');
     }
+
+    const editPickup = () => {
+        navigate(`../edit-pickup/${eventCode}/${rideId}`);
+    }
+
+    const editDropoff = () => {
+        navigate(`../edit-dropoff/${eventCode}/${rideId}`);
+    }
+
 
     const start_center = { lat: 40.423730, lng: -86.910890 }
     const end_center = { lat: 40.423730, lng: -86.910890 + 0.0005 }
@@ -118,7 +128,7 @@ function RideRequestPage() {
             <div>
                 <HeaderBlank></HeaderBlank>
 
-                <div className='event_code'><strong>Event Code:</strong> {eventCode}</div>
+                <p>Event Code: {eventCode} </p>
 
                 <center>
                     <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>
@@ -192,6 +202,19 @@ function RideRequestPage() {
                     <br></br>
 
                     <GenericSubmitButton onClickFunction={sendRide} />
+                    
+                    <br></br>
+
+                    <br></br>
+                    
+                    <h4>After pressing submit, if you would like to edit your pickup and dropoff locations, use the corresponding buttons below</h4>
+
+                    <br></br>
+
+                    <button onClick={editPickup}>Edit Pickup Location</button>
+                                        
+                    <button onClick={editDropoff}>Edit Dropoff Location</button>
+                    
 
                     <br></br>
 
