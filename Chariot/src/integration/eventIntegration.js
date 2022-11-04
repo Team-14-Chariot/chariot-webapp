@@ -33,8 +33,7 @@ async function retrieveEventInfo(eventCode){
 
 async function listEvents(){
     try{
-        const pageResult = await client.records.getList('events', 1, 10);
-        console.log("iter");
+        const pageResult = await client.records.getList('events', 1, 10, {sort: '-created', });
         return {status: "success", events: pageResult.items};
     } catch(e){
         return {status: "failed", events: null};
@@ -111,13 +110,14 @@ function generateRecordId(userEmail, eventName){
     return tempHash;
 }
 
-async function requestRide(eventCode, originLat, originLng, destLat, destLng, riderName, groupSize){
+async function requestRide(eventCode, originLat, originLng, destLat, destLng, riderName, groupSize, riderImage){
     const newOriginLat = "" + originLat;
     const newOriginLng = "" + originLng;
     const newDestLat = "" + destLat;
     const newDestLng = "" + destLng;
     const newGroupSize = parseInt(groupSize);
-    await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})});
+    const rideID = await fetch('https://chariot.augustabt.com/api/requestRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: newOriginLat, origin_longitude: newOriginLng, dest_latitude: newDestLat, dest_longitude: newDestLng, rider_name: riderName, group_size: newGroupSize})});
+    console.log(rideID);
 }
 
 export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide};
