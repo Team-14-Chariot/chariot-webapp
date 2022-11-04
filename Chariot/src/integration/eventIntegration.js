@@ -15,7 +15,7 @@ async function retrieveEventInfo(eventCode){
     try {
         let eventDetails;
         await fetch('https://chariot.augustabt.com/api/getEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDetails = data);
-        console.log(eventDetails);
+        
         //const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
         const addressArray = eventDetails.address.split(', ');
         const stateZipArray = addressArray[2].split(' ');
