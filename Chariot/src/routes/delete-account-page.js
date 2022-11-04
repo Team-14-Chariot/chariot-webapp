@@ -38,24 +38,22 @@ function DeleteAccountPage() {
             if(submitted && correctPassword){
                 //have to delete all events
                 //filter the events by owner 
-                const eventsToDelete = await client.records.getList('events', 1, 100, {filter: `owner = ${thisUser.getUserId()}`});
+                const eventsToDelete = await client.records.getList('events', 1, 100, {filter: `owner = "${thisUser.getUserId()}"`});
+                const items = eventsToDelete.items;
                 //go through list and delete every event
-                for(var items in eventsToDelete){
-                    if (items.owner === thisUser.getUserId()){
-
-                    await client.records.delete('events', items.id);
-                    }
+                //console.log(eventsToDelete);
+                for (let i = 0; i < items.length; i++) {
+                    console.log(items[i].id);
+                    await client.records.delete('events', items[i].id);
                 }
                 // finally delete the actual user
-                const del = await client.users.delete(thisUser.getUserId());
-                console.log(del);
-                if (del.status === 'success') {
+                try{
+                    await client.users.delete(thisUser.getUserId());
                     thisUser.setSignedIn(false);
                     thisUser.setUserEmail(null);
                     thisUser.setUserId(null);
                     navigate("/");
-                } else {
-                    console.log("didn't delete");
+                } catch (e) {
                     return;
                 }
             }
