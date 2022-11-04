@@ -9,8 +9,7 @@ import red_map_marker from '../components/images/red_map_marker.png'
 import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { requestRide } from '../integration/eventIntegration';
-import { sendImage } from '../integration/eventIntegration';
+import { requestRide, retrieveEventInfo, sendImage } from '../integration/eventIntegration';
 
 function RideRequestPage() {
     const navigate = useNavigate();
@@ -37,6 +36,9 @@ function RideRequestPage() {
     const params = useParams();
     const eventCode = params.eventCode;
     const [verifiedCode, setVerifiedCode] = useState(false);
+    const [passwordProtected, setPasswordProtected] = useState(false);
+    const [passwordKey, setPasswordKey] = useState(null);
+    const [passwordField, setPasswordField] = useState("");
     useEffect(() => {
         async function check() {
             if (!verifiedCode) {
@@ -44,6 +46,12 @@ function RideRequestPage() {
                 console.log(res);
                 if (res.status === "success") {
                     setVerifiedCode(true);
+                }
+                const res2 = await retrieveEventInfo(eventCode);
+                console.log(res2.info.ridePassword === "");
+                if(res2.info.ridePassword !== "" && res2.info.ridePassword !== undefined){
+                    setPasswordKey(res2.info.ridePassword);
+                    setPasswordProtected(true);
                 }
             }
         }
@@ -71,6 +79,16 @@ function RideRequestPage() {
     const [startPosition, setStartPosition] = useState(start_center);
     const [endPosition, setEndPosition] = useState(end_center);
     const ZOOM_LEVEL = 17;
+
+    const handlePasswordChange = (event) => {
+        setPasswordField(event.target.value);
+    }
+
+    const handlePasswordCheck = () => {
+        if(passwordField === passwordKey){
+            setPasswordProtected(false);
+        }
+    }
 
 
     const startRef = useRef(null);
@@ -108,6 +126,7 @@ function RideRequestPage() {
 
 
     if (verifiedCode) {
+        if (!passwordProtected){
         return (
             <div>
                 <HeaderBlank></HeaderBlank>
@@ -205,6 +224,20 @@ function RideRequestPage() {
                 </center>
             </div>
         );
+        }
+        else {
+            return (
+                <div>
+                <HeaderBlank></HeaderBlank>
+                <center>
+                    <h1>This link is password protected</h1>
+                    <h2>Please enter the password below: </h2>
+                    <input onChange={handlePasswordChange}></input>
+                    <GenericSubmitButton onClickFunction={handlePasswordCheck} />
+                </center>
+            </div>
+            )
+        }
     }
     else {
         return (
