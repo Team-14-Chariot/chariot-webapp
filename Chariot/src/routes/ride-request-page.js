@@ -60,7 +60,8 @@ function RideRequestPage() {
 
     let rideId;
     const sendRide = async () => {
-        await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize).then(res => {return res.json()}).then(data => rideId = data);
+        rideId = await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
+        console.log(rideId);
         sendImage(rideId, image);
     }
 
