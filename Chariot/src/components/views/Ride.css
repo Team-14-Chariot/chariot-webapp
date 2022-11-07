@@ -5,6 +5,7 @@
     box-sizing: border-box;
     width: 1000px;
     display: flex;
+    margin-top:100px;
     flex-direction: row;
     border-radius: 10px;
 }
@@ -16,6 +17,7 @@
     box-sizing: border-box;
     width: 1000px;
     display: flex;
+    margin-top:100px;
     flex-direction: row;
     border-radius: 10px;
 }

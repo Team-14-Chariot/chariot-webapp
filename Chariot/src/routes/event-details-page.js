@@ -3,8 +3,8 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent, listRides} from '../integration/eventIntegration';
-import {thisUser} from '../index';
+import {retrieveEventInfo, updateEvent /*listRides*/} from '../integration/eventIntegration';
+import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
 
 
@@ -47,11 +47,26 @@ function EventDetailsPage() {
 
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         listRides(eventCode).then(d => {setRidesList(d.rides[0].rides)});
-      }, [eventCode])
+      }, [eventCode])*/
 
 
+    useEffect(() => {
+        async function getRides(){
+            try {
+                const result = await client.records.getList('rides', 1, 10, {
+                    filter: `event_id = "${eventCode}"`,
+                });
+                //console.log(result.items);
+                return {status: "success", rides: result.items};
+            } catch (e){
+                return {status: "failed", rides: null};
+            }
+        }
+        getRides().then(res => setRidesList(res.rides));
+        console.log(ridesList);
+    }, [])
     
 
     const handleNameChange = (event) => {
@@ -129,9 +144,10 @@ function EventDetailsPage() {
         <div>
             {canEdit ? <GenericSubmitButton onClickFunction={handleSubmitted}/> : <button className='eventDetailsEditButton' onClick={handleEditPressed}>EDIT</button>}
         </div>
+        {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
         </div>
     </div>
-    {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     </div>
 );
 }
