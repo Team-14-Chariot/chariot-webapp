@@ -1,6 +1,4 @@
 .rider_eta_page_container{
-    display: flex;
-    height: 645px;
-    align-content: center;
-    background-color: rgb(0, 127, 255);;
+    height: 100vh;
+    width: 100vh;
 }
