@@ -2,6 +2,10 @@ import { useState } from 'react';
 import HeaderBlank from '../components/views/HeaderBlank';
 import './rider-eta-page.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { Icon } from 'leaflet';
+import "leaflet/dist/leaflet.css";
 
 
 
@@ -23,7 +27,7 @@ function RiderEtaPage() {
     const eventCode = params.eventCode;
     const rideId = params.rideId;
     const navigate = useNavigate();
-    
+
     const editPickup = () => {
         navigate(`../edit-pickup/${eventCode}/${rideId}`);
     }
@@ -32,23 +36,51 @@ function RiderEtaPage() {
         navigate(`../edit-dropoff/${eventCode}/${rideId}`);
     }
 
+    const driver_loc = { lat: 40.423730, lng: -86.910890 };
+    const ZOOM_LEVEL = 17;
+
 
     return (
         <div>
             <HeaderBlank></HeaderBlank>
-            <center>
+            
                 <div className="rider_eta_page_container">
+
+                    <div className="edit_location_container" align="right">
+                        <button onClick={editPickup}>Edit Pickup Location</button>
+
+                        <button onClick={editDropoff}>Edit Dropoff Location</button>
+                    
+                    </div>
+
+                    <br></br>
+
+                    <center>
+
                     <h1>Your location has been sent!</h1>
                     <h2>Your driver will be here in: {ETA}</h2>
 
-                    <br></br>
-                    
-                    
+
+
+                    <MapContainer center={driver_loc} zoom={ZOOM_LEVEL}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker
+                            id="driver_marker"
+                            position={driver_loc}
+                            icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
+                            <Popup minWidth={90}>
+                                Your driver's current location
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
 
                     <br></br>
+
+                    </center>
                 </div>
-
-            </center>
         </div>
     );
 }
