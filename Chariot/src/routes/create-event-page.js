@@ -18,7 +18,8 @@ function CreateEventPage() {
         state: "",
         zip: "",
         radius: "",
-        riderPassword: ""
+        riderPassword: "",
+        driverPassword: ""
     })
 
     
@@ -39,9 +40,6 @@ function CreateEventPage() {
     const handleStateChange = (event) => {
         setInfo({...info, state: event})
         console.log(event);
-        //console.log(info.state);
-        //console.log(newValue);
-        //this.setNewValue;
     }
 
     const handleZipChange = (event) => {
@@ -56,10 +54,14 @@ function CreateEventPage() {
         setInfo({...info, riderPassword: event.target.value})
     }
 
+    const handleDriverPasswordChange = (event) => {
+        setInfo({...info, driverPassword: event.target.value})
+    }
+
     const handleSubmitted = async (event) => {
         event.preventDefault();
         console.log(thisUser.getUserId());
-        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, info.riderPassword, thisUser.getUserId());
+        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, info.riderPassword, info.driverPassword, thisUser.getUserId());
         if(res.status !== "success"){
             return;
         }
@@ -87,6 +89,8 @@ function CreateEventPage() {
             <input onChange={handleRadiusChange} type="text" name="radius" value={info.radius}></input>  MILES<br></br>
             <label>RIDER PASSWORD &#40;optional&#41;: </label>
             <input onChange={handleRiderPasswordChange} type="text" value={info.riderPassword}></input>
+            <label>DRIVER PASSWORD &#40;optional&#41;: </label>
+            <input onChange={handleDriverPasswordChange} type="text" value={info.driverPassword}></input>
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>

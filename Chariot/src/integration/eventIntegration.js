@@ -1,10 +1,10 @@
 import {client} from '../index';
 
-async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, ownerId){
+async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, eventDriverPassword, ownerId){
     try {
         const fullAddr = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZipCode;
         const recordId = generateRecordId(userEmail, eventName);
-        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword});
+        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword, driver_password: eventDriverPassword});
         return {status: "success", record: response};
     } catch (e) {
         return {status: "failed", record: e};
