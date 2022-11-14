@@ -52,11 +52,11 @@ async function checkEventCode(eventCode){
     }
 }
 
-async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword){
+async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword, newDriverPassword){
     try{
         const newFullAddr = "" + newAddressLine + ", " + newCity + ", " + newState + " " + newZip;
         const newNewRadius = parseInt(newRadius);
-        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword})});
+        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword, driver_password: newDriverPassword})});
         if(res.status === 200){
             return{status: "success"};
         }

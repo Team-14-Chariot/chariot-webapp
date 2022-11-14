@@ -77,7 +77,7 @@ function CreateEventPage() {
         } else {
             setCorrectEventAddr(false);
         }
-        if(/^[a-zA-Z]+$/.test(info.city)){
+        if(/^([a-zA-Z]+)(\s|-|[a-zA-Z])+$/.test(info.city)){
             setCorrectEventCity(true);
         } else {
             setCorrectEventCity(false);
