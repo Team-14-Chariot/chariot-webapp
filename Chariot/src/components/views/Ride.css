@@ -17,7 +17,65 @@
     box-sizing: border-box;
     width: 1000px;
     display: flex;
-    margin-top:100px;
     flex-direction: row;
     border-radius: 10px;
+    align-items: center;
+}
+
+.event_body_container{
+    width: 95%;
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.ride_name{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+
+.ride_name_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
+}
+
+.ride_eta{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+
+.ride_eta_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
+}
+
+.ride_size{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+
+.ride_size_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
 }
