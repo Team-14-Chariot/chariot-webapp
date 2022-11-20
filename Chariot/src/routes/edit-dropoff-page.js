@@ -47,7 +47,7 @@ function EditDropoffPage() {
 
     const navigate = useNavigate();
     const cancel = () => {
-        navigate(`../ride-request/${eventCode}`);
+        navigate(`../rider-eta-page/${eventCode}:${rideId}`);
     }
 
     return(
@@ -56,7 +56,7 @@ function EditDropoffPage() {
 
             <br></br>
 
-            <button onClick={cancel}>Cancel</button>
+            <button onClick={cancel}>Back</button>
 
             <center>
                     <h1>EDIT DROPOFF LOCATION</h1>

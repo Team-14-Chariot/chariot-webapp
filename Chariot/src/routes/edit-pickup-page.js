@@ -46,7 +46,7 @@ function EditPickupPage() {
 
     const navigate = useNavigate();
     const cancel = () => {
-        navigate(`../ride-request/${eventCode}`);
+        navigate(`../rider-eta-page/${eventCode}:${rideId}`);
     }
 
     return(
@@ -55,7 +55,7 @@ function EditPickupPage() {
 
             <br></br>
 
-            <button onClick={cancel}>Cancel</button>
+            <button onClick={cancel}>Back</button>
             
 
             <center>
