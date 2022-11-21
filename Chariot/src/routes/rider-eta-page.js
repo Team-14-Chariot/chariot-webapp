@@ -11,6 +11,7 @@ import "leaflet/dist/leaflet.css";
 
 function RiderEtaPage() {
 
+    const [hasDriver, setHasDriver] = useState(false);
 
     const [ETA, setETA] = useState("calculating...");
 
@@ -43,24 +44,25 @@ function RiderEtaPage() {
     return (
         <div>
             <HeaderBlank></HeaderBlank>
-            
-                <div className="rider_eta_page_container">
 
-                    <div className="edit_location_container" align="right">
-                        <button onClick={editPickup}>Edit Pickup Location</button>
+            <div className="rider_eta_page_container">
 
-                        <button onClick={editDropoff}>Edit Dropoff Location</button>
-                    
-                    </div>
+                <div className="edit_location_container" align="right">
 
-                    <br></br>
+                    <button onClick={editPickup}>Edit Pickup Location</button>
 
-                    <center>
+                    <button onClick={editDropoff}>Edit Dropoff Location</button>
 
-                    <h1>Your location has been sent!</h1>
-                    <h2>Your driver will be here in: {ETA}</h2>
+                </div>
 
+                <center>
 
+                <h1>Your location has been sent!</h1>
+                <h2>Your driver will be here in: {ETA}</h2>
+
+                <br></br>
+
+                    <h3>Your driver's current location: </h3>
 
                     <MapContainer center={driver_loc} zoom={ZOOM_LEVEL}>
                         <TileLayer
@@ -79,8 +81,8 @@ function RiderEtaPage() {
 
                     <br></br>
 
-                    </center>
-                </div>
+                </center>
+            </div>
         </div>
     );
 }

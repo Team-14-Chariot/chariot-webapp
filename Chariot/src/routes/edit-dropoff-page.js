@@ -1,12 +1,13 @@
 import HeaderBlank from '../components/views/HeaderBlank';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { useState, useRef, useMemo, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import {updateDropoff} from '../integration/eventIntegration';
+import { updateDropoff } from '../integration/eventIntegration';
+import './edit-location-page.css';
 
 
 function EditDropoffPage() {
@@ -15,6 +16,7 @@ function EditDropoffPage() {
     const eventCode = params.eventCode;
     const rideId = params.rideId;
 
+    const [submitted, setSubmitted] = useState(false);
 
     const start_center = { lat: 40.423730, lng: -86.910890 };
     const [draggable, setDraggable] = useState(false);
@@ -42,15 +44,16 @@ function EditDropoffPage() {
 
     const sendUpdatedRide = async () => {
         console.log("clicked submit");
+        setSubmitted(true);
         await updateDropoff(rideId, startPosition.lat, startPosition.lng);
     }
 
     const navigate = useNavigate();
     const cancel = () => {
-        navigate(`../rider-eta-page/${eventCode}:${rideId}`);
+        navigate(`../rider-eta-page/${eventCode}/${rideId}`);
     }
 
-    return(
+    return (
         <div>
             <HeaderBlank></HeaderBlank>
 
@@ -59,39 +62,46 @@ function EditDropoffPage() {
             <button onClick={cancel}>Back</button>
 
             <center>
-                    <h1>EDIT DROPOFF LOCATION</h1>
-                    <p>The marker below is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to update your dropoff location.</p>
+                <h1>EDIT DROPOFF LOCATION</h1>
+                <p>The marker below is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to update your dropoff location.</p>
 
-                    <br></br>
+                <br></br>
 
-                    <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker
-                            id="start_marker"
-                            draggable={draggable}
-                            eventHandlers={eventHandlers}
-                            position={startPosition}
-                            ref={startRef}
-                            icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
-                            <Popup minWidth={90}>
-                                <span onClick={toggleDraggable}>
-                                    {draggable
-                                        ? 'Drag the marker to the dropoff location'
-                                        : 'Click here to make the dropoff marker draggable'}
-                                </span>
-                            </Popup>
-                        </Marker>
-                    
-                    </MapContainer>
+                <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker
+                        id="start_marker"
+                        draggable={draggable}
+                        eventHandlers={eventHandlers}
+                        position={startPosition}
+                        ref={startRef}
+                        icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
+                        <Popup minWidth={90}>
+                            <span onClick={toggleDraggable}>
+                                {draggable
+                                    ? 'Drag the marker to the dropoff location'
+                                    : 'Click here to make the dropoff marker draggable'}
+                            </span>
+                        </Popup>
+                    </Marker>
 
-                    <br></br>
+                </MapContainer>
 
-                    <GenericSubmitButton onClickFunction={sendUpdatedRide}></GenericSubmitButton>
+                <br></br>
 
-                    <br></br>
+                <GenericSubmitButton onClickFunction={sendUpdatedRide}></GenericSubmitButton>
+                {submitted ?
+                    <div>
+                        <div className='confirmation-signal'>
+                            Submitted!
+                        </div>
+                        <div>Press the button in the top lefthand corner to return back to the ETA page</div>
+                    </div> : null}
+
+                <br></br>
             </center>
         </div>
     )

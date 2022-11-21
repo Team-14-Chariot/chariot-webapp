@@ -1,0 +1,14 @@
+.leaflet-container {
+    height: 76vh;
+    width: 76vw;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+}
+
+.confirmation-signal {
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    font-size: 120%;
+    font-weight: bold;
+}

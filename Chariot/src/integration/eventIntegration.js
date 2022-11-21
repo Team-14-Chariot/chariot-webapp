@@ -149,5 +149,15 @@ async function sendImage(rideId, image) {
     const record = await client.records.create('pictures', formData);
 }
 
+async function retrieveDriverInfo(rideId) {
+    try {
+        const driverId = await client.records.getOne('rides', rideId).driver_id;
+        
+        return 
+    } catch (e) {
+        return {status: "failed", info: null};
+    }
+    
+}
 
 export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage};

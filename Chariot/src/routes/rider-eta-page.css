@@ -4,8 +4,12 @@
 }
 
 .edit_location_container {
+    margin-top: 1%;
+    margin-right: 2%;
+}
+
+.edit_loc_button {
     margin-right: 1%;
-    margin-top: 1%
 }
 
 .leaflet-container {
