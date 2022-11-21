@@ -1,21 +1,13 @@
 import './Event.css';
 import EndButton from '../buttons/EndButton';
-import ViewDriversButton from '../buttons/ViewDriversButton';
-import {endEvent} from '../../integration/eventIntegration';
 
 
-
-function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides, handleClicked){
+function Driver(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides, handleClicked){
     
 
     const handleEnded = async (event) => {
         event.preventDefault();
         await endEvent(eventCode);
-    }
-
-    const handleDrivers = async (event) => {
-        event.preventDefault();
-        navigate(`../event-drivers/${eventCode}`);
     }
 
 
@@ -27,9 +19,6 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
             </div>
             <div className='event_end_button'>
                 {eventAcceptingRides ? <EndButton onClickFunction={handleEnded}/> : null}
-            </div>
-            <div classname='view_drivers_button'>
-                <ViewDriversButton onClickFunction={handleDrivers}/>
             </div>
             <div className='event_code'>
                 {eventCode}
@@ -49,4 +38,4 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
     </div>
     )
 }
-export default Event;
+export default Driver;
