@@ -38,6 +38,15 @@ async function listEvents(){
     }
 }
 
+async function listDrivers(eventcode){
+    try{
+        const driveResult = await client.records.getList('events', 1, 100, {filter: `event_id = "${eventcode}"`});
+        return {status: "success", drivers: driveResult.items};
+    } catch(e){
+        return {status: "failed", events: null};
+    }
+}
+
 async function checkEventCode(eventCode){
     try{
         const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
@@ -60,6 +69,15 @@ async function endEvent(eventCode){
         console.log(eventCode);
         await fetch('https://chariot.augustabt.com/api/endEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
         return {status: "success"};
+    } catch (e) {
+        return {status: "failed", record: e}
+    }
+}
+
+async function removeDriver(driverId){
+    try {
+        console.log(driverId);
+        await client.records.delete('driver', `${driverId}`);
     } catch (e) {
         return {status: "failed", record: e}
     }

@@ -1,25 +1,20 @@
 import './event-drivers-page.css';
 import {useEffect, useState} from 'react';
 import Header from '../components/views/Header';
-import NewEventButton from '../components/buttons/NewEventButton';
-import Event from '../components/views/Event';
-import {listEvents} from '../integration/eventIntegration';
-import {thisUser} from '../index';
+import Driver from '../components/views/Driver';
+import listDrivers from '../integration/eventIntegration'
 import {useNavigate} from 'react-router-dom';
 
 
 
 function EventDriversPage() {
   const navigate = useNavigate();
+  const eventCode = params.eventCode;
   const [driverList, setDriverList] = useState([]);  
 
   useEffect(() => {
-    //listEvents(thisUser.getUserEmail()).then(d => {setEventList(d.events)});
+    listDrivers(eventCode).then(d => {setDriverList(d.drivers)});
   }, [])
-
-  const handleClicked = (eventCode) => {
-    //navigate(`../event-details/${eventCode}`);
-}
 
 return (
   <body>

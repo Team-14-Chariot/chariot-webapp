@@ -1,0 +1,91 @@
+.driverContainer {
+    margin: 10px;
+    background: rgba(48, 134, 221, 1);
+    height: 150px;
+    padding-top: 12px;
+    box-sizing: border-box;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.noDriverContainer{
+    margin: 10px;
+    background: rgb(116, 170, 223);
+    height: 150px;
+    padding-top: 12px;
+    box-sizing: border-box;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.driver_header_container{
+    width: 95%;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.driver_body_container{
+    width: 95%;
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.driver_name{
+    width: 70%;
+    font-family: "Kadwa";
+    font-weight:700;
+    font-size: 35px;
+    color: white;
+    text-align: left;
+}
+.event_code{
+    margin-left: auto;
+    font-family: "Kadwa";
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+    text-align: right;
+}
+.car_description{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+.car_description_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
+}
+.car_capacity{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 24px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+.car_capactiy_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 22px;
+    text-align: left;
+    overflow: hidden;
+}
+.driver_end_button{
+    width: fit-content;
+    margin-left: 10px;
+    margin-right: 10px;
+}
