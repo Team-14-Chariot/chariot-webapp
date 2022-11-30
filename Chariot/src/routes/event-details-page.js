@@ -67,8 +67,7 @@ function EventDetailsPage() {
             }
         }
         getRides().then(res => setRidesList(res.rides));
-        console.log(ridesList);
-    }, [])
+    }, [eventCode])
     
 
     const handleNameChange = (event) => {
@@ -155,8 +154,9 @@ function EventDetailsPage() {
         <div>
             {canEdit ? <GenericSubmitButton onClickFunction={handleSubmitted}/> : <button className='eventDetailsEditButton' onClick={handleEditPressed}>EDIT</button>}
         </div>
-        {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
         </div>
+    {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     </div> : null}
     </div>
 );

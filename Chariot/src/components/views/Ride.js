@@ -21,7 +21,7 @@ function Ride(riderName, needRide, inRide, eta, groupSize){
             <div className='ride_eta_info'>
                 {eta}
             </div>
-            <div className='rider_size'>
+            <div className='ride_size'>
                 groupSize:
             </div>
             <div className='ride_size_info'> 

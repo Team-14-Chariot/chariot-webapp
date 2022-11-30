@@ -3,6 +3,9 @@
     height: 100%;
     width: 100%;
     justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
     padding-top: 70px;
 }
 .eventDetailsBubble{
@@ -86,7 +89,7 @@
     }
 
     .rideList{
-        margin-top: 30px;
+        padding: 10px 20px 10px 20px;
         width: 1000px;
         align-self: center;
     }

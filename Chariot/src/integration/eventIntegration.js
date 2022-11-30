@@ -162,4 +162,4 @@ async function sendImage(rideId, image) {
 }
 
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage};
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};
