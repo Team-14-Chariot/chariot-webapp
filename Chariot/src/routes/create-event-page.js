@@ -17,7 +17,8 @@ function CreateEventPage() {
         city: "",
         state: "",
         zip: "",
-        radius: ""
+        radius: "",
+        riderPassword: ""
     })
 
     
@@ -51,10 +52,14 @@ function CreateEventPage() {
         setInfo({...info, radius: event.target.value})
     }
 
+    const handleRiderPasswordChange = (event) => {
+        setInfo({...info, riderPassword: event.target.value})
+    }
+
     const handleSubmitted = async (event) => {
         event.preventDefault();
         console.log(thisUser.getUserId());
-        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, thisUser.getUserId());
+        const res = await createEvent(thisUser.getUserEmail, info.name, info.address, info.city, info.state, info.zip, info.radius, info.riderPassword, thisUser.getUserId());
         if(res.status !== "success"){
             return;
         }
@@ -79,7 +84,9 @@ function CreateEventPage() {
             <label>ZIP CODE: </label>
             <input onChange={handleZipChange} type="text" name="zip" value={info.zip}></input><br></br>
             <label>MAX PICKUP RADIUS: </label>
-            <input onChange={handleRadiusChange} type="text" name="radius" value={info.radius}></input>  MILES
+            <input onChange={handleRadiusChange} type="text" name="radius" value={info.radius}></input>  MILES<br></br>
+            <label>RIDER PASSWORD &#40;optional&#41;: </label>
+            <input onChange={handleRiderPasswordChange} type="text" value={info.riderPassword}></input>
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>

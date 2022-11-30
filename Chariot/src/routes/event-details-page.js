@@ -26,18 +26,20 @@ function EventDetailsPage() {
         city: "",
         state: "",
         zip: "",
-        radius: ""
+        radius: "",
+        riderPassword: ""
     })
 
     useEffect(() => {
         async function check(){
             if(!canAccess){
-                if(thisUser.getUserEmail() !== ""){
+                console.log(thisUser.getUserEmail());
+                if(thisUser.getUserEmail() !== "" && thisUser.getUserEmail() !== undefined){
                     setCanAccess(true);
                     const res = await retrieveEventInfo(eventCode);
                     if(res.status === "success"){
                         setInfo({eventCode: eventCode, riderLink: `localhost:3000/ride-request/${eventCode}`});
-                        setEditableInfo({name: res.info.event_name, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.ride_max_radius});
+                        setEditableInfo({name: res.info.eventName, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.maxRadius, riderPassword: res.info.ridePassword});
                     }
                 }
             }
@@ -93,6 +95,10 @@ function EventDetailsPage() {
         setEditableInfo({...editableInfo, radius: event.target.value})
     }
 
+    const handleRiderPasswordChange = (event) => {
+        setEditableInfo({...editableInfo, riderPassword: event.target.value})
+    }
+
     const handleEditPressed = async (event) => {
         event.preventDefault();
         setCanEdit(true);
@@ -100,7 +106,7 @@ function EventDetailsPage() {
 
     const handleSubmitted = async (event) => {
         event.preventDefault();
-        const res = await updateEvent(info.eventCode, editableInfo.name, editableInfo.address, editableInfo.city, editableInfo.state, editableInfo.zip, editableInfo.radius);
+        const res = await updateEvent(info.eventCode, editableInfo.name, editableInfo.address, editableInfo.city, editableInfo.state, editableInfo.zip, editableInfo.radius, editableInfo.riderPassword);
         if(res.status !== "success"){
             return;
         }
@@ -112,6 +118,7 @@ function EventDetailsPage() {
     return (
     <div>
     <Header />
+    {canAccess ?
     <div className='backgroundEventDetailsContainer'>
         <div className='eventDetailsBubble'>
         <div className='eventDetailsTitle'>
@@ -132,9 +139,13 @@ function EventDetailsPage() {
                 {canEdit ? <text><br></br>&nbsp;&nbsp;&nbsp;&nbsp;<input onChange={handleCityChange} defaultValue={editableInfo.city}></input>,</text> : <text className='eventDetailsAddressInfo'><br></br>&nbsp;&nbsp;&nbsp;&nbsp;{editableInfo.city},</text>}
                 {canEdit ? <text><br></br>&nbsp;&nbsp;&nbsp;&nbsp;<input onChange={handleStateChange} defaultValue={editableInfo.state}></input></text> : <text className='eventDetailsAddressInfo'><br></br>&nbsp;&nbsp;&nbsp;&nbsp;{editableInfo.state}</text>}
                 {canEdit ? <text><br></br>&nbsp;&nbsp;&nbsp;&nbsp;<input onChange={handleZipChange} defaultValue={editableInfo.zip}></input></text> : <text className='eventDetailsAddressInfo'><br></br>&nbsp;&nbsp;&nbsp;&nbsp;{editableInfo.zip}</text>}
+                
 
                 <br></br><br></br>
                 <text className='eventDetailsAddress'><b>MAX RIDE RADIUS:</b> </text> {canEdit ? <text> <input onChange={handleRadiusChange} defaultValue={editableInfo.radius}></input> miles</text> : <text className='eventDetailsAddressInfo'> {editableInfo.radius} miles</text>}
+                <br></br>
+                <text className='eventDetailsAddress'><b>RIDER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleRiderPasswordChange} defaultValue={editableInfo.riderPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.riderPassword}</text>}
+
             </div>
             <div className='eventDetailsContentMap'>
                 <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
@@ -146,8 +157,7 @@ function EventDetailsPage() {
         </div>
         {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
         </div>
-    </div>
-
+    </div> : null}
     </div>
 );
 }
