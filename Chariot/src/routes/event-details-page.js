@@ -26,8 +26,9 @@ function EventDetailsPage() {
         city: "",
         state: "",
         zip: "",
-        radius: "",
-        riderPassword: ""
+        radius: 0,
+        riderPassword: "",
+        driverPassword: ""
     })
 
     useEffect(() => {
@@ -39,7 +40,7 @@ function EventDetailsPage() {
                     const res = await retrieveEventInfo(eventCode);
                     if(res.status === "success"){
                         setInfo({eventCode: eventCode, riderLink: `localhost:3000/ride-request/${eventCode}`});
-                        setEditableInfo({name: res.info.eventName, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.maxRadius, riderPassword: res.info.ridePassword});
+                        setEditableInfo({name: res.info.eventName, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.maxRadius, riderPassword: res.info.ridePassword, driverPassword: res.info.driver_password});
                     }
                 }
             }
@@ -98,6 +99,10 @@ function EventDetailsPage() {
         setEditableInfo({...editableInfo, riderPassword: event.target.value})
     }
 
+    const handleDriverPasswordChange = (event) => {
+        setEditableInfo({...editableInfo, driverPassword: event.target.value})
+    }
+
     const handleEditPressed = async (event) => {
         event.preventDefault();
         setCanEdit(true);
@@ -105,7 +110,7 @@ function EventDetailsPage() {
 
     const handleSubmitted = async (event) => {
         event.preventDefault();
-        const res = await updateEvent(info.eventCode, editableInfo.name, editableInfo.address, editableInfo.city, editableInfo.state, editableInfo.zip, editableInfo.radius, editableInfo.riderPassword);
+        const res = await updateEvent(info.eventCode, editableInfo.name, editableInfo.address, editableInfo.city, editableInfo.state, editableInfo.zip, editableInfo.radius, editableInfo.riderPassword, editableInfo.driverPassword);
         if(res.status !== "success"){
             return;
         }
@@ -130,7 +135,7 @@ function EventDetailsPage() {
         </div>
         <div className='eventDetailsContent'>
             <div className='eventDetailsContentText'>
-                <br></br>
+                
                 <text className='eventDetailsAddress'><b>ADDRESS:</b></text>
                 <br></br>
 
@@ -141,9 +146,11 @@ function EventDetailsPage() {
                 
 
                 <br></br><br></br>
-                <text className='eventDetailsAddress'><b>MAX RIDE RADIUS:</b> </text> {canEdit ? <text> <input onChange={handleRadiusChange} defaultValue={editableInfo.radius}></input> miles</text> : <text className='eventDetailsAddressInfo'> {editableInfo.radius} miles</text>}
+                <text className='eventDetailsAddress'><b>MAX RIDE RADIUS:</b> </text> {canEdit ? <text> <input onChange={handleRadiusChange} type="number" defaultValue={editableInfo.radius}></input> miles</text> : <text className='eventDetailsAddressInfo'> {editableInfo.radius} miles</text>}
                 <br></br>
                 <text className='eventDetailsAddress'><b>RIDER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleRiderPasswordChange} defaultValue={editableInfo.riderPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.riderPassword}</text>}
+                <br></br>
+                <text className='eventDetailsAddress'><b>DRIVER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleDriverPasswordChange} defaultValue={editableInfo.driverPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.driverPassword}</text>}
 
             </div>
             <div className='eventDetailsContentMap'>
