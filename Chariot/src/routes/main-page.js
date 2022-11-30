@@ -17,6 +17,10 @@ function MainPage() {
     listEvents(thisUser.getUserEmail()).then(d => {setEventList(d.events)});
   }, [])
 
+  const handleDrivers = (eventCode) => {
+    navigate(`../event-drivers/${eventCode}`);
+  }
+
   const handleClicked = (eventCode) => {
     navigate(`../event-details/${eventCode}`);
 }
@@ -26,7 +30,7 @@ return (
       <Header/>
     <div className='main_page_container'>
         <NewEventButton />
-        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides, handleClicked)})}</div> : null}
+        {eventList ? <div className='eventsList'>{eventList.map((element) => {return Event(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides, handleClicked, handleDrivers)})}</div> : null}
     </div>
   </body>
 );

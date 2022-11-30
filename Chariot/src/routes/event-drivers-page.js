@@ -2,25 +2,26 @@ import './event-drivers-page.css';
 import {useEffect, useState} from 'react';
 import Header from '../components/views/Header';
 import Driver from '../components/views/Driver';
-import listDrivers from '../integration/eventIntegration'
-import {useNavigate} from 'react-router-dom';
+import { listDrivers } from '../integration/eventIntegration';
+import {useParams} from 'react-router-dom';
 
 
 
 function EventDriversPage() {
-  const navigate = useNavigate();
+  const params = useParams();
   const eventCode = params.eventCode;
   const [driverList, setDriverList] = useState([]);  
 
   useEffect(() => {
     listDrivers(eventCode).then(d => {setDriverList(d.drivers)});
-  }, [])
+  }, [eventCode])
 
 return (
   <body>
       <Header/>
     <div className='drivers_page_container'>
-        {driverList ? <div className='driverList'>{driverList.map((element) => {return Driver(element.event_name, element.address, element.ride_max_radius, element.event_id, element.accept_rides)})}</div> : null}
+      DRIVERS FOR {eventCode}
+      {driverList ? <div className='driverList'>{driverList.map((element) => {return Driver(element.id, element.name, element.car_capacity, element.car_description, element.event_id, element.active)})}</div> : null}
     </div>
   </body>
 );

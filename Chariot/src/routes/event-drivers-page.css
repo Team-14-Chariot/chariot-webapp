@@ -1,7 +1,10 @@
-.main_page_container{
+.drivers_page_container{
     height: 645px;
     padding-top: 50px;
     display: flex;
+    font-family: "Kadwa";
+    font-size: 40px;
+    font-weight: 400;
     flex-direction: column;
     align-content: center;
     align-items: center;

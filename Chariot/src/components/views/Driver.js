@@ -1,15 +1,25 @@
 import './Event.css';
 import EndButton from '../buttons/EndButton';
+//import { removeDriver } from '../../integration/eventIntegration';
+//import { useNavigate } from 'react-router-dom';
 
 
-function Driver(driverName, carCap, carDescription, eventCode, active){
+function Driver(driverID, driverName, carCap, carDescription, eventCode, active){
+    //const navigate = useNavigate();
     
 
-    const handleEnded = async (driver) => {
+    const handleRemove = (driver) => {
         //remove driver
         driver.preventDefault();
-        await removeDriver(driverName);
+        //navigate('../main-page/');
+        //await removeDriver(driverName);
     }
+
+    /*
+    <div className='driver_end_button'>
+                {!active ? <EndButton onClickFunction={() => handleEnded}/> : null}
+            </div>
+    */
 
 
     return(
@@ -19,7 +29,7 @@ function Driver(driverName, carCap, carDescription, eventCode, active){
                 {driverName}
             </div>
             <div className='driver_end_button'>
-                {!active ? <EndButton onClickFunction={handleEnded}/> : null}
+                {!active ? <EndButton onClickFunction={handleRemove}/> : null}
             </div>
             <div className='event_code'>
                 {eventCode}
