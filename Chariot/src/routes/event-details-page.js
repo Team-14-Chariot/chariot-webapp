@@ -3,8 +3,9 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent} from '../integration/eventIntegration';
-import {thisUser} from '../index';
+import {retrieveEventInfo, updateEvent /*listRides*/} from '../integration/eventIntegration';
+import {thisUser, client} from '../index';
+import Ride from '../components/views/Ride'
 
 
 function EventDetailsPage() {
@@ -12,6 +13,7 @@ function EventDetailsPage() {
     const eventCode = params.eventCode;
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
+    const [ridesList, setRidesList] = useState([]); 
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -54,6 +56,26 @@ function EventDetailsPage() {
     }, [eventCode, canAccess])
 
 
+
+    /*useEffect(() => {
+        listRides(eventCode).then(d => {setRidesList(d.rides[0].rides)});
+      }, [eventCode])*/
+
+
+    useEffect(() => {
+        async function getRides(){
+            try {
+                const result = await client.records.getList('rides', 1, 10, {
+                    filter: `event_id = "${eventCode}"`,
+                });
+                //console.log(result.items);
+                return {status: "success", rides: result.items};
+            } catch (e){
+                return {status: "failed", rides: null};
+            }
+        }
+        getRides().then(res => setRidesList(res.rides));
+    }, [eventCode])
     
 
     const handleNameChange = (event) => {
@@ -102,6 +124,8 @@ function EventDetailsPage() {
         setCanEdit(false);
     }
 
+    //{ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     return (
     <div>
     <Header />
@@ -145,6 +169,8 @@ function EventDetailsPage() {
             {canEdit ? <GenericSubmitButton onClickFunction={handleSubmitted}/> : <button className='eventDetailsEditButton' onClick={handleEditPressed}>EDIT</button>}
         </div>
         </div>
+    {ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
+
     </div> : null}
     </div>
 );
