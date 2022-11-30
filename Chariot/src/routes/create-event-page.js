@@ -28,8 +28,16 @@ function CreateEventPage() {
     const [correctEventCity, setCorrectEventCity] = useState(true);
     const [correctEventZip, setCorrectEventZip] = useState(true);
     const [correctEventRadius, setCorrectEventRadius] = useState(true);
+    const [rerender, setRerender] = useState(0);
 
-    
+
+    useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        setRerender(rerender + 1);
+    }, [rerender]);    
 
 
     const handleNameChange = (event) => {
@@ -111,7 +119,7 @@ function CreateEventPage() {
     }, [info.name, info.address, info.city, info.state, info.zip, info.radius, info.riderPassword, info.driverPassword, navigate, correctEventAddr, correctEventCity, correctEventName, correctEventZip, submitted])
 
     return (
-    <body>
+    <div>
     <Header />
     <div className="create_event_page_container">
         <h1>Register Your Event</h1>
@@ -141,7 +149,7 @@ function CreateEventPage() {
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>
     </div>
-    </body>
+    </div>
 );
 }
 export default CreateEventPage;

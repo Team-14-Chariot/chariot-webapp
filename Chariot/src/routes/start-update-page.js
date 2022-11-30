@@ -15,6 +15,7 @@ function StartUpdatePage() {
 
     const [submitted, setSubmitted] = useState(false);
     const [correctEmailFormat, setCorrectEmailFormat] = useState(true);
+    
 
     //const isValidEmail = (emailToCheck) => {
         //backend call to check if email exists
@@ -34,6 +35,14 @@ function StartUpdatePage() {
         }
         setSubmitted(true);
     }
+    const [rerender, setRerender] = useState(0);
+    useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        setRerender(rerender + 1);
+    }, [rerender]);
 
     useEffect(() => {
         async function attemptEmailChange(){

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import './delete-account-page.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/views/Header';
@@ -60,6 +60,15 @@ function DeleteAccountPage() {
         }
         attemptAccountDeletion();
     }
+
+    const [rerender, setRerender] = useState(0);
+    useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        setRerender(rerender + 1);
+    }, [rerender]);
 
     //useEffect(() => {
         /*async function deleteAccount(){
