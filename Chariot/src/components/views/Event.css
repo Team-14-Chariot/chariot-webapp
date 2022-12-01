@@ -33,17 +33,7 @@
     border-radius: 10px;
 }
 
-.endEventContainer {
-    align-self: center;
-    background: rgb(135, 187, 240);
-    height: 150px;
-    box-sizing: border-box;
-    width: 1000px;
-    display: flex;
-    flex-direction: row;
-    border-radius: 10px;
-    align-items: center;
-}
+
 
 .event_body_container{
     width: 95%;
