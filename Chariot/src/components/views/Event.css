@@ -1,7 +1,7 @@
 .eventContainer {
     margin: 10px;
     background: rgba(48, 134, 221, 1);
-    height: 180px;
+    height: 150px;
     padding-top: 12px;
     box-sizing: border-box;
     width: 95%;
@@ -76,14 +76,6 @@
     margin-left: 10px;
     margin-right: 10px;
 }
-
-.click_to_view_drivers{
-    margin-left: auto;
-    font-family: "Kadwa";
-    font-size: 20px;
-    color: rgba(205, 205, 205, 1);
-}
-
 .event_click_to_view{
     margin-left: auto;
     font-family: "Kadwa";
