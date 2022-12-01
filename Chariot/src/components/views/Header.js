@@ -8,6 +8,7 @@ import DeleteButton from '../buttons/DeleteAccountButton';
 
 const Header = () => {
    const PersonalSignedInText = () => {return SignedInText(thisUser.getUserEmail())};
+   console.log(thisUser.getSignedIn());
 return(
  <div className="headerContainer">
     <img className='chariotLogoContainer' src={chariotLogo} alt='Chariot Logo'></img>

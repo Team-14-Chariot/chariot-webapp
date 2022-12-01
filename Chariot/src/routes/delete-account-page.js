@@ -1,9 +1,9 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import './delete-account-page.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/views/Header';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { client, thisUser } from '../index';
+import { thisUser, client } from '../index';
 import { checkEventOrganizerTupleExists } from '../integration/eventOrganizerIntegration';
 
 function DeleteAccountPage() {
@@ -25,9 +25,9 @@ function DeleteAccountPage() {
         event.preventDefault();
         setSubmitted(true);
         async function attemptAccountDeletion(){
-            const result = await checkEventOrganizerTupleExists(thisUser.getUserEmail(), password.password);
-            console.log(result);
-            if (result.status === "success"){
+            const res = await checkEventOrganizerTupleExists(thisUser.getUserEmail(), password.password);
+            console.log(res);
+            if (res.status === "success"){
                 setCorrectPassword(true);
                 console.log("Checking was correct");
             } else {
@@ -54,6 +54,37 @@ function DeleteAccountPage() {
                     thisUser.setUserId(null);
                     navigate("/");
                 } catch (e) {
+                    return;
+                }
+            }
+        }
+        attemptAccountDeletion();
+    }
+
+    const [rerender, setRerender] = useState(0);
+    useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        setRerender(rerender + 1);
+    }, [rerender]);
+
+    //useEffect(() => {
+        /*async function deleteAccount(){
+            console.log("in function");
+            if(submitted && correctPassword){
+                //have to do it in the backend
+                console.log(thisUser.getUserId());
+                const result = await client.users.delete(thisUser.getUserId());
+                console.log(result);
+                if (result.status === 'success') {
+                    thisUser.setSignedIn(false);
+                    thisUser.setUserEmail(null);
+                    thisUser.setUserId(null);
+                    navigate("/");
+                } else {
+                    console.log("didn't delete");
                     return;
                 }
             }

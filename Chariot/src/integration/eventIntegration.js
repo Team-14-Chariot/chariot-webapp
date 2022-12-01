@@ -1,10 +1,9 @@
 import {client} from '../index';
 
-async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, ownerId){
+async function createEvent(eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, eventDriverPassword, ownerId){
     try {
         const fullAddr = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZipCode;
-        const recordId = generateRecordId(userEmail, eventName);
-        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword});
+        const response = await client.records.create('events', {ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword, driver_password: eventDriverPassword});
         return {status: "success", record: response};
     } catch (e) {
         return {status: "failed", record: e};
@@ -30,6 +29,17 @@ async function retrieveEventInfo(eventCode){
     }
 }
 
+async function listRides(eventCode){
+    try{
+        console.log(`try to display rides ${eventCode}`);
+        let queues;
+        await fetch('https://chariot.augustabt.com/api/getRideQueues', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => queues = d.queues);
+        console.log(queues);
+        return {status: "success", rides: queues};
+    } catch(e){
+        return {status: "failed", rides: null};
+    }
+}
 
 async function listEvents(){
     try{
@@ -63,11 +73,11 @@ async function checkEventCode(eventCode){
     }
 }
 
-async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword){
+async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword, newDriverPassword){
     try{
         const newFullAddr = "" + newAddressLine + ", " + newCity + ", " + newState + " " + newZip;
         const newNewRadius = parseInt(newRadius);
-        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword})});
+        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword, driver_password: newDriverPassword})});
         if(res.status === 200){
             return{status: "success"};
         }
@@ -169,4 +179,4 @@ async function sendImage(rideId, image) {
 }
 
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage};
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};

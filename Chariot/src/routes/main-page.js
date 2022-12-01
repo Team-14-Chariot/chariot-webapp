@@ -14,6 +14,10 @@ function MainPage() {
   const [eventList, setEventList] = useState([]);  
 
   useEffect(() => {
+    thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+    thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+    thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+    thisUser.setUserId(window.localStorage.getItem('thisUserId'));
     listEvents(thisUser.getUserEmail()).then(d => {setEventList(d.events)});
   }, [])
 

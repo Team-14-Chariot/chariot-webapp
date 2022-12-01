@@ -14,8 +14,7 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
 
 
     return(
-
-    <div className={eventAcceptingRides ? "eventContainer" : 'endEventContainer'}>
+    <div className={eventAcceptingRides ? 'eventContainer' : 'endEventContainer'}>
         <div className='event_header_container'>
             <div className='event_name'>
                 {eventName}
