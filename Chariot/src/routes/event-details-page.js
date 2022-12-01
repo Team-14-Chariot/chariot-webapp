@@ -6,6 +6,7 @@ import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
 import {retrieveEventInfo, updateEvent /*listRides*/} from '../integration/eventIntegration';
 import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
+import Map from '../components/views/Map';
 
 
 function EventDetailsPage() {
@@ -13,7 +14,10 @@ function EventDetailsPage() {
     const eventCode = params.eventCode;
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
-    const [ridesList, setRidesList] = useState([]); 
+    const [ridesList, setRidesList] = useState([]);
+    
+    const demoDriverList = [{lat: 40.423733, long: -86.910899}, {lat: 40.428383, long:-86.904100}]
+    const DriverMap = Map(demoDriverList);
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -124,6 +128,8 @@ function EventDetailsPage() {
         setCanEdit(false);
     }
 
+    
+
     //{ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
 
     return (
@@ -161,8 +167,7 @@ function EventDetailsPage() {
 
             </div>
             <div className='eventDetailsContentMap'>
-                <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-                <text>&#91;MAP WILL GO HERE&#93;</text>
+                {DriverMap}
             </div>
         </div>
         <div>
