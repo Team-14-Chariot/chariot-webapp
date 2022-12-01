@@ -10,13 +10,29 @@
     align-items: center;
     border-radius: 20px;
 }
+
+.endEventContainer {
+    margin: 10px;
+    background: rgb(168, 203, 239);
+    height: 150px;
+    padding-top: 12px;
+    box-sizing: border-box;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+
 .event_header_container{
     width: 95%;
     flex: 1;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    border-radius: 10px;
 }
+
 .event_body_container{
     width: 95%;
     flex: 2;

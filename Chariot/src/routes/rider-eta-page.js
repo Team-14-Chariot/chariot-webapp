@@ -9,7 +9,7 @@ function RiderEtaPage() {
     const[ETA, setETA] = useState("calculating...");
 
     setInterval(async function() {
-        var time = 10;
+        var time = 5; //get ETA from backend
         if (time !== null){
             setETA(time + " seconds");
         } else {
