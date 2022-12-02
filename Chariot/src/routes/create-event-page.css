@@ -5,6 +5,12 @@
     align-content: center;
     text-align: center;
 }
+.create_event_page_errorMessage{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 12px Arial;
+    color: red;
+}
 .eventForm{
     max-width: 400px;
     margin: 2rem auto;

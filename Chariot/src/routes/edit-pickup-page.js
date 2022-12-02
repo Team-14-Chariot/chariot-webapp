@@ -68,11 +68,13 @@ function EditPickupPage() {
 
             <button onClick={cancel}>Back</button>
             <center>
+
                 <h1>EDIT PICKUP LOCATION</h1>
                 <p>The marker below is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to update your start location.</p>
 
                 <br></br>
-
+                
+                <div className='ride-request-page-map-container'>
                 <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -95,6 +97,7 @@ function EditPickupPage() {
                     </Marker>
 
                 </MapContainer>
+                </div>
 
                 <br></br>
 
@@ -108,6 +111,7 @@ function EditPickupPage() {
                 </div>: null}
 
                 <br></br>
+
             </center>
         </div>
     )

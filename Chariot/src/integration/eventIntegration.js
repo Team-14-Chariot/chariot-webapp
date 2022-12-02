@@ -1,11 +1,10 @@
 import { ErrorResponse } from '@remix-run/router';
 import {client} from '../index';
 
-async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, ownerId){
+async function createEvent(eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, eventDriverPassword, ownerId){
     try {
         const fullAddr = "" + eventAddr + ", " + eventCity + ", " + eventState + " " + eventZipCode;
-        const recordId = generateRecordId(userEmail, eventName);
-        const response = await client.records.create('events', {id: recordId, ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword});
+        const response = await client.records.create('events', {ride_max_radius: eventMaxRadius, accept_rides: true, event_name: eventName, address: fullAddr, owner: ownerId, rider_password: eventRiderPassword, driver_password: eventDriverPassword});
         return {status: "success", record: response};
     } catch (e) {
         return {status: "failed", record: e};
@@ -31,6 +30,58 @@ async function retrieveEventInfo(eventCode){
     }
 }
 
+async function getDriversAndRides(eventCode) {
+    try {   
+    let allDrivers;
+    await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => allDrivers = d.drivers);
+    let numRides = 0;
+    console.log(allDrivers);
+    for (let i = 0;  i < allDrivers.length; i++) {
+        numRides += allDrivers[i].rides_completed;
+    }
+    console.log(numRides);
+    console.log(allDrivers.length);
+    return {status: "success", numRides: numRides, numDrivers: allDrivers.length};
+    } catch(e) {
+        console.log(e);
+        return {status: "failed", numRides: "null", numDrivers: "null"};
+    }
+}
+
+async function getETA(eventCode, startLocLat, startLocLng, endLocLat, endLocLng) {
+    try {
+        let eta;
+        await fetch('https://chariot.augustabt.com/api/getRouteETA', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, origin_latitude: startLocLat + "", origin_longitude: startLocLng + "", dest_latitude: endLocLat + "", dest_longitude: endLocLng + ""})}).then(res => {return res.json()}).then(d => eta = d.eta);
+        console.log("calculated eta");
+        console.log(eta);
+        return {status: "success", eta: eta};
+    } catch (e) {
+        return {status: "failed", eta: null};
+    }
+}
+
+async function getWaitTime(eventCode) {
+    try {
+        let waitTime;
+        await fetch('https://chariot.augustabt.com/api/getBallparkETA', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => waitTime = d.eta);
+        console.log("ballpark " + waitTime);
+        return {status: "success", waitTime: waitTime};
+    } catch (e) {
+        return {status: "failed", waitTime: null};
+    }
+}
+
+async function listRides(eventCode){
+    try{
+        console.log(`try to display rides ${eventCode}`);
+        let queues;
+        await fetch('https://chariot.augustabt.com/api/getRideQueues', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => queues = d.queues);
+        console.log(queues);
+        return {status: "success", rides: queues};
+    } catch(e){
+        return {status: "failed", rides: null};
+    }
+}
 
 async function listEvents(){
     try{
@@ -54,11 +105,11 @@ async function checkEventCode(eventCode){
     }
 }
 
-async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword){
+async function updateEvent(eventCode, newName, newAddressLine, newCity, newState, newZip, newRadius, newRiderPassword, newDriverPassword){
     try{
         const newFullAddr = "" + newAddressLine + ", " + newCity + ", " + newState + " " + newZip;
         const newNewRadius = parseInt(newRadius);
-        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword})});
+        const res = await fetch('https://chariot.augustabt.com/api/updateEventDetails', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode, name: newName, address: newFullAddr, max_radius: newNewRadius, rider_password: newRiderPassword, driver_password: newDriverPassword})});
         if(res.status === 200){
             return{status: "success"};
         }
@@ -77,6 +128,7 @@ async function endEvent(eventCode){
         return {status: "failed", record: e}
     }
 }
+
 
 function hashCode(s) {
     let h = 0, l = s.length, i = 0;
@@ -132,6 +184,8 @@ async function updatePickup(rideId, originLat, originLng) {
     });
 }
 
+
+
 async function updateDropoff(rideId, destLat, destLng) {
     const newDestLat = "" + destLat;
     const newDestLng = "" + destLng;
@@ -149,6 +203,7 @@ async function sendImage(rideId, image) {
     
     const record = await client.records.create('pictures', formData);
 }
+
 
 async function retrieveDriverInfo(rideId) {
     try {
@@ -176,4 +231,26 @@ async function cancelRiderRequest(rideId) {
     }
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage, retrieveDriverInfo, cancelRiderRequest};
+
+async function listDrivers(eventCode) {
+    try {
+        let driverList;
+        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => driverList = data);
+        console.log(driverList);
+        return driverList.drivers;
+    } catch (e) {
+        return e;
+    }
+}
+
+async function removeDriver(driverID) {
+    try {
+        await fetch('https://chariot.augustabt.com/api/removeDriver', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({driver_id: driverID})});
+        return {status: "success"};
+    } catch (e) {
+        return {status: "failed", record: e};
+    }
+}
+
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest};
+

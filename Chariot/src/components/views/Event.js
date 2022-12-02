@@ -3,8 +3,8 @@ import EndButton from '../buttons/EndButton';
 import {endEvent} from '../../integration/eventIntegration';
 
 
-function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides, handleClicked){
-    
+
+function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides, handleClicked, handleDrivers){
 
     const handleEnded = async (event) => {
         event.preventDefault();
@@ -12,9 +12,9 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
     }
 
 
-    return(
 
-    <div className={eventAcceptingRides ? "eventContainer" : 'endEventContainer'}>
+    return(
+    <div className={eventAcceptingRides ? 'eventContainer' : 'endEventContainer'}>
         <div className='event_header_container'>
             <div className='event_name'>
                 {eventName}
@@ -32,6 +32,9 @@ function Event(eventName, eventAddr, eventRadius, eventCode, eventAcceptingRides
             </div>
             <div className='event_address_info'>
                 {eventAddr}
+            </div>
+            <div className='click_to_view_drivers' onClick={() => handleDrivers(eventCode)}>
+                &#40; CLICK TO VIEW DRIVERS &#41;
             </div>
             <div className='event_click_to_view' onClick={() => handleClicked(eventCode)}>
                 &#40; CLICK TO VIEW DETAILS &#41;

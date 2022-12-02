@@ -68,7 +68,8 @@ function EditDropoffPage() {
                 <p>The marker below is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to update your dropoff location.</p>
 
                 <br></br>
-
+                
+                <div className='ride-request-page-map-container'>
                 <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -91,6 +92,7 @@ function EditDropoffPage() {
                     </Marker>
 
                 </MapContainer>
+                </div>
 
                 <br></br>
 
@@ -104,6 +106,7 @@ function EditDropoffPage() {
                     </div> : null}
 
                 <br></br>
+
             </center>
         </div>
     )

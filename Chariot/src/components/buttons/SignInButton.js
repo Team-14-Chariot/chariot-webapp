@@ -5,7 +5,7 @@ function SignInButton(){
     const navigate = useNavigate();
 
     const startRegistration = () => {
-        navigate('signInPage/');
+        navigate('../signInPage/');
     }
         
     return(
