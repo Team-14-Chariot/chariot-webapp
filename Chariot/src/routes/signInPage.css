@@ -19,3 +19,10 @@
     padding:2rem;
     font-family:  10px primus;
     }
+
+    .signin_errorMessage{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font: 12px Arial;
+        color: red;
+    }
