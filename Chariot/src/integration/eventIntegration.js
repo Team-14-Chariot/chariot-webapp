@@ -179,4 +179,4 @@ async function sendImage(rideId, image) {
 }
 
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};
