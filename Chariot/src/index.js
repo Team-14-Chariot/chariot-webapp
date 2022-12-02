@@ -19,6 +19,7 @@ import RiderEtaPage from './routes/rider-eta-page';
 import RideRequestPage from './routes/ride-request-page';
 import DeleteAccountPage from './routes/delete-account-page';
 import EventDetailsPage from './routes/event-details-page';
+import EventDriversPage from './routes/event-drivers-page';
 import EditPickupPage from './routes/edit-pickup-page';
 import EditDropoffPage from './routes/edit-dropoff-page';
 
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
   {
     path: "event-details/:eventCode",
     element: <EventDetailsPage/>
+  },
+  {
+    path: "event-drivers/:eventCode",
+    element: <EventDriversPage/>
   },
   {
     path: "edit-pickup/:eventCode/:rideId",

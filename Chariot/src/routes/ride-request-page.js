@@ -177,7 +177,7 @@ function RideRequestPage() {
                     <text className='RideDetailsAddress'><b>ETA TO BE ASSIGNED A DRIVER:</b> {waitTime}</text>
                     <br></br>
 
-
+                    <div className='ride-request-page-map-container'>
                     <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -214,7 +214,7 @@ function RideRequestPage() {
                             </Popup>
                         </Marker>
                     </MapContainer>
-
+                    </div>
                     <br></br> 
                     <text className='rideRequestDetailsAddress'><b>APPROXIMATE PICKUP TIME:</b> {requestRideETA}</text>
 

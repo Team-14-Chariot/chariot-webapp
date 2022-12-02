@@ -1,4 +1,4 @@
-.eventContainer {
+.driverContainer {
     margin: 10px;
     background: rgba(48, 134, 221, 1);
     height: 170px;
@@ -11,9 +11,9 @@
     border-radius: 20px;
 }
 
-.endEventContainer {
+.noDriverContainer{
     margin: 10px;
-    background: rgb(168, 203, 239);
+    background: rgb(116, 170, 223);
     height: 170px;
     padding-top: 12px;
     box-sizing: border-box;
@@ -24,71 +24,68 @@
     border-radius: 20px;
 }
 
-
-.event_header_container{
+.driver_header_container{
     width: 95%;
     flex: 1;
     display: flex;
     flex-direction: row;
-    border-radius: 10px;
+    align-items: center;
 }
-
-
-
-.event_body_container{
+.driver_body_container{
     width: 95%;
     flex: 2;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.event_name{
-    width: 70%;
+.driver_name{
+    width: 60%;
     font-family: "Kadwa";
-    font-weight:700;
-    font-size: 35px;
+    font-weight:400;
+    font-size: 32px;
     color: white;
     text-align: left;
 }
 .event_code{
     margin-left: auto;
     font-family: "Kadwa";
-    font-weight: 700;
-    font-size: 32px;
+    font-weight: 400;
+    font-size: 30px;
     color: white;
     text-align: right;
 }
-.event_address{
+.car_description{
     width: fit-content;
     font-family: "Kadwa";
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
     color: black;
     margin-right: 6px;
 }
-.event_address_info{
+.car_description_info{
     font-family: "Kadwa";
     color: rgba(87, 87, 87, 1);
-    font-size: 22px;
+    font-size: 18px;
     text-align: left;
     overflow: hidden;
 }
-.event_end_button{
+.car_capacity{
+    width: fit-content;
+    font-family: "Kadwa";
+    font-size: 20px;
+    font-weight: 400;
+    color: black;
+    margin-right: 6px;
+}
+.car_capactiy_info{
+    font-family: "Kadwa";
+    color: rgba(87, 87, 87, 1);
+    font-size: 18px;
+    text-align: left;
+    overflow: hidden;
+}
+.driver_end_button{
     width: fit-content;
     margin-left: 10px;
     margin-right: 10px;
-}
-
-.click_to_view_drivers{
-    margin-left: auto;
-    font-family: "Kadwa";
-    font-size: 20px;
-    color: rgba(205, 205, 205, 1);
-}
-
-.event_click_to_view{
-    margin-left: auto;
-    font-family: "Kadwa";
-    font-size: 20px;
-    color: rgba(205, 205, 205, 1);
 }

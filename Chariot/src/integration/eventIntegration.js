@@ -91,6 +91,16 @@ async function listEvents(){
     }
 }
 
+async function listDrivers(eventCode){
+    try{
+        let eventDrivers;
+        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDrivers = data);        
+        console.log(eventDrivers.drivers);
+        return {status: "success", drivers: eventDrivers.drivers};
+    } catch(e){
+        return {status: "failed", drivers: null};
+    }
+}
 
 async function checkEventCode(eventCode){
     try{
@@ -124,6 +134,15 @@ async function endEvent(eventCode){
         console.log(eventCode);
         await fetch('https://chariot.augustabt.com/api/endEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
         return {status: "success"};
+    } catch (e) {
+        return {status: "failed", record: e}
+    }
+}
+
+async function removeDriver(driverId){
+    try {
+        console.log(driverId);
+        await client.records.delete('driver', `${driverId}`);
     } catch (e) {
         return {status: "failed", record: e}
     }
@@ -203,7 +222,17 @@ async function sendImage(rideId, image) {
     const record = await client.records.create('pictures', formData);
 }
 
+async function listDrivers(eventCode) {
+    try {
+        let driverList;
+        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => driverList = data);
+        console.log(driverList);
+        return driverList.drivers;
+    } catch (e) {
+        return e;
+    }
+}
 
 
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, getDriversAndRides, getETA, getWaitTime};
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime};
