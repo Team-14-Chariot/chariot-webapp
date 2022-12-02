@@ -3,9 +3,10 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent /*listRides*/} from '../integration/eventIntegration';
+import {retrieveEventInfo, updateEvent, listDrivers /*listRides*/} from '../integration/eventIntegration';
 import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
+import Map from '../components/views/Map';
 
 
 function EventDetailsPage() {
@@ -13,7 +14,18 @@ function EventDetailsPage() {
     const eventCode = params.eventCode;
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
-    const [ridesList, setRidesList] = useState([]); 
+    const [ridesList, setRidesList] = useState([]);
+    const [driverList, setDriversList] = useState([]);
+    const [mapLoaded, setMapLoaded] = useState(false);
+    
+
+    const getDrivers = async () => {
+        const res = await listDrivers(eventCode);
+        setDriversList(res);
+        setMapLoaded(true);
+    }
+
+    
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -31,11 +43,17 @@ function EventDetailsPage() {
         driverPassword: ""
     })
 
+    
+
     useEffect(() => {
+        async function doStart() {
+            await getDrivers();
+        }
         thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
         thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
         thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
         thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        doStart();
     }, []);
 
     useEffect(() => {
@@ -124,6 +142,14 @@ function EventDetailsPage() {
         setCanEdit(false);
     }
 
+    const handleRefresh = (event) => {
+        console.log("refresh1");
+        event.preventDefault();
+        setMapLoaded(false);
+        getDrivers();
+    }
+    
+
     //{ridesList ? <div className='ridesList'>{ridesList.map((element) => {return Ride(element.rider_name, element.needs_ride, element.in_ride, element.eta, element.group_size)})}</div> : null}
 
     return (
@@ -160,9 +186,11 @@ function EventDetailsPage() {
                 <text className='eventDetailsAddress'><b>DRIVER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleDriverPasswordChange} defaultValue={editableInfo.driverPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.driverPassword}</text>}
 
             </div>
+            <div className='event-details-page-map-and-refresh'>
             <div className='eventDetailsContentMap'>
-                <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-                <text>&#91;MAP WILL GO HERE&#93;</text>
+                {mapLoaded ? Map(driverList) : null}
+            </div>
+            <button className='event-details-page-refresh-button' onClick={handleRefresh}>REFRESH</button>
             </div>
         </div>
         <div>
