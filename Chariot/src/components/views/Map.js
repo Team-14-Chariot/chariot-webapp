@@ -17,7 +17,7 @@ function Map(driverList){
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             /> 
-            {driverList.map((driver) => { console.log(driver.lat + " " + driver.long); return <Marker position={{lat: driver.lat, lng: driver.long}} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}></Marker>})}
+            {driverList.map((driver) => { console.log(driver.current_latitude + " " + driver.current_longitude); return <Marker position={{lat: driver.current_latitude, lng: driver.current_longitude}} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}></Marker>})}
         </MapContainer>
     </div>
     )
