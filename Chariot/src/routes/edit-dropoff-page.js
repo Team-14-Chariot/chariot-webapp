@@ -64,6 +64,7 @@ function EditDropoffPage() {
 
                     <br></br>
 
+                    <div className='ride-request-page-map-container'>
                     <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -86,6 +87,7 @@ function EditDropoffPage() {
                         </Marker>
                     
                     </MapContainer>
+                    </div>
 
                     <br></br>
 
