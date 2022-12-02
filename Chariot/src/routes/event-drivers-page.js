@@ -14,7 +14,8 @@ function EventDriversPage() {
   const [driverList, setDriverList] = useState([]);  
 
   useEffect(() => {
-    listDrivers(eventCode).then(d => {setDriverList(d.drivers)});
+    //listDrivers(eventCode).then(d => {setDriverList(d.drivers)});
+    setDriverList([{id:"f23432", name:"Heyo", car_capacity: 4, car_description:"sedan", event_id:"KJGSAF", active: true},{id:"f2231232", name:"Burt", car_capacity: 6, car_description:"Wagon", event_id:"KJSDF", active: false}])
   }, [eventCode])
 
   //const [rerender, setRerender] = useState(0);

@@ -179,5 +179,15 @@ async function sendImage(rideId, image) {
     const record = await client.records.create('pictures', formData);
 }
 
+async function listDrivers(eventCode) {
+    try {
+        let driverList;
+        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => driverList = data);
+        console.log(driverList);
+        return driverList.drivers;
+    } catch (e) {
+        return e;
+    }
+}
 
 export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver};

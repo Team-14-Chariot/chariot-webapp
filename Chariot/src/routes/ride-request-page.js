@@ -140,7 +140,7 @@ function RideRequestPage() {
                     <p>The <strong>RED MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
                     <br></br>
 
-
+                    <div className='ride-request-page-map-container'>
                     <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -177,7 +177,7 @@ function RideRequestPage() {
                             </Popup>
                         </Marker>
                     </MapContainer>
-
+                    </div>
 
 
                     <br></br>

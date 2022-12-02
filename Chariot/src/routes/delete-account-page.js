@@ -1,4 +1,4 @@
-import {useState,useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import './delete-account-page.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/views/Header';
@@ -14,7 +14,7 @@ function DeleteAccountPage() {
     })
 
     const [submitted, setSubmitted] = useState(false);
-    const [correctPassword, setCorrectPassword] = useState(true);
+    const [correctPassword, setCorrectPassword] = useState(false);
 
 
     const handlePasswordChange = (event) => {
@@ -23,19 +23,23 @@ function DeleteAccountPage() {
 
     const handleSubmitted = (event) => {
         event.preventDefault();
-        setSubmitted(true);
-        async function attemptAccountDeletion(){
+        async function checkForPassword(){
             const res = await checkEventOrganizerTupleExists(thisUser.getUserEmail(), password.password);
-            console.log(res);
             if (res.status === "success"){
                 setCorrectPassword(true);
-                console.log("Checking was correct");
+                console.log("correct password");
             } else {
                 setCorrectPassword(false);
-                console.log(thisUser.getUserEmail());
-                console.log(password.password);
+                console.log("incorrect password");
             }
-            if(submitted && correctPassword){
+        }
+        checkForPassword();
+        setSubmitted(true);
+    }
+
+    useEffect(() => {
+        async function attemptAccountDeletion(){
+            if(correctPassword && submitted){
                 //have to delete all events
                 //filter the events by owner 
                 const eventsToDelete = await client.records.getList('events', 1, 100, {filter: `owner = "${thisUser.getUserId()}"`});
@@ -59,7 +63,8 @@ function DeleteAccountPage() {
             }
         }
         attemptAccountDeletion();
-    }
+
+    }, [submitted, correctPassword, navigate]);
 
     const [rerender, setRerender] = useState(0);
     useEffect(() => {
@@ -70,50 +75,7 @@ function DeleteAccountPage() {
         setRerender(rerender + 1);
     }, [rerender]);
 
-    //useEffect(() => {
-        /*async function deleteAccount(){
-            console.log("in function");
-            if(submitted && correctPassword){
-                //have to do it in the backend
-                console.log(thisUser.getUserId());
-                const result = await client.users.delete(thisUser.getUserId());
-                console.log(result);
-                if (result.status === 'success') {
-                    thisUser.setSignedIn(false);
-                    thisUser.setUserEmail(null);
-                    thisUser.setUserId(null);
-                    navigate("/");
-                } else {
-                    console.log("didn't delete");
-                    return;
-                }
-            }
-        }
-        attemptAccountDeletion();
-    }
-
-    //useEffect(() => {
-        /*async function deleteAccount(){
-            console.log("in function");
-            if(submitted && correctPassword){
-                //have to do it in the backend
-                console.log(thisUser.getUserId());
-                const result = await client.users.delete(thisUser.getUserId());
-                console.log(result);
-                if (result.status === 'success') {
-                    thisUser.setSignedIn(false);
-                    thisUser.setUserEmail(null);
-                    thisUser.setUserId(null);
-                    navigate("/");
-                } else {
-                    console.log("didn't delete");
-                    return;
-                }
-            }
-        }*/
-        //deleteAccount();
-    //}, [correctPassword, submitted, navigate]);
-
+    
 
     return (
     <body>
@@ -123,9 +85,8 @@ function DeleteAccountPage() {
     <form className='delete_account_page_form'>
         <label>Enter Your Password</label><br></br>
         <input onChange={handlePasswordChange} type="text" name="password" value={password.password}></input><br></br>
-        {!correctPassword ? <div className='errorMessage'>Your password doesn't match.</div> : null}
         <GenericSubmitButton onClickFunction={handleSubmitted} />
-        {submitted ? <div>submitted</div> : null}
+        {!correctPassword && submitted ? <div className='errorMessage'>Your password doesn't match.</div> : null}
     </form>
     </div>
     </body>

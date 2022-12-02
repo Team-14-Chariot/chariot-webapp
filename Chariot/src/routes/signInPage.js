@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './signInPage.css';
 import SignInConfirmButton from '../components/buttons/SignInConfirmButton';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,10 @@ function SignInPage() {
         userPassword: "",
     })
 
+
+
     const [submitted, setSubmitted] = useState(false);
+    const [correctEmailAndPassword, setCorrectEmailAndPassword] = useState(false);
 
     const handleEmailChange = (event) => {
         setInfo({...info, userEmail: event.target.value})
@@ -27,12 +30,10 @@ function SignInPage() {
 
     const handleSubmitted = async (event) => {
         event.preventDefault();
-        //this is where we send information to the backend and check if email and password are correct.
         const ans = await checkEventOrganizerTupleExists(info.userEmail, info.userPassword);
-        if(ans.status !== "success"){
-            return;
+        if(ans.status === "success"){
+            setCorrectEmailAndPassword(true);
         }
-        console.log(ans);
         setSubmitted(true);
         thisUser.setSignedIn(true);
         thisUser.setUserEmail(info.userEmail);
@@ -44,6 +45,23 @@ function SignInPage() {
         window.localStorage.setItem('thisUserId', thisUser.getUserId());
         navigate('../main-page/');
     }
+
+    useEffect(() => {
+        //this is where we send information to the backend and check if email and password are correct.
+        async function setup () {
+            const ans = await checkEventOrganizerTupleExists(info.userEmail, info.userPassword);
+        if (submitted && correctEmailAndPassword){
+            console.log(ans);
+            setSubmitted(true);
+            thisUser.setSignedIn(true);
+            thisUser.setUserEmail(info.userEmail);
+            thisUser.setUserToken(ans.record.token);
+            thisUser.setUserId(ans.record.user.id);
+            navigate('../main-page/');
+        }
+        }
+        setup();
+    }, [submitted, correctEmailAndPassword, navigate, info.userEmail, info.userPassword]);
 
     const Resetpassword = (event) => {
 
@@ -64,8 +82,8 @@ function SignInPage() {
         <label onClick={Resetpassword}><u>Forgot Password?</u></label><br></br>
         <div className='logInButtonContainer'>
         <SignInConfirmButton onClickFunction={handleSubmitted} />
+        {!correctEmailAndPassword && submitted ? <div className='signin_errorMessage'>Your email or password is incorrect</div> : null}
         </div>
-        {submitted ? <div>Successfully Logged In!</div> : null}
     </form>
     <div className='newUserContainer'>
         New User?
