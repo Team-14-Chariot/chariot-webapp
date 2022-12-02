@@ -7,7 +7,6 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 
 function Map(driverList){
     
-
     const start_center = { lat: 40.423730, lng: -86.910890 }
     const ZOOM_LEVEL = 14;
 
