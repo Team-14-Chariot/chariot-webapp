@@ -11,8 +11,7 @@ import React, {useState} from 'react';
 const Header = () => {
    const PersonalSignedInText = () => {return SignedInText(thisUser.getUserEmail())};
    const [open, setOpen] = useState(false);
-   /*<div className='updateUserEmail'>{thisUser.getSignedIn() ? <UpdateButton/> : null}</div>
-    <div className='deleteAccount'>{thisUser.getSignedIn() ? <DeleteButton /> : null}</div>*/
+   console.log(thisUser.getSignedIn());
 return(
  <div className="headerContainer">
    {thisUser.getSignedIn() ?

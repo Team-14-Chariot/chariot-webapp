@@ -35,6 +35,15 @@ function SignInPage() {
             setCorrectEmailAndPassword(true);
         }
         setSubmitted(true);
+        thisUser.setSignedIn(true);
+        thisUser.setUserEmail(info.userEmail);
+        thisUser.setUserToken(ans.record.token);
+        thisUser.setUserId(ans.record.user.id);
+        window.localStorage.setItem('thisUserSignedIn', thisUser.getSignedIn());
+        window.localStorage.setItem('thisUserEmail', thisUser.getUserEmail());
+        window.localStorage.setItem('thisUserToken', thisUser.getUserToken());
+        window.localStorage.setItem('thisUserId', thisUser.getUserId());
+        navigate('../main-page/');
     }
 
     useEffect(() => {

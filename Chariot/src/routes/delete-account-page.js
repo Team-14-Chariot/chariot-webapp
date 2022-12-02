@@ -63,8 +63,19 @@ function DeleteAccountPage() {
             }
         }
         attemptAccountDeletion();
+
     }, [submitted, correctPassword, navigate]);
 
+    const [rerender, setRerender] = useState(0);
+    useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+        setRerender(rerender + 1);
+    }, [rerender]);
+
+    
 
     return (
     <body>

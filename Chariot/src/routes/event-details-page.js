@@ -32,6 +32,13 @@ function EventDetailsPage() {
     })
 
     useEffect(() => {
+        thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
+        thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
+        thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
+        thisUser.setUserId(window.localStorage.getItem('thisUserId'));
+    }, []);
+
+    useEffect(() => {
         async function check(){
             if(!canAccess){
                 console.log(thisUser.getUserEmail());
