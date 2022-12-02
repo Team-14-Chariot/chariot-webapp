@@ -13,7 +13,7 @@ import { requestRide, retrieveEventInfo, sendImage, getETA, getWaitTime } from '
 
 function RideRequestPage() {
     const navigate = useNavigate();
-    const waitTime = getWaitTime(eventCode) / 60 + " minutes";
+    
     const [requestRideETA, setRequestRideETA] = useState(0);
 
     const [info, setInfo] = useState({
@@ -21,13 +21,7 @@ function RideRequestPage() {
         groupSize: null,
     })
 
-    useEffect(() => {
-        if (startPosition != null && endPosition != null) {
-            let eta = await getETA(startPosition, endPosition);
-            setRequestRideETA(eta);
-        }
-        
-    }, [startPosition, endPosition])
+    
 
     //setWaitTime(async function() {
       //  var time = getWaitTime(eventCode); //get ETA from backend
@@ -54,6 +48,13 @@ function RideRequestPage() {
 
     const params = useParams();
     const eventCode = params.eventCode;
+    const [waitTime, setWaitTime] = useState(0);
+    useEffect(() => {
+        async function ballpark(){
+            setWaitTime(parseInt(((await getWaitTime(eventCode)).waitTime) / 60) + " minutes");
+        }
+        ballpark();
+    }, [eventCode])
     const [verifiedCode, setVerifiedCode] = useState(false);
     const [passwordProtected, setPasswordProtected] = useState(false);
     const [passwordKey, setPasswordKey] = useState(null);
@@ -101,6 +102,18 @@ function RideRequestPage() {
     const [startPosition, setStartPosition] = useState(start_center);
     const [endPosition, setEndPosition] = useState(end_center);
     const ZOOM_LEVEL = 17;
+
+    useEffect(() => {
+        async function generateEta(){
+            if (startPosition != null && endPosition != null) {
+                console.log(startPosition.lat + " " + startPosition.lng);
+                const eta = await getETA(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng);
+                setRequestRideETA(parseInt(eta.eta / 60) + " minutes");
+            }
+        }
+        generateEta();
+        
+    }, [startPosition, endPosition])
 
     const handlePasswordChange = (event) => {
         setPasswordField(event.target.value);
@@ -161,7 +174,7 @@ function RideRequestPage() {
                     <p>The <strong>RED MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
                     <br></br>
                     <br></br>
-                    <text className='RideDetailsAddress'><b>ESTIMATED WAIT TIME:</b> </text> {<text className='RideDetailsAddressInfo'>{waitTime}</text>}
+                    <text className='RideDetailsAddress'><b>ETA TO BE ASSIGNED A DRIVER:</b> {waitTime}</text>
                     <br></br>
 
 
@@ -203,7 +216,7 @@ function RideRequestPage() {
                     </MapContainer>
 
                     <br></br> 
-                    <text className='rideRequestDetailsAddress'><b>YOUR ESTIMATED ETA IS:</b> </text> {<text className='rideRequestDetailsInfo'>{requestRideETA}</text>}
+                    <text className='rideRequestDetailsAddress'><b>APPROXIMATE PICKUP TIME:</b> {requestRideETA}</text>
 
                     
                     <br></br>

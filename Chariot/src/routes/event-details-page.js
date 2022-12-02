@@ -78,9 +78,13 @@ function EventDetailsPage() {
         }
         getRides().then(res => setRidesList(res.rides));
 
-        const response = getDriversAndRides(eventCode);
-        setNumDrivers(response.numDrivers);
-        setNumRidesCompleted(response.numRidesCompleted);
+        async function getStats(){
+            console.log("retrieve stats");
+            const response = await getDriversAndRides(eventCode);
+            setNumDrivers(response.numDrivers);
+            setNumRidesCompleted(response.numRides);
+        }        
+        getStats();
 
     }, [eventCode])
     
@@ -142,7 +146,7 @@ function EventDetailsPage() {
         <div className='eventDetailsTitle'>
             {canEdit ? <input onChange={handleNameChange} defaultValue={editableInfo.name}></input> : <text className='eventDetailsTitleText'>{editableInfo.name}</text>}
         </div>
-        <div>
+        <div className='eventSecondaryInfo'>
             <br></br>
             <text className='eventDetailsEventCode'><b>EVENT CODE:</b> {info.eventCode}</text>
             <text className='eventDetailsRiderLink'><b>RIDER LINK:</b> {info.riderLink}</text>
@@ -166,9 +170,9 @@ function EventDetailsPage() {
                 <br></br>
                 <text className='eventDetailsAddress'><b>DRIVER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleDriverPasswordChange} defaultValue={editableInfo.driverPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.driverPassword}</text>}
                 <br></br>
-                <text className='eventDetailsAddress'><b>TOTAL NUMBER OF RIDES COMPLETED:</b> </text> {<text className='eventDetailsAddressInfo'>{numRidesCompleted}</text>}
+                <text className='eventDetailsStat'><b>TOTAL NUMBER OF RIDES COMPLETED:</b> {numRidesCompleted}</text>
                 <br></br>
-                <text className='eventDetailsAddress'><b>TOTAL NUMBER OF DRIVERS:</b> </text> {<text className='eventDetailsAddressInfo'>{numDrivers}</text>}
+                <text className='eventDetailsStat'><b>TOTAL NUMBER OF DRIVERS:</b> {numDrivers}</text>
                 <br></br>
 
             </div>
