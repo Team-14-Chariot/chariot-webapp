@@ -50,17 +50,6 @@ async function listEvents(){
     }
 }
 
-async function listDrivers(eventCode){
-    try{
-        let eventDrivers;
-        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDrivers = data);        
-        console.log(eventDrivers.drivers);
-        return {status: "success", drivers: eventDrivers.drivers};
-    } catch(e){
-        return {status: "failed", drivers: null};
-    }
-}
-
 async function checkEventCode(eventCode){
     try{
         const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
@@ -98,14 +87,6 @@ async function endEvent(eventCode){
     }
 }
 
-async function removeDriver(driverId){
-    try {
-        console.log(driverId);
-        await client.records.delete('driver', `${driverId}`);
-    } catch (e) {
-        return {status: "failed", record: e}
-    }
-}
 
 function hashCode(s) {
     let h = 0, l = s.length, i = 0;
@@ -187,6 +168,15 @@ async function listDrivers(eventCode) {
         return driverList.drivers;
     } catch (e) {
         return e;
+    }
+}
+
+async function removeDriver(driverID) {
+    try {
+        await fetch('https://chariot.augustabt.com/api/removeDriver', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({driver_id: driverID})});
+        return {status: "success"};
+    } catch (e) {
+        return {status: "failed", record: e};
     }
 }
 

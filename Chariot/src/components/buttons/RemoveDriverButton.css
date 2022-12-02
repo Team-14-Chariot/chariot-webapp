@@ -1,0 +1,15 @@
+.remove-driver-button{
+    border: none;
+    border-radius: 5px;
+    background: white;
+    color: rgb(0, 127, 255);
+    width: fit-content;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 2px 2px 6px grey;
+    transition: .25s;
+    overflow: hidden;
+    position: relative;
+    }
