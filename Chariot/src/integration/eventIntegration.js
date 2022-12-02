@@ -252,5 +252,17 @@ async function removeDriver(driverID) {
     }
 }
 
-export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest};
+async function getEta(riderID) {
+    try {
+        let eta;
+        await fetch('https://chariot.augustabt.com/api/getEta', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ride_id: riderID})}).then(res => {return res.json()}).then(d => eta = d.eta);
+        console.log("calculated eta");
+        console.log(eta);
+        return {status: "success", eta: eta};
+    } catch (e) {
+        return {status: "failed", eta: null};
+    }
+}
+
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest, getEta};
 

@@ -7,6 +7,7 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from 'leaflet';
 import { retrieveDriverInfo, cancelRiderRequest } from '../integration/eventIntegration';
 import "leaflet/dist/leaflet.css";
+import { getEta } from '../integration/eventIntegration';
 
 
 
@@ -25,19 +26,22 @@ function RiderEtaPage() {
 
     const [ETA, setETA] = useState("calculating...");
 
-    setInterval(async function () {
-        var time = 5; //get ETA from backend
-        if (time !== null) {
-            setETA(time + " seconds");
-        } else {
-            setETA("calculating...")
-        }
-    }, 3 * 1000);
+    
 
     const params = useParams();
     const eventCode = params.eventCode;
     const rideId = params.rideId;
     const navigate = useNavigate();
+
+    async function calculate() {
+    const time = await getEta(rideId);
+    if (time !== null) {
+        setETA(parseInt((time.eta)/60) + " minutes");
+    } else {
+        setETA("calculating...")
+    }
+    }
+    calculate();
 
     useEffect(() => {
         async function check() {
