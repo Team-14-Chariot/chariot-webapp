@@ -3,7 +3,7 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent /*listRides*/} from '../integration/eventIntegration';
+import {retrieveEventInfo, updateEvent, getDriversAndRides /*listRides*/} from '../integration/eventIntegration';
 import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
 
@@ -14,6 +14,8 @@ function EventDetailsPage() {
     const [canAccess, setCanAccess] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
     const [ridesList, setRidesList] = useState([]); 
+    const [numDrivers, setNumDrivers] = useState(0);
+    const [numRidesCompleted, setNumRidesCompleted] = useState(0);
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -75,6 +77,11 @@ function EventDetailsPage() {
             }
         }
         getRides().then(res => setRidesList(res.rides));
+
+        const response = getDriversAndRides(eventCode);
+        setNumDrivers(response.numDrivers);
+        setNumRidesCompleted(response.numRidesCompleted);
+
     }, [eventCode])
     
 
@@ -158,6 +165,11 @@ function EventDetailsPage() {
                 <text className='eventDetailsAddress'><b>RIDER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleRiderPasswordChange} defaultValue={editableInfo.riderPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.riderPassword}</text>}
                 <br></br>
                 <text className='eventDetailsAddress'><b>DRIVER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleDriverPasswordChange} defaultValue={editableInfo.driverPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.driverPassword}</text>}
+                <br></br>
+                <text className='eventDetailsAddress'><b>TOTAL NUMBER OF RIDES COMPLETED:</b> </text> {<text className='eventDetailsAddressInfo'>{numRidesCompleted}</text>}
+                <br></br>
+                <text className='eventDetailsAddress'><b>TOTAL NUMBER OF DRIVERS:</b> </text> {<text className='eventDetailsAddressInfo'>{numDrivers}</text>}
+                <br></br>
 
             </div>
             <div className='eventDetailsContentMap'>

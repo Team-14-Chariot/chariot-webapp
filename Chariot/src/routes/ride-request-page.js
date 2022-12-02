@@ -9,15 +9,25 @@ import red_map_marker from '../components/images/red_map_marker.png'
 import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { requestRide, retrieveEventInfo, sendImage } from '../integration/eventIntegration';
+import { requestRide, retrieveEventInfo, sendImage, getETA, getWaitTime } from '../integration/eventIntegration';
 
 function RideRequestPage() {
     const navigate = useNavigate();
+    const [waitTime, setWaitTime] = useState(0);
 
     const [info, setInfo] = useState({
         riderName: "",
         groupSize: null,
     })
+
+    setWaitTime(async function() {
+        var time = getWaitTime(eventCode); //get ETA from backend
+        if (time !== null){
+            setETA(time/60 + " minutes");
+        } else {
+            setETA("calculating...")
+        }
+    }, 5 * 1000);
 
     const handleRiderNameChange = (event) => {
         setInfo({ ...info, riderName: event.target.value });
@@ -57,6 +67,8 @@ function RideRequestPage() {
         }
         check();
     }, [eventCode, verifiedCode])
+
+
 
     let rideId;
     const sendRide = async () => {
@@ -138,6 +150,9 @@ function RideRequestPage() {
                     <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>
                     <p>The <strong>BLUE MARKER</strong> is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to set your start location.</p>
                     <p>The <strong>RED MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
+                    <br></br>
+                    <br></br>
+                    <text className='RideDetailsAddress'><b>ESTIMATED WAIT TIME:</b> </text> {<text className='RideDetailsAddressInfo'>{waitTime}</text>}
                     <br></br>
 
 

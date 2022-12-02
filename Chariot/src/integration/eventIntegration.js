@@ -29,6 +29,44 @@ async function retrieveEventInfo(eventCode){
     }
 }
 
+function getDriversAndRides(eventCode) {
+    // try {   
+    // let allDrivers;
+    // await fetch('https://chariot.augustabt.com/api/getDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(d => allDrivers => d.allDrivers);
+    // let numRides = 0;
+    // for (let i = 0;  i < allDrivers.length; i++) {
+    //     numRides += allDrivers[i].ride_count;
+    // }
+
+    // return {status: "success", numRides: numRides, numDrivers: allDrivers.length};
+    // } catch(e) {
+    //     return {status: "failed", numRides: null, numDrivers: null};
+    // }
+    return {status: "success", numRides: 7, numDrivers: 2};
+}
+
+function getETA(startLoc, endLoc) {
+    try {
+        let eta;
+        await fetch('https://chariot.augustabt.com/api/getEstimatedEta', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({start: startLoc, end: endLoc})}).then(res => {return res.json()}).then(d => eta => d.eta);
+
+        return {status: "success", eta: eta};
+    } catch (e) {
+        return {status: "failed", eta: null};
+    }
+}
+
+function getWaitTime(eventCode) {
+    try {
+        let waitTime;
+        await fetch('https://chariot.augustabt.com/api/getWaitTime', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({eventCode: eventCode})}).then(res => {return res.json()}).then(d => waitTime => d.waitTime);
+
+        return {status: "success", waitTime: waitTime};
+    } catch (e) {
+        return {status: "failed", waitTime: null};
+    }
+}
+
 async function listRides(eventCode){
     try{
         console.log(`try to display rides ${eventCode}`);
@@ -142,6 +180,8 @@ async function updatePickup(rideId, originLat, originLng) {
     });
 }
 
+
+
 async function updateDropoff(rideId, destLat, destLng) {
     const newDestLat = "" + destLat;
     const newDestLng = "" + destLng;
@@ -159,6 +199,8 @@ async function sendImage(rideId, image) {
     
     const record = await client.records.create('pictures', formData);
 }
+
+
 
 
 export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};
