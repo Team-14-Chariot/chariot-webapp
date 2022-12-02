@@ -91,16 +91,6 @@ async function listEvents(){
     }
 }
 
-async function listDrivers(eventCode){
-    try{
-        let eventDrivers;
-        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDrivers = data);        
-        console.log(eventDrivers.drivers);
-        return {status: "success", drivers: eventDrivers.drivers};
-    } catch(e){
-        return {status: "failed", drivers: null};
-    }
-}
 
 async function checkEventCode(eventCode){
     try{
