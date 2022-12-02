@@ -13,21 +13,30 @@ import { requestRide, retrieveEventInfo, sendImage, getETA, getWaitTime } from '
 
 function RideRequestPage() {
     const navigate = useNavigate();
-    const [waitTime, setWaitTime] = useState(0);
+    const waitTime = getWaitTime(eventCode) / 60 + " minutes";
+    const [requestRideETA, setRequestRideETA] = useState(0);
 
     const [info, setInfo] = useState({
         riderName: "",
         groupSize: null,
     })
 
-    setWaitTime(async function() {
-        var time = getWaitTime(eventCode); //get ETA from backend
-        if (time !== null){
-            setETA(time/60 + " minutes");
-        } else {
-            setETA("calculating...")
+    useEffect(() => {
+        if (startPosition != null && endPosition != null) {
+            let eta = await getETA(startPosition, endPosition);
+            setRequestRideETA(eta);
         }
-    }, 5 * 1000);
+        
+    }, [startPosition, endPosition])
+
+    //setWaitTime(async function() {
+      //  var time = getWaitTime(eventCode); //get ETA from backend
+       // if (time !== null){
+       //     setETA(time/60 + " minutes");
+       // } else {
+       //     setETA("calculating...")
+       // }
+    //}, 5 * 1000);
 
     const handleRiderNameChange = (event) => {
         setInfo({ ...info, riderName: event.target.value });
@@ -193,8 +202,10 @@ function RideRequestPage() {
                         </Marker>
                     </MapContainer>
 
+                    <br></br> 
+                    <text className='rideRequestDetailsAddress'><b>YOUR ESTIMATED ETA IS:</b> </text> {<text className='rideRequestDetailsInfo'>{requestRideETA}</text>}
 
-
+                    
                     <br></br>
 
                     <h3>Please enter your name and the number of people <strong>INCLUDING YOURSELF</strong> in your group. Press "Request Ride" once all fields have been entered.</h3>

@@ -48,7 +48,7 @@ function getDriversAndRides(eventCode) {
 function getETA(startLoc, endLoc) {
     try {
         let eta;
-        await fetch('https://chariot.augustabt.com/api/getEstimatedEta', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({start: startLoc, end: endLoc})}).then(res => {return res.json()}).then(d => eta => d.eta);
+        await fetch('https://chariot.augustabt.com/api/getRouteEta', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({start: startLoc, end: endLoc})}).then(res => {return res.json()}).then(d => eta => d.eta);
 
         return {status: "success", eta: eta};
     } catch (e) {
@@ -59,7 +59,7 @@ function getETA(startLoc, endLoc) {
 function getWaitTime(eventCode) {
     try {
         let waitTime;
-        await fetch('https://chariot.augustabt.com/api/getWaitTime', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({eventCode: eventCode})}).then(res => {return res.json()}).then(d => waitTime => d.waitTime);
+        await fetch('https://chariot.augustabt.com/api/getBallparkETA', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({eventCode: eventCode})}).then(res => {return res.json()}).then(d => waitTime => d.waitTime);
 
         return {status: "success", waitTime: waitTime};
     } catch (e) {
