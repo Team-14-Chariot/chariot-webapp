@@ -3,7 +3,7 @@ import Header from '../components/views/Header';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom';
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton'
-import {retrieveEventInfo, updateEvent, listDrivers /*listRides*/} from '../integration/eventIntegration';
+import {retrieveEventInfo, updateEvent, getDriversAndRides, listDrivers /*listRides*/} from '../integration/eventIntegration';
 import {thisUser, client} from '../index';
 import Ride from '../components/views/Ride'
 import Map from '../components/views/Map';
@@ -26,6 +26,8 @@ function EventDetailsPage() {
     }
 
     
+    const [numDrivers, setNumDrivers] = useState(0);
+    const [numRidesCompleted, setNumRidesCompleted] = useState(0);
 
     const [info, setInfo] = useState({
         eventCode: "",
@@ -93,6 +95,15 @@ function EventDetailsPage() {
             }
         }
         getRides().then(res => setRidesList(res.rides));
+
+        async function getStats(){
+            console.log("retrieve stats");
+            const response = await getDriversAndRides(eventCode);
+            setNumDrivers(response.numDrivers);
+            setNumRidesCompleted(response.numRides);
+        }        
+        getStats();
+
     }, [eventCode])
     
 
@@ -161,7 +172,7 @@ function EventDetailsPage() {
         <div className='eventDetailsTitle'>
             {canEdit ? <input onChange={handleNameChange} defaultValue={editableInfo.name}></input> : <text className='eventDetailsTitleText'>{editableInfo.name}</text>}
         </div>
-        <div>
+        <div className='eventSecondaryInfo'>
             <br></br>
             <text className='eventDetailsEventCode'><b>EVENT CODE:</b> {info.eventCode}</text>
             <text className='eventDetailsRiderLink'><b>RIDER LINK:</b> {info.riderLink}</text>
@@ -184,6 +195,11 @@ function EventDetailsPage() {
                 <text className='eventDetailsAddress'><b>RIDER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleRiderPasswordChange} defaultValue={editableInfo.riderPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.riderPassword}</text>}
                 <br></br>
                 <text className='eventDetailsAddress'><b>DRIVER PASSWORD:</b> </text> {canEdit ? <text><input onChange={handleDriverPasswordChange} defaultValue={editableInfo.driverPassword}></input></text> : <text className='eventDetailsAddressInfo'>{editableInfo.driverPassword}</text>}
+                <br></br>
+                <text className='eventDetailsStat'><b>TOTAL NUMBER OF RIDES COMPLETED:</b> {numRidesCompleted}</text>
+                <br></br>
+                <text className='eventDetailsStat'><b>TOTAL NUMBER OF DRIVERS:</b> {numDrivers}</text>
+                <br></br>
 
             </div>
             <div className='event-details-page-map-and-refresh'>

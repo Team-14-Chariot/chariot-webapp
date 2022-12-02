@@ -9,15 +9,28 @@ import red_map_marker from '../components/images/red_map_marker.png'
 import { Icon } from 'leaflet'
 import "leaflet/dist/leaflet.css";
 import GenericSubmitButton from '../components/buttons/GenericSubmitButton';
-import { requestRide, retrieveEventInfo, sendImage } from '../integration/eventIntegration';
+import { requestRide, retrieveEventInfo, sendImage, getETA, getWaitTime } from '../integration/eventIntegration';
 
 function RideRequestPage() {
     const navigate = useNavigate();
+    
+    const [requestRideETA, setRequestRideETA] = useState(0);
 
     const [info, setInfo] = useState({
         riderName: "",
         groupSize: null,
     })
+
+    
+
+    //setWaitTime(async function() {
+      //  var time = getWaitTime(eventCode); //get ETA from backend
+       // if (time !== null){
+       //     setETA(time/60 + " minutes");
+       // } else {
+       //     setETA("calculating...")
+       // }
+    //}, 5 * 1000);
 
     const handleRiderNameChange = (event) => {
         setInfo({ ...info, riderName: event.target.value });
@@ -35,6 +48,13 @@ function RideRequestPage() {
 
     const params = useParams();
     const eventCode = params.eventCode;
+    const [waitTime, setWaitTime] = useState(0);
+    useEffect(() => {
+        async function ballpark(){
+            setWaitTime(parseInt(((await getWaitTime(eventCode)).waitTime) / 60) + " minutes");
+        }
+        ballpark();
+    }, [eventCode])
     const [verifiedCode, setVerifiedCode] = useState(false);
     const [passwordProtected, setPasswordProtected] = useState(false);
     const [passwordKey, setPasswordKey] = useState(null);
@@ -58,6 +78,8 @@ function RideRequestPage() {
         check();
     }, [eventCode, verifiedCode])
 
+
+
     let rideId;
     const sendRide = async () => {
         rideId = await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
@@ -80,6 +102,18 @@ function RideRequestPage() {
     const [startPosition, setStartPosition] = useState(start_center);
     const [endPosition, setEndPosition] = useState(end_center);
     const ZOOM_LEVEL = 17;
+
+    useEffect(() => {
+        async function generateEta(){
+            if (startPosition != null && endPosition != null) {
+                console.log(startPosition.lat + " " + startPosition.lng);
+                const eta = await getETA(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng);
+                setRequestRideETA(parseInt(eta.eta / 60) + " minutes");
+            }
+        }
+        generateEta();
+        
+    }, [startPosition, endPosition])
 
     const handlePasswordChange = (event) => {
         setPasswordField(event.target.value);
@@ -139,6 +173,9 @@ function RideRequestPage() {
                     <p>The <strong>BLUE MARKER</strong> is your <strong>PICKUP LOCATION</strong>. Click on it and follow the directions to set your start location.</p>
                     <p>The <strong>RED MARKER</strong> is your <strong>DROPOFF LOCATION</strong>. Click on it and follow the directions to set your dropoff location.</p>
                     <br></br>
+                    <br></br>
+                    <text className='RideDetailsAddress'><b>ETA TO BE ASSIGNED A DRIVER:</b> {waitTime}</text>
+                    <br></br>
 
                     <div className='ride-request-page-map-container'>
                     <MapContainer center={start_center} zoom={ZOOM_LEVEL}>
@@ -178,8 +215,10 @@ function RideRequestPage() {
                         </Marker>
                     </MapContainer>
                     </div>
+                    <br></br> 
+                    <text className='rideRequestDetailsAddress'><b>APPROXIMATE PICKUP TIME:</b> {requestRideETA}</text>
 
-
+                    
                     <br></br>
 
                     <h3>Please enter your name and the number of people <strong>INCLUDING YOURSELF</strong> in your group. Press "Request Ride" once all fields have been entered.</h3>
