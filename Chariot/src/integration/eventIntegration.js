@@ -24,6 +24,7 @@ async function retrieveEventInfo(eventCode){
         const state = stateZipArray[0];
         const zip = stateZipArray[1];
         const retInfo = {...eventDetails, address: address, city: city, state: state, zip: zip};
+        console.log(retInfo);
         return {status: "success", info: retInfo};
     } catch (e) {
         return {status: "failed", info: null};

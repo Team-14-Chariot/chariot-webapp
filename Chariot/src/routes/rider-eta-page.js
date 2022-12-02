@@ -110,6 +110,7 @@ function RiderEtaPage() {
 
 
                     {mapLoaded ?
+                    <div className='rider-eta-page-map'>
                     <MapContainer center={[parseFloat(driverInfo.currentLatitude), parseFloat(driverInfo.currentLongitude)]} zoom={ZOOM_LEVEL}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -123,7 +124,7 @@ function RiderEtaPage() {
                                 Your driver's current location
                             </Popup>
                         </Marker>
-                    </MapContainer> : null}
+                    </MapContainer></div> : null}
 
                     <br></br>
 

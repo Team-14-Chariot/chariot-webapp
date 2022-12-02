@@ -67,7 +67,7 @@ function EventDetailsPage() {
                     const res = await retrieveEventInfo(eventCode);
                     if(res.status === "success"){
                         setInfo({eventCode: eventCode, riderLink: `localhost:3000/ride-request/${eventCode}`});
-                        setEditableInfo({name: res.info.eventName, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.maxRadius, riderPassword: res.info.ridePassword, driverPassword: res.info.driver_password});
+                        setEditableInfo({name: res.info.eventName, address: res.info.address, city: res.info.city, state: res.info.state, zip: res.info.zip, radius: res.info.maxRadius, riderPassword: res.info.ridePassword, driverPassword: res.info.driverPassword});
                     }
                 }
             }
