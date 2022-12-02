@@ -1,4 +1,4 @@
-import './Event.css';
+import './Driver.css';
 import EndButton from '../buttons/EndButton';
 //import { removeDriver } from '../../integration/eventIntegration';
 //import { useNavigate } from 'react-router-dom';

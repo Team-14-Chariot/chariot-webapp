@@ -1,14 +1,23 @@
 .drivers_page_container{
-    height: 645px;
+    height: 95%;
     padding-top: 50px;
     display: flex;
-    font-family: "Kadwa";
-    font-size: 40px;
-    font-weight: 400;
     flex-direction: column;
     align-content: center;
     align-items: center;
     text-align: center;
+    width: 95%;
+}
+
+.eventDriversCode{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: Kadwa;
+    font-weight: bold;
+    font-size: 50px;
 }
 
 .driversList{
