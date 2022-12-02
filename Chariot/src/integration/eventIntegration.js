@@ -91,7 +91,6 @@ async function listEvents(){
     }
 }
 
-
 async function checkEventCode(eventCode){
     try{
         const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
@@ -129,14 +128,6 @@ async function endEvent(eventCode){
     }
 }
 
-async function removeDriver(driverId){
-    try {
-        console.log(driverId);
-        await client.records.delete('driver', `${driverId}`);
-    } catch (e) {
-        return {status: "failed", record: e}
-    }
-}
 
 function hashCode(s) {
     let h = 0, l = s.length, i = 0;
@@ -223,6 +214,14 @@ async function listDrivers(eventCode) {
     }
 }
 
-
+async function removeDriver(driverID) {
+    try {
+        await fetch('https://chariot.augustabt.com/api/removeDriver', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({driver_id: driverID})});
+        return {status: "success"};
+    } catch (e) {
+        return {status: "failed", record: e};
+    }
+}
 
 export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime};
+

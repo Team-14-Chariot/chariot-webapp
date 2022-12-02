@@ -1,9 +1,9 @@
 .rideContainer {
     align-self: center;
     background: rgb(0, 127, 255);
-    height: 140px;
+    height: 120px;
     box-sizing: border-box;
-    width: 1000px;
+    width: 500px;
     display: flex;
     padding: 10px 20px 20px 10px;
     flex-direction: row;
@@ -15,9 +15,9 @@
 .noRideContainer {
     align-self: center;
     background: rgb(135, 187, 240);
-    height: 160px;
+    height: 120px;
     box-sizing: border-box;
-    width: 1000px;
+    width: 500px;
     display: flex;
     padding: 10px 20px 20px 10px;
     flex-direction: row;

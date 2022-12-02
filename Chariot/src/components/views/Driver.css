@@ -1,7 +1,7 @@
 .driverContainer {
     margin: 10px;
     background: rgba(48, 134, 221, 1);
-    height: 170px;
+    height: 160px;
     padding-top: 12px;
     box-sizing: border-box;
     width: 95%;
@@ -11,10 +11,10 @@
     border-radius: 20px;
 }
 
-.noDriverContainer{
+.inactiveDriverContainer{
     margin: 10px;
-    background: rgb(116, 170, 223);
-    height: 170px;
+    background: rgb(149, 185, 222);
+    height: 160px;
     padding-top: 12px;
     box-sizing: border-box;
     width: 95%;
@@ -23,6 +23,7 @@
     align-items: center;
     border-radius: 20px;
 }
+
 
 .driver_header_container{
     width: 95%;
@@ -42,50 +43,45 @@
     width: 60%;
     font-family: "Kadwa";
     font-weight:400;
-    font-size: 32px;
+    font-size: 50px;
     color: white;
     text-align: left;
 }
-.event_code{
-    margin-left: auto;
-    font-family: "Kadwa";
-    font-weight: 400;
-    font-size: 30px;
-    color: white;
-    text-align: right;
-}
+
+
 .car_description{
     width: fit-content;
     font-family: "Kadwa";
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 400;
     color: black;
     margin-right: 6px;
 }
 .car_description_info{
     font-family: "Kadwa";
-    color: rgba(87, 87, 87, 1);
-    font-size: 18px;
+    color: rgb(231, 231, 231);
+    font-size: 22px;
     text-align: left;
     overflow: hidden;
+    padding-right: 3ch;
 }
 .car_capacity{
     width: fit-content;
     font-family: "Kadwa";
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 400;
     color: black;
     margin-right: 6px;
 }
-.car_capactiy_info{
+.car_capacity_info{
     font-family: "Kadwa";
-    color: rgba(87, 87, 87, 1);
-    font-size: 18px;
+    color: rgb(234, 234, 234);
+    font-size: 22px;
     text-align: left;
     overflow: hidden;
 }
 .driver_end_button{
     width: fit-content;
-    margin-left: 10px;
+    margin-left: 20ch;
     margin-right: 10px;
 }
