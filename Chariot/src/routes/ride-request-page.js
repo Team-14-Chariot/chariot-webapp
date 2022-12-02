@@ -19,7 +19,7 @@ function RideRequestPage() {
     const [info, setInfo] = useState({
         riderName: "",
         groupSize: null,
-    })
+    });
 
     
 
@@ -85,15 +85,9 @@ function RideRequestPage() {
         rideId = await requestRide(eventCode, startPosition.lat, startPosition.lng, endPosition.lat, endPosition.lng, info.riderName, info.groupSize);
         console.log(rideId);
         sendImage(rideId, image);
+        navigate(`../rider-eta-page/${eventCode}/${rideId}`);
     }
 
-    const editPickup = () => {
-        navigate(`../edit-pickup/${eventCode}/${rideId}`);
-    }
-
-    const editDropoff = () => {
-        navigate(`../edit-dropoff/${eventCode}/${rideId}`);
-    }
 
 
     const start_center = { lat: 40.423730, lng: -86.910890 }
@@ -247,20 +241,7 @@ function RideRequestPage() {
                     <GenericSubmitButton onClickFunction={sendRide} />
                     
                     <br></br>
-
-                    <br></br>
                     
-                    <h4>After pressing submit, if you would like to edit your pickup and dropoff locations, use the corresponding buttons below</h4>
-
-                    <br></br>
-
-                    <button onClick={editPickup}>Edit Pickup Location</button>
-                                        
-                    <button onClick={editDropoff}>Edit Dropoff Location</button>
-                    
-
-                    <br></br>
-
                 </center>
             </div>
         );

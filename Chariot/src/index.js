@@ -56,7 +56,7 @@ const router = createBrowserRouter([
     element: <StartUpdatePage/>
   },
   {
-    path: 'rider-eta-page/',
+    path: 'rider-eta-page/:eventCode/:rideId',
     element: <RiderEtaPage />
   },
   {

@@ -1,3 +1,4 @@
+import { ErrorResponse } from '@remix-run/router';
 import {client} from '../index';
 
 async function createEvent(eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, eventDriverPassword, ownerId){
@@ -203,6 +204,34 @@ async function sendImage(rideId, image) {
     const record = await client.records.create('pictures', formData);
 }
 
+
+async function retrieveDriverInfo(rideId) {
+    try {
+        let driverDetails
+        await fetch('https://chariot.augustabt.com/api/getDriverInfoRider', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ride_id: rideId})}).then(res => {return res.json()}).then(data => driverDetails = data);
+        console.log(driverDetails);
+        //const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
+        return {status: "success", info: driverDetails};
+    } catch (e) {
+        return {status: "failed"};
+    }
+    
+}
+
+async function cancelRiderRequest(rideId) {
+    try {
+        const res = await fetch('https://chariot.augustabt.com/api/cancelRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ride_id: rideId})});
+        
+        if(res.status === 400) {
+            return {status: "failed"};
+        }
+        return {status: "success"};
+    } catch (e) {
+        return {status: "failed"};
+    }
+}
+
+
 async function listDrivers(eventCode) {
     try {
         let driverList;
@@ -223,5 +252,5 @@ async function removeDriver(driverID) {
     }
 }
 
-export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime};
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest};
 

@@ -1,6 +1,21 @@
 .rider_eta_page_container{
-    display: flex;
-    height: 645px;
-    align-content: center;
-    background-color: rgb(0, 127, 255);;
+    height: 100%;
+    width: 100%;
+}
+
+.edit_location_container {
+    margin-top: 1%;
+    margin-right: 2%;
+}
+
+.edit_loc_button {
+    margin-right: 1%;
+}
+
+.leaflet-container {
+    height: 60%;
+    width: 60%;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
 }
