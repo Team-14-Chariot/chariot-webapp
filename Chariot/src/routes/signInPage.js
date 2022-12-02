@@ -78,7 +78,7 @@ function SignInPage() {
         <label>Email</label><br></br>
         <input onChange={handleEmailChange} type="text" name="email" value={info.userEmail}></input><br></br>
         <label>Password</label><br></br>
-        <input onChange={handlePasswordChange} type="text" name="password" value={info.userPassword}></input><br></br>
+        <input onChange={handlePasswordChange} type="password" name="password" value={info.userPassword}></input><br></br>
         <label onClick={Resetpassword}><u>Forgot Password?</u></label><br></br>
         <div className='logInButtonContainer'>
         <SignInConfirmButton onClickFunction={handleSubmitted} />

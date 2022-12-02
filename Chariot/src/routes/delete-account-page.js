@@ -84,7 +84,7 @@ function DeleteAccountPage() {
     <h1>Delete Account</h1>
     <form className='delete_account_page_form'>
         <label>Enter Your Password</label><br></br>
-        <input onChange={handlePasswordChange} type="text" name="password" value={password.password}></input><br></br>
+        <input onChange={handlePasswordChange} type="password" name="password" value={password.password}></input><br></br>
         <GenericSubmitButton onClickFunction={handleSubmitted} />
         {!correctPassword && submitted ? <div className='errorMessage'>Your password doesn't match.</div> : null}
     </form>
