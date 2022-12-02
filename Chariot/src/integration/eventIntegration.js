@@ -50,13 +50,14 @@ async function listEvents(){
     }
 }
 
-async function listDrivers(eventcode){
+async function listDrivers(eventCode){
     try{
-        const driveResult = await client.records.getList('drivers', 1, 100, {filter: `event_id = "${eventcode}"`});
-        console.log(driveResult.items);
-        return {status: "success", drivers: driveResult.items};
+        let eventDrivers;
+        await fetch('https://chariot.augustabt.com/api/getEventDrivers', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})}).then(res => {return res.json()}).then(data => eventDrivers = data);        
+        console.log(eventDrivers.drivers);
+        return {status: "success", drivers: eventDrivers.drivers};
     } catch(e){
-        return {status: "failed", events: null};
+        return {status: "failed", drivers: null};
     }
 }
 
@@ -179,4 +180,4 @@ async function sendImage(rideId, image) {
 }
 
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup};
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver};
