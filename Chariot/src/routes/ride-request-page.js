@@ -17,7 +17,7 @@ function RideRequestPage() {
     const [info, setInfo] = useState({
         riderName: "",
         groupSize: null,
-    })
+    });
 
     const handleRiderNameChange = (event) => {
         setInfo({ ...info, riderName: event.target.value });

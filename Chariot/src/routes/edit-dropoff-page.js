@@ -43,9 +43,11 @@ function EditDropoffPage() {
     }, []);
 
     const sendUpdatedRide = async () => {
-        console.log("clicked submit");
-        setSubmitted(true);
-        await updateDropoff(rideId, startPosition.lat, startPosition.lng);
+        if(!submitted) {
+            console.log("clicked submit");
+            setSubmitted(true);
+            await updateDropoff(rideId, startPosition.lat, startPosition.lng);
+        }
     }
 
     const navigate = useNavigate();

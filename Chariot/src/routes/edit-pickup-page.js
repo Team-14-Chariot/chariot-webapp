@@ -45,10 +45,11 @@ function EditPickupPage() {
 
 
     const sendUpdatedRide = async () => {
-        console.log("clicked submit");
-        await updatePickup(rideId, startPosition.lat, startPosition.lng);
-        setSubmitted(true);
-        navigate(`../rider-eta-page/${eventCode}/${rideId}`);
+        if(!submitted) {
+            console.log("clicked submit");
+            await updatePickup(rideId, startPosition.lat, startPosition.lng);
+            setSubmitted(true);
+        }
 
     }
 

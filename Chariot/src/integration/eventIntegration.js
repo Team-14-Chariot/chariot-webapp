@@ -1,3 +1,4 @@
+import { ErrorResponse } from '@remix-run/router';
 import {client} from '../index';
 
 async function createEvent(userEmail, eventName, eventAddr, eventCity, eventState, eventZipCode, eventMaxRadius, eventRiderPassword, ownerId){
@@ -151,13 +152,28 @@ async function sendImage(rideId, image) {
 
 async function retrieveDriverInfo(rideId) {
     try {
-        const driverId = await client.records.getOne('rides', rideId).driver_id;
-        
-        return 
+        let driverDetails
+        await fetch('https://chariot.augustabt.com/api/getDriverInfoRider', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ride_id: rideId})}).then(res => {return res.json()}).then(data => driverDetails = data);
+        console.log(driverDetails);
+        //const demoRes = {event_id: "QWERT", ride_max_radius: 5, accept_rides: true, owner: "demo@gmail.com", address: "1235 Bretmoor Way, San Jose, CA 95129", event_name: "Demo Event"};
+        return {status: "success", info: driverDetails};
     } catch (e) {
-        return {status: "failed", info: null};
+        return {status: "failed"};
     }
     
 }
 
-export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage};
+async function cancelRiderRequest(rideId) {
+    try {
+        const res = await fetch('https://chariot.augustabt.com/api/cancelRide', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ride_id: rideId})});
+        
+        if(res.status === 400) {
+            return {status: "failed"};
+        }
+        return {status: "success"};
+    } catch (e) {
+        return {status: "failed"};
+    }
+}
+
+export {createEvent, retrieveEventInfo, listEvents, updateEvent, endEvent, checkEventCode, requestRide, updatePickup, updateDropoff, sendImage, retrieveDriverInfo, cancelRiderRequest};
