@@ -5,9 +5,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from 'leaflet';
-import { retrieveDriverInfo} from '../integration/eventIntegration';
+import { getRiderInfo, retrieveDriverInfo} from '../integration/eventIntegration';
 import "leaflet/dist/leaflet.css";
 import { getEta } from '../integration/eventIntegration';
+import red_map_marker from '../components/images/red_map_marker.png'
 
 
 
@@ -24,7 +25,9 @@ function RiderEtaPage() {
 
     const [ETA, setETA] = useState("calculating...");
 
-    
+    const [userLat, setUserLat] = useState("");
+    const [userLng, setUserLng] = useState("");
+
 
     const params = useParams();
     const eventCode = params.eventCode;
@@ -47,8 +50,12 @@ function RiderEtaPage() {
             
             if(res.status === "success") {
                 setDriverInfo({ driverName: res.info.name, licensePlate: res.info.car_license_plate, carDescription: res.info.car_description, currentLatitude: res.info.latitude, currentLongitude: res.info.longitude });
+                const res2 = await getRiderInfo(rideId);
+                setUserLat(res2.rider_lat);
+                setUserLng(res2.rider_lng);   
                 setMapLoaded(true);
             }
+
             
         }
         check();
@@ -110,6 +117,14 @@ function RiderEtaPage() {
                             icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 12] })}>
                             <Popup minWidth={90}>
                                 Your driver's current location
+                            </Popup>
+                        </Marker>
+                        <Marker
+                            id="rider_pickup"
+                            position={[parseFloat(userLat), parseFloat(userLng)]}
+                            icon={new Icon({ iconUrl: red_map_marker, iconSize: [25, 41], iconAnchor: [12, 12] })}>
+                            <Popup minWidth={90}>
+                                Your pickup location
                             </Popup>
                         </Marker>
                     </MapContainer></div> : null}
