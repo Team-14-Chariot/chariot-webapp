@@ -160,7 +160,6 @@ function RideRequestPage() {
             <div>
                 <HeaderBlank></HeaderBlank>
 
-                <p>Event Code: {eventCode} </p>
 
                 <center>
                     <h1>SELECT PICKUP AND DROPOFF LOCATIONS</h1>

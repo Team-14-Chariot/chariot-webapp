@@ -96,7 +96,7 @@ async function listEvents(){
 async function checkEventCode(eventCode){
     try{
         const res = await fetch('https://chariot.augustabt.com/api/validateEvent', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({event_id: eventCode})});
-        if(res.status === 200){
+        if(res.status === 200 || res.status === 205){
             return {status: "success"};
         } else {
             throw new Error("Not a valid event code");
@@ -265,5 +265,10 @@ async function getEta(riderID) {
     }
 }
 
-export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest, getEta};
+async function getRiderInfo(rideId) {
+    const record = await client.records.getOne('rides', rideId, {});
+    return {status: "success", rider_name: record.rider_name, group_size: record.group_size};
+}
+
+export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest, getEta, getRiderInfo};
 

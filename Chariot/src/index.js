@@ -22,6 +22,7 @@ import EventDetailsPage from './routes/event-details-page';
 import EventDriversPage from './routes/event-drivers-page';
 import EditPickupPage from './routes/edit-pickup-page';
 import EditDropoffPage from './routes/edit-dropoff-page';
+import CancelRidePage from './routes/cancel-ride-page';
 
 const client = new PocketBase('https://chariot.augustabt.com');
 const thisUser = new userConstants();
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "edit-dropoff/:eventCode/:rideId",
     element: <EditDropoffPage/>
+  },
+  {
+    path: "cancel-ride/:eventCode/:rideId",
+    element: <CancelRidePage/>
   }
 ]);
 
