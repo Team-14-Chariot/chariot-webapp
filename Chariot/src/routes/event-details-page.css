@@ -112,3 +112,13 @@
         width: 1000px;
         align-self: center;
     }
+
+    .eventDetailsStat{
+        font-family: Kadwa;
+        font-size: 10px;
+    
+    }
+    .eventSecondaryInfo{
+        margin-top: -20px;
+        margin-bottom: -20px;
+    }
