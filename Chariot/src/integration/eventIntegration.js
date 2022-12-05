@@ -267,7 +267,7 @@ async function getEta(riderID) {
 
 async function getRiderInfo(rideId) {
     const record = await client.records.getOne('rides', rideId, {});
-    return {status: "success", rider_name: record.rider_name, group_size: record.group_size};
+    return {status: "success", rider_name: record.rider_name, group_size: record.group_size, rider_lat: record.origin_latitude, rider_lng: record.origin_longitude};
 }
 
 export {createEvent, retrieveEventInfo, listEvents, listDrivers, listRides, updateEvent, endEvent, checkEventCode, requestRide, sendImage, updateDropoff, updatePickup, removeDriver, getDriversAndRides, getETA, getWaitTime, retrieveDriverInfo, cancelRiderRequest, getEta, getRiderInfo};
