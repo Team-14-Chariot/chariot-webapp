@@ -17,7 +17,7 @@ function RegistrationPage() {
     const [submitted, setSubmitted] = useState(false);
     const [correctEmailFormat, setCorrectEmailFormat] = useState(true);
     const [correctPasswordFormat, setCorrectPasswordFormat] = useState(true);
-
+    const [emailSent, setEmailSent] = useState(false);
 
     const handleEmailChange = (event) => {
         setInfo({...info, email: event.target.value})
@@ -66,7 +66,11 @@ function RegistrationPage() {
                 thisUser.setUserEmail(info.email);
                 thisUser.setUserToken(res2.record.token);
                 thisUser.setUserId(res.record.id);
-                navigate('../main-page/');
+                window.localStorage.setItem('thisUserSignedIn', thisUser.getSignedIn());
+                window.localStorage.setItem('thisUserEmail', thisUser.getUserEmail());
+                window.localStorage.setItem('thisUserToken', thisUser.getUserToken());
+                window.localStorage.setItem('thisUserId', thisUser.getUserId());
+                setEmailSent(true);
             }
         }
         attemptRegister();
@@ -87,6 +91,9 @@ function RegistrationPage() {
             <br></br><br></br>
             <GenericSubmitButton onClickFunction={handleSubmitted} />
         </form>
+        {emailSent ? <div>
+            Check your email to verify your account
+        </div> : null}
     </div>
     </body>
     );

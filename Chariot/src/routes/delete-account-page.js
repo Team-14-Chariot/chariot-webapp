@@ -54,8 +54,12 @@ function DeleteAccountPage() {
                 try{
                     await client.users.delete(thisUser.getUserId());
                     thisUser.setSignedIn(false);
-                    thisUser.setUserEmail(null);
-                    thisUser.setUserId(null);
+                    thisUser.setUserEmail("");
+                    thisUser.setUserId("");
+                    window.localStorage.setItem('thisUserSignedIn', thisUser.getSignedIn());
+                    window.localStorage.setItem('thisUserEmail', thisUser.getUserEmail());
+                    window.localStorage.setItem('thisUserToken', thisUser.getUserToken());
+                    window.localStorage.setItem('thisUserId', thisUser.getUserId());
                     navigate("/");
                 } catch (e) {
                     return;
@@ -64,16 +68,13 @@ function DeleteAccountPage() {
         }
         attemptAccountDeletion();
 
-    }, [submitted, correctPassword, navigate]);
+    }, [submitted, correctPassword]);
 
     const [rerender, setRerender] = useState(0);
-    useEffect(() => {
         thisUser.setSignedIn(window.localStorage.getItem('thisUserSignedIn'));
         thisUser.setUserEmail(window.localStorage.getItem('thisUserEmail'));
         thisUser.setUserToken(window.localStorage.getItem('thisUserToken'));
         thisUser.setUserId(window.localStorage.getItem('thisUserId'));
-        setRerender(rerender + 1);
-    }, [rerender]);
 
     
 
