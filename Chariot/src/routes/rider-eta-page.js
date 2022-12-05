@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from 'leaflet';
-import { retrieveDriverInfo, cancelRiderRequest } from '../integration/eventIntegration';
+import { retrieveDriverInfo} from '../integration/eventIntegration';
 import "leaflet/dist/leaflet.css";
 import { getEta } from '../integration/eventIntegration';
 
@@ -19,8 +19,6 @@ function RiderEtaPage() {
         currentLatitude: "",
         currentLongitude: ""
     });
-
-    const [cancelRequest, setCancelRequest] = useState(false);
 
     const [mapLoaded, setMapLoaded] = useState(false);
 
@@ -64,16 +62,8 @@ function RiderEtaPage() {
         navigate(`../edit-dropoff/${eventCode}/${rideId}`);
     }
 
-    const cancelRide = async () =>{
-        const res = await cancelRiderRequest(rideId);
-        console.log(res);
-
-        if(res.status === "success") {
-            navigate(`../ride-request/${eventCode}`);
-        }
-        else {
-            setCancelRequest(true);
-        }
+    const cancelRide = () =>{
+        navigate(`../cancel-ride/${eventCode}/${rideId}`);
     }
 
     const ZOOM_LEVEL = 17;
@@ -92,8 +82,6 @@ function RiderEtaPage() {
                     <button onClick={editDropoff}>Edit Dropoff Location</button>
 
                     <button onClick={cancelRide}>Cancel Ride</button>
-                    {cancelRequest ? 
-                    <div>You cannot cancel the ride while riding!</div> : null}
 
                 </div>
 
